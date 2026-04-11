@@ -4,13 +4,15 @@
  */
 package model;
 
-import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
  * @author lukaa
  */
-public class Citalac implements Serializable{
+public class Citalac extends AbstractDomainObject{
     private int id;
     private String ime;
     private String prezime;
@@ -81,5 +83,42 @@ public class Citalac implements Serializable{
     @Override
     public String toString() {
         return ime + " " + prezime;
+    }
+
+    @Override
+    public String tableName() {
+        return "citalac";
+    }
+
+    @Override
+    public String alias() {
+        return "c";
+    }
+
+    @Override
+    public String insertColumns() {
+        return "ime, prezime, email, telefon, id_kategorija";
+    }
+
+    @Override
+    public String insertValues() {
+        return "'" + ime + "', '" + prezime + "', '" + email + "', '" + telefon + "', " + kategorija.getId();
+    }
+
+    @Override
+    public String textJoin() {
+        return "";
+    }
+
+    @Override
+    public String getCondition() {
+        return "";
+    }
+
+    @Override
+    public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
+        
+        return null;
+        
     }
 }

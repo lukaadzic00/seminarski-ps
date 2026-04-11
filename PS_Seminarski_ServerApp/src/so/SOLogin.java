@@ -14,6 +14,10 @@ public class SOLogin extends AbstractSO{
 
     private Bibliotekar ulogovani;
     
+    public Bibliotekar getUlogovani() {
+        return ulogovani;
+    }
+    
     @Override
     protected void precondition(Object param) throws Exception {
         if(param == null){
@@ -31,10 +35,4 @@ public class SOLogin extends AbstractSO{
         Bibliotekar b = (Bibliotekar) param;
         ulogovani = (Bibliotekar) dbb.selectObject(b);
     }
-
-    public Bibliotekar getUlogovani() {
-        return ulogovani;
-    }
-    
-    
 }

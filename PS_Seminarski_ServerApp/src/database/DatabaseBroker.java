@@ -73,7 +73,8 @@ public class DatabaseBroker {
         }
     }
 
-    /*public Bibliotekar prijaviBibliotekara(Bibliotekar bibliotekar) {
+    /*
+    public Bibliotekar prijaviBibliotekara(Bibliotekar bibliotekar) {
         
         try {
             String query = "SELECT * FROM bibliotekar WHERE korisnicko_ime=? AND sifra=?";
@@ -96,8 +97,11 @@ public class DatabaseBroker {
             Logger.getLogger(DatabaseBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return bibliotekar;
-    }*/
+    }
+    */
 
+    
+    /*
     public List<KategorijaCitaoca> vratiSveKategorije() {
         List<KategorijaCitaoca> listaKategorija = new ArrayList<>();
         try {
@@ -118,7 +122,9 @@ public class DatabaseBroker {
         }
         return listaKategorija;
     }
+    */
 
+    /*
     public boolean kreirajCitaoca(Citalac citalac) {
         try {
             String query = "INSERT INTO citalac (ime, prezime, email, telefon, id_kategorija) VALUES (?,?,?,?,?)";
@@ -138,7 +144,8 @@ public class DatabaseBroker {
         }
         return false;
     }
-
+    */
+    
     public List<Citalac> pretraziCitaoca(Citalac citalac) {
         List<Citalac> listaCitalaca = new ArrayList<>();
         try {
@@ -292,7 +299,7 @@ public class DatabaseBroker {
     }
     
     
-    
+    /* -------------------------------------------------------------- */
     
     
     
@@ -325,8 +332,8 @@ public class DatabaseBroker {
     
     public int insert(AbstractDomainObject ado) throws Exception {
         int id = -1;
-        String query = "INSERT INTO " + ado.tableName() + " " + ado.insertColumns()
-                + " VALUES(" + ado.insertValues() + ")";
+        String query = "INSERT INTO " + ado.tableName() + " (" + ado.insertColumns()
+                + ") VALUES (" + ado.insertValues() + ")";
         
         System.out.println(query);
         Statement st = connection.createStatement();

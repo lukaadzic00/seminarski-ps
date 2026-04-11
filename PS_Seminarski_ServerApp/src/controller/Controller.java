@@ -23,6 +23,7 @@ import model.Kategorija;
 import model.KategorijaCitaoca;
 import model.Knjiga;
 import so.AbstractSO;
+import so.SOKreirajCitaoca;
 import so.SOLogin;
 import so.SOVratiListuSveKategorijeCitaoca;
 
@@ -83,21 +84,23 @@ public class Controller {
         }
     }
 
-    public Response kreirajCitaoca(Request request) {
+    public Response kreirajCitaoca(Request request) throws Exception {
         try {
             Citalac citalac = (Citalac) request.getParam();
             
-            dbb.connect();
-            boolean uspesnoDodat = dbb.kreirajCitaoca(citalac);
-            dbb.commit();
-            dbb.disconnect();
+            SOKreirajCitaoca kreirajCitaoca = new SOKreirajCitaoca();
+            kreirajCitaoca.execute(citalac);
+            int id = kreirajCitaoca.getId();
             
-            Response response = new Response(uspesnoDodat, "Citalac uspesno dodat");
-            return response;
+            if(id != -1){
+                return new Response(id, "Citalac je uspesno kreiran");
+            } else {
+                return new Response(id, "Citalac nije uspesno kreiran");
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return new Response(-1, "Greska prilikom kreiranja citaoca");
         }
-        return null;
     }
 
     public Response pretraziCitaoca(Request request) {

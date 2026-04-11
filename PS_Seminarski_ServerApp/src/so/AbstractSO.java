@@ -13,11 +13,11 @@ import java.sql.SQLException;
 public abstract class AbstractSO {
     protected static DatabaseBroker dbb = new DatabaseBroker();
     
-    public void execute(Object param) throws Exception{
+    public void execute(Object obj) throws Exception{
         try{
-            precondition(param);
+            precondition(obj);
             startTransaction();
-            executeOperation(param);
+            executeOperation(obj);
             comitTransaction();
             System.out.println("Uspesno izvrsena operacija");
         } catch(Exception exception){
@@ -29,9 +29,9 @@ public abstract class AbstractSO {
         }
     }
 
-    protected abstract void precondition(Object param) throws Exception;
+    protected abstract void precondition(Object obj) throws Exception;
     
-    protected abstract void executeOperation(Object param) throws Exception;
+    protected abstract void executeOperation(Object obj) throws Exception;
 
     private void startTransaction() throws Exception{
         dbb.connect();

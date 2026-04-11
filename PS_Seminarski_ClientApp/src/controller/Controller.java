@@ -80,7 +80,12 @@ public class Controller {
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            return (boolean) response.getRezultat();
+            int id = (int) response.getRezultat();
+            if(id != -1){
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }

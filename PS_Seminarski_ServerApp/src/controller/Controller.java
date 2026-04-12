@@ -25,6 +25,8 @@ import model.Knjiga;
 import so.AbstractSO;
 import so.SOKreirajCitaoca;
 import so.SOLogin;
+import so.SOObrisiCitaoca;
+import so.SOPretraziCitaoca;
 import so.SOVratiListuSveKategorijeCitaoca;
 
 /**
@@ -103,43 +105,41 @@ public class Controller {
         }
     }
 
-    public Response pretraziCitaoca(Request request) {
+    public Response pretraziCitaoca(Request request) throws Exception {
         try {
             Citalac citalac = (Citalac) request.getParam();
+            List<Citalac> lista = new ArrayList<>();
             
-            dbb.connect();
-            List<Citalac> lista = dbb.pretraziCitaoca(citalac);
-            dbb.disconnect();
+            SOPretraziCitaoca pretraziCitaoca = new SOPretraziCitaoca();
+            pretraziCitaoca.execute(citalac);
+            lista = pretraziCitaoca.getListaCitaoca();
             
             Response response = new Response(lista, "Filtrirani citaoci");
             return response;
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom pretrazivanja citaoca");
         }
-        return null;
     }
 
-    public Response obrisiCitaoca(Request request) {
+    public Response obrisiCitaoca(Request request) throws Exception {
         try {
             Citalac citalac = (Citalac) request.getParam();
             
-            dbb.connect();
-            boolean obrisan = dbb.obrisiCitaoca(citalac);
-            dbb.commit();
-            dbb.disconnect();
+            SOObrisiCitaoca obrisiCitaoca = new SOObrisiCitaoca();
+            obrisiCitaoca.execute(citalac);
+            int rowsAffected = obrisiCitaoca.getRowsAffected();
             
             Response response;
-            if(obrisan){
-                response = new Response(true, "Citalac uspesno obrisan");
+            if(rowsAffected != 0){
+                return new Response(rowsAffected, "Citalac uspesno obrisan");
             } else {
-                response = new Response(false, "Citalac nije uspesno obrisan");
+                return new Response(rowsAffected, "Citalac nije uspesno obrisan");
             }
-            
-            return response;
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return new Response(-1, "Greska prilikom brisanja citaoca");
         }
-        return null;
     }
 
     public Response promeniCitaoca(Request request) {

@@ -146,6 +146,7 @@ public class DatabaseBroker {
     }
     */
     
+    /*
     public List<Citalac> pretraziCitaoca(Citalac citalac) {
         List<Citalac> listaCitalaca = new ArrayList<>();
         try {
@@ -186,7 +187,9 @@ public class DatabaseBroker {
         }
         return listaCitalaca;
     }
+    */
 
+    /*
     public boolean obrisiCitaoca(Citalac citalac) {
         int uspeh = 0;
         try {
@@ -200,6 +203,7 @@ public class DatabaseBroker {
         }
         return uspeh > 0;
     }
+    */
 
     public boolean promeniCitaoca(Citalac citalac) {
         try {
@@ -347,5 +351,15 @@ public class DatabaseBroker {
         st.close();
         
         return id;
+    }
+    
+    public int delete(AbstractDomainObject ado) throws Exception{
+        String query = "DELETE FROM " + ado.tableName() + " WHERE " + ado.pkName() + "=" + ado.id();
+        System.out.println(query);
+        
+        Statement st = connection.createStatement();
+        int affectedRows = st.executeUpdate(query);
+        
+        return affectedRows;
     }
 }

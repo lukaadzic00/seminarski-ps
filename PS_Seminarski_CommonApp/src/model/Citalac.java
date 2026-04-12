@@ -7,6 +7,7 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -107,18 +108,58 @@ public class Citalac extends AbstractDomainObject{
 
     @Override
     public String textJoin() {
-        return "";
+        return "JOIN kategorija_citaoca k ON k.id_kategorija = c.id_kategorija";
     }
 
     @Override
     public String getCondition() {
-        return "";
+        String uslov = "WHERE 1=1";
+
+        if (ime != null && !ime.trim().isEmpty()) {
+            uslov += " AND ime LIKE '%" + ime + "%'";
+        }
+        if (prezime != null && !prezime.trim().isEmpty()) {
+            uslov += " AND prezime LIKE '%" + prezime + "%'";
+        }
+        if (email != null && !email.trim().isEmpty()) {
+            uslov += " AND email LIKE '%" + email + "%'";
+        }
+        if (telefon != null && !telefon.trim().isEmpty()) {
+            uslov += " AND telefon LIKE '%" + telefon + "%'";
+        }
+        if (kategorija != null) {
+            uslov += " AND c.id_kategorija = " + kategorija.getId();
+        }
+
+        return uslov;
     }
 
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
+        ArrayList<AbstractDomainObject> lista = new ArrayList<>();
         
-        return null;
+        while(rs.next()){
+            int id = rs.getInt("id_citalac");
+            String ime = rs.getString("ime");
+            String prezime = rs.getString("prezime");
+            String email = rs.getString("email");
+            String telefon = rs.getString("telefon");
+            KategorijaCitaoca kat = new KategorijaCitaoca(rs.getInt("id_kategorija"), Kategorija.valueOf(rs.getString("naziv")), rs.getDouble("popust"));
+                
+            Citalac c = new Citalac(id, ime, prezime, email, telefon, kat);
+            lista.add(c);
+        }
         
+        return lista;
+    }
+
+    @Override
+    public String pkName() {
+        return "id_citalac";
+    }
+
+    @Override
+    public int id() {
+        return id; 
     }
 }

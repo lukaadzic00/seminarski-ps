@@ -105,17 +105,16 @@ public class Controller {
         return null;
     }
 
-    public boolean obrisiCitaoca(Citalac citalac) {
+    public int obrisiCitaoca(Citalac citalac) {
         try {
             Request request = new Request(Operacija.OBRISI_CITAOCA, citalac);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            return (boolean) response.getRezultat();
+            return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
         }
-        return false;
     }
 
     public boolean promeniCitaoca(Citalac citalac) {

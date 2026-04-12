@@ -254,8 +254,8 @@ public class PretraziCitalac extends javax.swing.JFrame {
         ModelTabeleCitalac model = (ModelTabeleCitalac) jTable.getModel();
         selektovaniCitalac = model.getRow(selektovaniRed);
         
-        boolean obrisan = Controller.getInstance().obrisiCitaoca(selektovaniCitalac);
-        if(obrisan == true){
+        int rowsAffected = Controller.getInstance().obrisiCitaoca(selektovaniCitalac);
+        if(rowsAffected != 0){
             JOptionPane.showMessageDialog(this, "Citalac je uspesno obrisan", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Citalac nije uspesno obrisan", "Greska", JOptionPane.ERROR_MESSAGE);

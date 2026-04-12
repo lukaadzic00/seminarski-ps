@@ -17,6 +17,8 @@ public abstract class AbstractDomainObject implements Serializable {
     
     public abstract String tableName();
     public abstract String alias();
+    public abstract String pkName();
+    public abstract int id();
     public abstract String insertColumns();
     public abstract String insertValues();
     public abstract String textJoin();

@@ -138,7 +138,7 @@ public class Bibliotekar extends AbstractDomainObject{
 
     @Override
     public String getCondition() {
-        return "WHERE b.korisnicko_ime='" + korisnickoIme + "' AND b.sifra='" + sifra + "'";
+        return "b.korisnicko_ime='" + korisnickoIme + "' AND b.sifra='" + sifra + "'";
     }
 
     @Override
@@ -168,6 +168,11 @@ public class Bibliotekar extends AbstractDomainObject{
 
     @Override
     public int id() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String updateValues() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

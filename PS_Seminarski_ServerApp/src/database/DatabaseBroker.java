@@ -310,7 +310,7 @@ public class DatabaseBroker {
     
     public AbstractDomainObject selectObject(AbstractDomainObject ado) throws Exception{
         String query = "SELECT * FROM " + ado.tableName() + " " + ado.alias() + " "
-                + ado.textJoin() + " " + ado.getCondition();
+                + ado.textJoin() + " WHERE " + ado.getCondition();
         
         System.out.println(query);
         Statement st = connection.createStatement();
@@ -326,7 +326,7 @@ public class DatabaseBroker {
 
     public List<AbstractDomainObject> selectList(AbstractDomainObject ado) throws Exception {
         String query = "SELECT * FROM " + ado.tableName() + " " + ado.alias() + " "
-                + ado.textJoin() + " " + ado.getCondition();
+                + ado.textJoin() + " WHERE " + ado.getCondition();
         
         System.out.println(query);
         Statement st = connection.createStatement();
@@ -358,8 +358,19 @@ public class DatabaseBroker {
         System.out.println(query);
         
         Statement st = connection.createStatement();
-        int affectedRows = st.executeUpdate(query);
+        int rowsAffected = st.executeUpdate(query);
         
-        return affectedRows;
+        return rowsAffected;
+    }
+    
+    // "UPDATE citalac SET ime=?, prezime=?, email=?, telefon=?, id_kategorija=? WHERE id_citalac=?"
+    public int update(AbstractDomainObject ado) throws Exception{
+        String query = "UPDATE " + ado.tableName() + " SET " + ado.updateValues() + " WHERE " + ado.pkName()+ "=" + ado.id();
+        System.out.println(query);
+        
+        Statement st = connection.createStatement();
+        int rowsAffected = st.executeUpdate(query);
+        
+        return rowsAffected;
     }
 }

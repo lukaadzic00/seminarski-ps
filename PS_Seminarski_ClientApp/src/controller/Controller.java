@@ -117,17 +117,17 @@ public class Controller {
         }
     }
 
-    public boolean promeniCitaoca(Citalac citalac) {
+    public int promeniCitaoca(Citalac citalac) {
         try {
             Request request = new Request(Operacija.PROMENI_CITAOCA, citalac);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            return (boolean) response.getRezultat();
+            return (int) response.getRezultat();
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return 0;
     }
 
     public List<Knjiga> pretraziKnjigu(Knjiga filter) {

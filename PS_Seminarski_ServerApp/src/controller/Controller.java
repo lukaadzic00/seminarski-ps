@@ -27,6 +27,8 @@ import so.SOKreirajCitaoca;
 import so.SOLogin;
 import so.SOObrisiCitaoca;
 import so.SOPretraziCitaoca;
+import so.SOPretraziKnjigu;
+import so.SOPromeniCitaoca;
 import so.SOVratiListuSveKategorijeCitaoca;
 
 /**
@@ -142,43 +144,39 @@ public class Controller {
         }
     }
 
-    public Response promeniCitaoca(Request request) {
+    public Response promeniCitaoca(Request request) throws Exception {
         try {
             Citalac citalac = (Citalac) request.getParam();
             
-            dbb.connect();
-            boolean uspesnoPromenjen = dbb.promeniCitaoca(citalac);
-            dbb.commit();
-            dbb.disconnect();
+            SOPromeniCitaoca promeniCitaoca = new SOPromeniCitaoca();
+            promeniCitaoca.execute(citalac);
+            int rowsAffected = promeniCitaoca.getRowsAffected();
             
             Response response;
-            if(uspesnoPromenjen){
-                response = new Response(true, "Uspesno promenjen citalac");
+            if(rowsAffected != 0){
+                return new Response(rowsAffected, "Uspesno promenjen citalac");
             } else {
-                response = new Response(false, "Neuspesno promenjen citalac");
+                return new Response(rowsAffected, "Neuspesno promenjen citalac");
             }
-            
-            return response;
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return new Response(0, "Greska prilikom izmene citaoca");
         }
-        return null;
     }
 
-    public Response pretraziKnjigu(Request request) {
+    public Response pretraziKnjigu(Request request) throws Exception {
         try {
             Knjiga filter = (Knjiga) request.getParam();
             
-            dbb.connect();
-            List<Knjiga> listaKnjiga = dbb.pretraziKnjigu(filter);
-            dbb.disconnect();
+            SOPretraziKnjigu pretraziKnjigu = new SOPretraziKnjigu();
+            pretraziKnjigu.execute(filter);
+            List<Knjiga> listaKnjiga = pretraziKnjigu.getListaKnjiga();
             
-            Response response = new Response(listaKnjiga, "Vracena lista knjiga");
-            return response;
+            return new Response(listaKnjiga, "Vracena lista knjiga");
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom pretrage knjiga");
         }
-        return null;
     }
 
     public Response kreirajIznajmljivanje(Request request) {

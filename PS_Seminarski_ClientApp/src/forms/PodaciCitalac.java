@@ -185,8 +185,8 @@ public class PodaciCitalac extends javax.swing.JDialog {
             citalacZaIzmenu.setTelefon(telefon);
             citalacZaIzmenu.setKategorija(kategorija);
             
-            boolean uspesnoPromenjen = Controller.getInstance().promeniCitaoca(citalacZaIzmenu);
-            if(uspesnoPromenjen){
+            int uspesnoPromenjen = Controller.getInstance().promeniCitaoca(citalacZaIzmenu);
+            if(uspesnoPromenjen != 0){
                 izmenjeno = true;
                 JOptionPane.showMessageDialog(this, "Sistem je uspesno izmenio citaoca", "Uspesna izmena", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();

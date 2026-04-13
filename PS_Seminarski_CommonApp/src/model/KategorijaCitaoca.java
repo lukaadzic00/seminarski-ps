@@ -83,7 +83,7 @@ public class KategorijaCitaoca extends AbstractDomainObject{
 
     @Override
     public String getCondition() {
-        return "";
+        return "1=1";
     }
 
     @Override
@@ -110,6 +110,11 @@ public class KategorijaCitaoca extends AbstractDomainObject{
 
     @Override
     public int id() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String updateValues() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -21,6 +21,7 @@ public abstract class AbstractDomainObject implements Serializable {
     public abstract int id();
     public abstract String insertColumns();
     public abstract String insertValues();
+    public abstract String updateValues();
     public abstract String textJoin();
     public abstract String getCondition();
     public abstract ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException;

@@ -155,4 +155,30 @@ public class Controller {
         }
         return -1;
     }
+
+    public List<Citalac> vratiSveCitaoce() {
+        try {
+            Request request = new Request(Operacija.VRATI_SVE_CITAOCE, null);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (List<Citalac>) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<Bibliotekar> vratiSveBibliotekare() {
+        try {
+            Request request = new Request(Operacija.VRATI_SVE_BIBLIOTEKARE, null);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (List<Bibliotekar>) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

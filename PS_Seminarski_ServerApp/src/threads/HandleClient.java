@@ -56,6 +56,10 @@ public class HandleClient extends Thread {
                     response = Controller.getInstance().pretraziKnjigu(request);
                 } else if(request.getOp() == Operacija.KREIRAJ_IZNAJMLJIVANJE){
                     response = Controller.getInstance().kreirajIznajmljivanje(request);
+                } else if(request.getOp() == Operacija.VRATI_SVE_CITAOCE){
+                    response = Controller.getInstance().vratiSveCitaoce(request);
+                } else if(request.getOp() == Operacija.VRATI_SVE_BIBLIOTEKARE){
+                    response = Controller.getInstance().vratiSveBibliotekare(request);
                 }
                 
                 // posalji odgovor

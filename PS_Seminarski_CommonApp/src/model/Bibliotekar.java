@@ -138,7 +138,11 @@ public class Bibliotekar extends AbstractDomainObject{
 
     @Override
     public String getCondition() {
-        return "b.korisnicko_ime='" + korisnickoIme + "' AND b.sifra='" + sifra + "'";
+        String upit = "1=1";
+        if(korisnickoIme != null && sifra != null){
+            upit += " AND b.korisnicko_ime='" + korisnickoIme + "' AND b.sifra='" + sifra + "'";
+        }
+        return upit;
     }
 
     @Override

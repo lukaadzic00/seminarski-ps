@@ -31,6 +31,8 @@ import so.SOPretraziCitaoca;
 import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
 import so.SOVratiListuSveKategorijeCitaoca;
+import so.SOVratiListuSviBibliotekari;
+import so.SOVratiListuSviCitaoci;
 
 /**
  *
@@ -197,6 +199,38 @@ public class Controller {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return new Response(-1, "Greska pri kreiranju iznajmljivanja");
+        }
+    }
+
+    public Response vratiSveCitaoce(Request request) throws Exception {
+        try {
+            List<Citalac> listaCitalaca = new ArrayList<>();
+            Citalac citalac = new Citalac();
+
+            SOVratiListuSviCitaoci vratiListuSviCitaoci = new SOVratiListuSviCitaoci();
+            vratiListuSviCitaoci.execute(citalac);
+            listaCitalaca = vratiListuSviCitaoci.getListaCitalaca();
+
+            return new Response(listaCitalaca, "Lista svih citalaca");
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije vrati sve citaoce");
+        }
+    }
+
+    public Response vratiSveBibliotekare(Request request) throws Exception {
+        try {
+            List<Bibliotekar> listaBibliotekara = new ArrayList<>();
+            Bibliotekar bibliotekar = new Bibliotekar();
+
+            SOVratiListuSviBibliotekari vratiListuSviBibliotekari = new SOVratiListuSviBibliotekari();
+            vratiListuSviBibliotekari.execute(bibliotekar);
+            listaBibliotekara = vratiListuSviBibliotekari.getListaBibliotekara();
+
+            return new Response(listaBibliotekara, "Lista svih bibliotekara");
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije vrati sve bibliotekare");
         }
     }
 }

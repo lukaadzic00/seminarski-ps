@@ -66,6 +66,11 @@ public class GlavnaForma extends javax.swing.JFrame {
         jMenuIznajmljivanje.add(jMenuItemKreirajIzn);
 
         jMenuItemPretraziIzn.setText("Pretrazi Iznajmljivanje");
+        jMenuItemPretraziIzn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPretraziIznActionPerformed(evt);
+            }
+        });
         jMenuIznajmljivanje.add(jMenuItemPretraziIzn);
 
         jMenuBar.add(jMenuIznajmljivanje);
@@ -139,6 +144,13 @@ public class GlavnaForma extends javax.swing.JFrame {
         formaPretraziCitaoca.setLocationRelativeTo(null);
         formaPretraziCitaoca.setVisible(true);
     }//GEN-LAST:event_jMenuItemPretraziCitaocaActionPerformed
+
+    private void jMenuItemPretraziIznActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPretraziIznActionPerformed
+        PretraziIznajmljivanje formaPretraziIznajmljivanje = new PretraziIznajmljivanje();
+        formaPretraziIznajmljivanje.pack();
+        formaPretraziIznajmljivanje.setLocationRelativeTo(null);
+        formaPretraziIznajmljivanje.setVisible(true);
+    }//GEN-LAST:event_jMenuItemPretraziIznActionPerformed
 
     /**
      * @param args the command line arguments

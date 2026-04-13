@@ -106,9 +106,10 @@ public class Citalac extends AbstractDomainObject{
         return "'" + ime + "', '" + prezime + "', '" + email + "', '" + telefon + "', " + kategorija.getId();
     }
 
+    // "JOIN kategorija_citaoca k ON k.id_kategorija = c.id_kategorija"
     @Override
     public String textJoin() {
-        return "JOIN kategorija_citaoca k ON k.id_kategorija = c.id_kategorija";
+        return "JOIN kategorija_citaoca kc ON c.id_kategorija = kc.id_kategorija";
     }
 
     @Override

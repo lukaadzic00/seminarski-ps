@@ -143,16 +143,16 @@ public class Controller {
         return null;
     }
 
-    public boolean kreirajIznajmljivanje(Iznajmljivanje iznajmljivanje) {
+    public int kreirajIznajmljivanje(Iznajmljivanje iznajmljivanje) {
         try {
             Request request = new Request(Operacija.KREIRAJ_IZNAJMLJIVANJE, iznajmljivanje);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            return (boolean) response.getRezultat();
+            return (int) response.getRezultat();
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return -1;
     }
 }

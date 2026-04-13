@@ -334,6 +334,8 @@ public class DatabaseBroker {
         return ado.getList(rs);
     }
     
+    // "INSERT INTO iznajmljivanje (broj_knjiga, datum_uzimanja, ukupan_iznos, valuta, id_bibliotekar, id_citalac) VALUES (?,?,?,?,?,?)"
+    // "INSERT INTO stavka_iznajmljivanja (id_iznajmljivanje, rb, datum_vracanja, broj_dana, iznos_po_danu, iznos, valuta, id_knjiga) VALUES (?,?,?,?,?,?,?,?)"
     public int insert(AbstractDomainObject ado) throws Exception {
         int id = -1;
         String query = "INSERT INTO " + ado.tableName() + " (" + ado.insertColumns()

@@ -24,6 +24,7 @@ import model.KategorijaCitaoca;
 import model.Knjiga;
 import so.AbstractSO;
 import so.SOKreirajCitaoca;
+import so.SOKreirajIznajmljivanje;
 import so.SOLogin;
 import so.SOObrisiCitaoca;
 import so.SOPretraziCitaoca;
@@ -179,27 +180,23 @@ public class Controller {
         }
     }
 
-    public Response kreirajIznajmljivanje(Request request) {
+    public Response kreirajIznajmljivanje(Request request) throws Exception {
         System.out.println("STIGLA OPERACIJA: " + request.getOp());
         try {
             Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
             
-            dbb.connect();
-            boolean uspeh = false;
+            SOKreirajIznajmljivanje kreirajIznajmljivanje = new SOKreirajIznajmljivanje();
+            kreirajIznajmljivanje.execute(iznajmljivanje);
+            int id = kreirajIznajmljivanje.getId();
             
-            uspeh = dbb.kreirajIznajmljivanje(iznajmljivanje);
-            
-            dbb.commit();
-            dbb.disconnect();
-            
-            return new Response(uspeh, null);
-        } catch (Exception ex) {
-            try {
-                dbb.rollback();
-            } catch (SQLException ex1) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex1);
+            if(id != -1){
+                return new Response(id, "Iznajmljivanje je uspesno kreirano");
+            } else {
+                return new Response(id, "Iznajmljivanje nije uspesno kreirano");
             }
-            return new Response(false, "Greska pri kreiranju iznajmljivanja");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return new Response(-1, "Greska pri kreiranju iznajmljivanja");
         }
     }
 }

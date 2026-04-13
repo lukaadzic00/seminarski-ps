@@ -229,7 +229,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
     private void jButtonDodajKnjiguActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajKnjiguActionPerformed
         int selektovaniRed = jTableKnjige.getSelectedRow();
-        System.out.println(selektovaniRed);
+        
         if(selektovaniRed == -1){
             JOptionPane.showMessageDialog(this, "Morate selektovati knjigu koju zelite dodati", "Greska", JOptionPane.WARNING_MESSAGE);
             return;
@@ -285,10 +285,10 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         iznajmljivanje.setBibliotekar(Session.getInstance().getUlogovaniKorisnik());
         iznajmljivanje.setCitalac(citalac);
         iznajmljivanje.setListaStavki(modelTabeleIznajmljivanje.getListaStavki());
-        System.out.println(iznajmljivanje.getListaStavki().size());
+        System.out.println("Broj stavki: " + iznajmljivanje.getListaStavki().size());
         
-        boolean uspesnoKreiranoIznajmljivanje = Controller.getInstance().kreirajIznajmljivanje(iznajmljivanje);
-        if(uspesnoKreiranoIznajmljivanje){
+        int uspesnoKreiranoIznajmljivanje = Controller.getInstance().kreirajIznajmljivanje(iznajmljivanje);
+        if(uspesnoKreiranoIznajmljivanje != -1){
             JOptionPane.showMessageDialog(this, "Uspesno ste kreirali iznajmljivanje", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
             return;
         } else {

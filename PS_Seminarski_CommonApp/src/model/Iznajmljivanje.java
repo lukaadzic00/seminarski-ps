@@ -5,6 +5,8 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
  *
  * @author lukaa
  */
-public class Iznajmljivanje implements Serializable{
+public class Iznajmljivanje extends AbstractDomainObject{
     private int id;
     private int brojKnjiga;
     private LocalDate datumUzimanja;
@@ -102,5 +104,55 @@ public class Iznajmljivanje implements Serializable{
     
     public void addStavka(StavkaIznajmljivanja stavka){
         listaStavki.add(stavka);
+    }
+
+    @Override
+    public String tableName() {
+        return "iznajmljivanje";
+    }
+
+    @Override
+    public String alias() {
+        return "i";
+    }
+
+    @Override
+    public String pkName() {
+        return "id_iznajmljivanje";
+    }
+
+    @Override
+    public int id() {
+        return id;
+    }
+
+    @Override
+    public String insertColumns() {
+        return "broj_knjiga, datum_uzimanja, ukupan_iznos, valuta, id_bibliotekar, id_citalac";
+    }
+
+    @Override
+    public String insertValues() {
+        return brojKnjiga + ", '" + java.sql.Date.valueOf(datumUzimanja) + "', " + ukupanIznos + ", '" + valuta + "', " + bibliotekar.getId() + ", " + citalac.getId();
+    }
+
+    @Override
+    public String updateValues() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String textJoin() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

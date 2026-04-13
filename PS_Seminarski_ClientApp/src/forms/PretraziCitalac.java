@@ -284,6 +284,16 @@ public class PretraziCitalac extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPromeniActionPerformed
 
     private void jButtonKreirajIznActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKreirajIznActionPerformed
+        int selektovaniRed = jTable.getSelectedRow();
+        
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(this, "Morate selektovati red iz tabele ", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        ModelTabeleCitalac model = (ModelTabeleCitalac) jTable.getModel();
+        selektovaniCitalac = model.getRow(selektovaniRed);
+        
         KreirajIznajmljivanje dialogKreirajIzn = new KreirajIznajmljivanje(selektovaniCitalac);
         dialogKreirajIzn.pack();
         dialogKreirajIzn.setLocationRelativeTo(null);

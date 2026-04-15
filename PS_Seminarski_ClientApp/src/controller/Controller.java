@@ -181,4 +181,17 @@ public class Controller {
         }
         return null;
     }
+
+    public List<Iznajmljivanje> pretraziIznajmljivanje(Iznajmljivanje filterIzn) {
+        try {
+            Request request = new Request(Operacija.PRETRAZI_IZNAJMLJIVANJE, filterIzn);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (List<Iznajmljivanje>) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

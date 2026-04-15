@@ -5,6 +5,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -143,16 +144,56 @@ public class Iznajmljivanje extends AbstractDomainObject{
 
     @Override
     public String textJoin() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " JOIN citalac c ON i.id_citalac=c.id_citalac JOIN bibliotekar b ON i.id_bibliotekar=b.id_bibliotekar";
     }
 
     @Override
     public String getCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String upit = "1=1";
+        if(citalac != null){
+            upit += " AND i.id_citalac=" + citalac.getId();
+        }
+        if(bibliotekar != null){
+            upit += " AND i.id_bibliotekar=" + bibliotekar.getId();
+        }
+        if(datumUzimanja != null){
+            upit += " AND datum_uzimanja <='" + java.sql.Date.valueOf(datumUzimanja) + "'";
+        }
+        if(ukupanIznos != 0){
+            upit += " AND ukupan_iznos <= " + ukupanIznos;
+        }
+        if(brojKnjiga != 0){
+            upit += " AND broj_knjiga <= " + brojKnjiga;
+        }
+        
+        return upit;
     }
 
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<AbstractDomainObject> listaIznajmljivanja = new ArrayList<>();
+        while(rs.next()){
+            int idCitlac = rs.getInt("c.id_citalac");
+            String imeCitalac = rs.getString("c.ime");
+            String prezimeCitalac = rs.getString("c.prezime");
+            Citalac citalac = new Citalac(idCitlac, imeCitalac, prezimeCitalac, null, null, null);
+            
+            int idBib = rs.getInt("b.id_bibliotekar");
+            String imeBib = rs.getString("b.ime");
+            String prezimeBib = rs.getString("b.prezime");
+            Bibliotekar bibliotekar = new Bibliotekar(idBib, imeBib, prezimeBib, null, null, null);
+            
+            int id = rs.getInt("i.id_iznajmljivanje");
+            int brojKnjiga = rs.getInt("i.broj_knjiga");
+            java.sql.Date datumSql = rs.getDate("datum_uzimanja");
+            LocalDate datum = datumSql.toLocalDate();
+            double ukupanIznos = rs.getDouble("i.ukupan_iznos");
+            String valuta = rs.getString("i.valuta");
+            Iznajmljivanje iznajmljivanje = new Iznajmljivanje(id, brojKnjiga, datum, ukupanIznos, valuta, bibliotekar, citalac);
+            
+            listaIznajmljivanja.add(iznajmljivanje);
+        }
+        
+        return listaIznajmljivanja;
     }
 }

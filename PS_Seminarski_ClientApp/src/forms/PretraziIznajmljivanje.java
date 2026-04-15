@@ -16,7 +16,11 @@ import model.Citalac;
 import model.Kategorija;
 import model.KategorijaCitaoca;
 import form.mods.ModPretraziCitalac;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import model.Bibliotekar;
+import model.Iznajmljivanje;
+import modeliTabele.ModelTabeleIznajmljivanje;
 
 /**
  *
@@ -24,7 +28,7 @@ import model.Bibliotekar;
  */
 public class PretraziIznajmljivanje extends javax.swing.JFrame {
 
-    private int poslednjeSelektRed = -1;
+    ModelTabeleIznajmljivanje modelTabele;
     /**
      * Creates new form KreirajCitaoca
      */
@@ -34,27 +38,12 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         ucitajComboBoxCitaoci();
         ucitajComboBoxBibliotekari();
         
-        /*modelTabele = new ModelTabeleCitalac();
+        ModelTabeleIznajmljivanje modelTabele = new ModelTabeleIznajmljivanje();
         jTable.setModel(modelTabele);
         jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jTable.setRowSelectionAllowed(true);
         jTable.setColumnSelectionAllowed(false);
-        
-        // dogadjaj - odselektovanja reda
-        jTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = jTable.rowAtPoint(e.getPoint());
-
-                if (row == poslednjeSelektRed) {
-                    jTable.clearSelection();
-                    selektovaniCitalac = null;
-                    poslednjeSelektRed = -1;
-                } else {
-                    poslednjeSelektRed = row;
-                }
-            }
-        });*/
+        this.modelTabele = modelTabele;
     }
 
     /**
@@ -74,9 +63,6 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         jButtonPretrazi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
-        jButtonPromeni = new javax.swing.JButton();
-        jButtonObrisi = new javax.swing.JButton();
-        jButtonKreirajIzn = new javax.swing.JButton();
         jComboBoxCitaoci = new javax.swing.JComboBox<>();
         jComboBoxBibliotekari = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -114,27 +100,6 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jTable);
-
-        jButtonPromeni.setText("Promeni");
-        jButtonPromeni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPromeniActionPerformed(evt);
-            }
-        });
-
-        jButtonObrisi.setText("Obrisi");
-        jButtonObrisi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonObrisiActionPerformed(evt);
-            }
-        });
-
-        jButtonKreirajIzn.setText("Kreiraj Iznajmljivanje");
-        jButtonKreirajIzn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonKreirajIznActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Maksimalan iznos:");
 
@@ -181,12 +146,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonPromeni)
-                    .addComponent(jButtonObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonKreirajIzn))
-                .addContainerGap())
+                .addGap(164, 164, 164))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,14 +155,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButtonPromeni)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonObrisi)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonKreirajIzn))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelCitalac)
@@ -232,75 +185,62 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretraziActionPerformed
-        filter = null;
-        String ime = jTextFieldIme.getText();
-        String prezime = jTextFieldPrezime.getText();
-        String email = jTextFieldDatumOd.getText();
-        String telefon = jTextFieldDatumDo.getText();
-        KategorijaCitaoca kategorija = (KategorijaCitaoca) jComboBox1.getSelectedItem();
+        Citalac citalac = (Citalac) jComboBoxCitaoci.getSelectedItem();
+        Bibliotekar bibliotekar = (Bibliotekar) jComboBoxBibliotekari.getSelectedItem();
+        String datumDo = jTextFieldDatumDo.getText();
+        LocalDate datum = null;
+        if(datumDo != null && !datumDo.isEmpty()){
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                datum = LocalDate.parse(jTextFieldDatumDo.getText(), formatter);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Neispravan format datuma!");
+                return;
+            }
+        }
         
-        Citalac citalac = new Citalac(0, ime, prezime, email, telefon, kategorija);
-        filter = citalac;
-            
-        List<Citalac> listaCitalaca = Controller.getInstance().pretraziCitaoca(filter);
-        modelTabele.setLista(listaCitalaca);
+        String iznosStr = jTextFieldIznos.getText().trim();
+        double iznos = 0;
+        if (!iznosStr.isEmpty()) {
+            try {
+                iznosStr = iznosStr.replace(",", ".");
+                iznos = Double.parseDouble(iznosStr);
+                if(iznos == 0.0){
+                    JOptionPane.showMessageDialog(null, "Uneti broj knjiga ne sme biti 0");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Uneti broj knjiga nije validan!");
+                return;
+            }
+        }
+        
+        String brojKnjigaStr = jTextFieldBrojKnjiga.getText().trim();
+        int brojKnjiga = 0;
+        if (!brojKnjigaStr.isEmpty()) {
+            try {
+                brojKnjiga = Integer.parseInt(brojKnjigaStr);
+                if(brojKnjiga == 0){
+                    JOptionPane.showConfirmDialog(null, "Uneti broj knjiga ne sme biti 0");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Uneti broj knjiga nije validan!");
+                jTextFieldBrojKnjiga.requestFocus();
+                return;
+            }
+        }
+        
+        Iznajmljivanje filterIzn = new Iznajmljivanje();
+        filterIzn.setCitalac(citalac);
+        filterIzn.setBibliotekar(bibliotekar);
+        filterIzn.setDatumUzimanja(datum);
+        filterIzn.setUkupanIznos(iznos);
+        filterIzn.setBrojKnjiga(brojKnjiga);
+        
+        List<Iznajmljivanje> listaIznajmljivanja = Controller.getInstance().pretraziIznajmljivanje(filterIzn);
+        modelTabele.setListaIznajmljivanja(listaIznajmljivanja);
     }//GEN-LAST:event_jButtonPretraziActionPerformed
-
-    private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
-        int selektovaniRed = jTable.getSelectedRow();
-        if(selektovaniRed == -1){
-            JOptionPane.showMessageDialog(this, "Morate selektovati red iz tabele ", "Upozorenje", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        ModelTabeleCitalac model = (ModelTabeleCitalac) jTable.getModel();
-        selektovaniCitalac = model.getRow(selektovaniRed);
-        
-        int rowsAffected = Controller.getInstance().obrisiCitaoca(selektovaniCitalac);
-        if(rowsAffected != 0){
-            JOptionPane.showMessageDialog(this, "Citalac je uspesno obrisan", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Citalac nije uspesno obrisan", "Greska", JOptionPane.ERROR_MESSAGE);
-        }
-        
-        List<Citalac> listaCitalaca = Controller.getInstance().pretraziCitaoca(filter);
-        modelTabele.setLista(listaCitalaca);
-    }//GEN-LAST:event_jButtonObrisiActionPerformed
-
-    private void jButtonPromeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPromeniActionPerformed
-        int selektovaniRed = jTable.getSelectedRow();
-        if(selektovaniRed == -1){
-            JOptionPane.showMessageDialog(this, "Morate selektovati red iz tabele ", "Upozorenje", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        ModelTabeleCitalac model = (ModelTabeleCitalac) jTable.getModel();
-        selektovaniCitalac = model.getRow(selektovaniRed);
-        
-        PodaciCitalac dialogPromeniCitaoca = new PodaciCitalac(this, true, selektovaniCitalac);
-        dialogPromeniCitaoca.setVisible(true);
-        
-        // nakon zatvaranja dialoga
-        List<Citalac> listaCitalaca = Controller.getInstance().pretraziCitaoca(filter);
-        modelTabele.setLista(listaCitalaca);
-    }//GEN-LAST:event_jButtonPromeniActionPerformed
-
-    private void jButtonKreirajIznActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKreirajIznActionPerformed
-        int selektovaniRed = jTable.getSelectedRow();
-        
-        if(selektovaniRed == -1){
-            JOptionPane.showMessageDialog(this, "Morate selektovati red iz tabele ", "Upozorenje", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        ModelTabeleCitalac model = (ModelTabeleCitalac) jTable.getModel();
-        selektovaniCitalac = model.getRow(selektovaniRed);
-        
-        KreirajIznajmljivanje dialogKreirajIzn = new KreirajIznajmljivanje(selektovaniCitalac);
-        dialogKreirajIzn.pack();
-        dialogKreirajIzn.setLocationRelativeTo(null);
-        dialogKreirajIzn.setVisible(true);
-    }//GEN-LAST:event_jButtonKreirajIznActionPerformed
 
     
     /**
@@ -309,10 +249,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonKreirajIzn;
-    private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonPretrazi;
-    private javax.swing.JButton jButtonPromeni;
     private javax.swing.JComboBox<Bibliotekar> jComboBoxBibliotekari;
     private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;
     private javax.swing.JLabel jLabel1;

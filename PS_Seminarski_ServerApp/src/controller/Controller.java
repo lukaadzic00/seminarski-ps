@@ -28,6 +28,7 @@ import so.SOKreirajIznajmljivanje;
 import so.SOLogin;
 import so.SOObrisiCitaoca;
 import so.SOPretraziCitaoca;
+import so.SOPretraziIznajmljivanje;
 import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
 import so.SOVratiListuSveKategorijeCitaoca;
@@ -183,7 +184,6 @@ public class Controller {
     }
 
     public Response kreirajIznajmljivanje(Request request) throws Exception {
-        System.out.println("STIGLA OPERACIJA: " + request.getOp());
         try {
             Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
             
@@ -231,6 +231,22 @@ public class Controller {
         } catch(SQLException ex) {
             ex.printStackTrace();
             return new Response(null, "Greska prilikom izvrsenja operacije vrati sve bibliotekare");
+        }
+    }
+
+    public Response pretraziIznajmljivanje(Request request) throws Exception {
+        try{
+            List<Iznajmljivanje> listaIznajmljivanja = new ArrayList<>();
+            Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
+
+            SOPretraziIznajmljivanje pretraziIznajmljivanje = new SOPretraziIznajmljivanje();
+            pretraziIznajmljivanje.execute(iznajmljivanje);
+            listaIznajmljivanja = pretraziIznajmljivanje.getListaIznajmljivanja();
+
+            return new Response(listaIznajmljivanja, "Lista iznajmljivanja za izabrani filter");
+        } catch(SQLException ex){
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije pretrazi iznajmljivanje");
         }
     }
 }

@@ -4,25 +4,30 @@
  */
 package modeliTabele;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import model.Knjiga;
-import model.StavkaIznajmljivanja;
+import model.Iznajmljivanje;
 
 /**
  *
  * @author lukaa
  */
-public class ModelTabeleIznajmljivanje extends AbstractTableModel{
+public class ModelTabeleIznajmljivanje extends AbstractTableModel {
 
-    private List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
-    private final String[] kolone = {"Naziv", "Autor", "Zanr", "Iznos po danu", "Broj dana", "Valuta"};
+    private List<Iznajmljivanje> listaIznajmljivanja = new ArrayList<>();
+    String[] kolone = {"ID", "Broj knjiga", "Datum", "Ukupan iznos", "Valuta", "Citalac", "Bibliotekar"};
+
+    public void setListaIznajmljivanja(List<Iznajmljivanje> listaIznajmljivanja) {
+        this.listaIznajmljivanja = listaIznajmljivanja;
+        fireTableDataChanged();
+    }
+    
+    
     
     @Override
     public int getRowCount() {
-        return listaStavki.size();
+        return listaIznajmljivanja.size();
     }
 
     @Override
@@ -32,50 +37,47 @@ public class ModelTabeleIznajmljivanje extends AbstractTableModel{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        StavkaIznajmljivanja stavka = listaStavki.get(rowIndex);
+        Iznajmljivanje izn = listaIznajmljivanja.get(rowIndex);
+        
         switch (columnIndex) {
             case 0:
-                return stavka.getKnjiga().getNaziv();
+                return izn.getId();
             case 1:
-                return stavka.getKnjiga().getAutor();
+                return izn.getBrojKnjiga();
             case 2:
-                return stavka.getKnjiga().getZanr();
+                return izn.getDatumUzimanja();
             case 3:
-                return stavka.getKnjiga().getIznosPoDanu();
+                return izn.getUkupanIznos();
             case 4:
-                return stavka.getBrojDana();
+                return izn.getValuta();
             case 5:
-                return stavka.getValuta();
+                return izn.getCitalac().toString();
+            case 6:
+                return izn.getBibliotekar().toString();
             default:
                 return null;
         }
     }
-    
+
+    @Override
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                return "Naziv";
+                return "ID";
             case 1:
-                return "Autor";
+                return "Broj knjiga";
             case 2:
-                return "Zanr";
+                return "Datum";
             case 3:
-                return "Iznos po danu";
+                return "Ukupan iznos";
             case 4:
-                return "Broj dana";
-            case 5:
                 return "Valuta";
+            case 5:
+                return "Citalac";
+            case 6:
+                return "Bibliotekar";
             default:
                 return null;
         }
-    }
-
-    public void addStavka(StavkaIznajmljivanja stavka) {
-        listaStavki.add(stavka);
-        fireTableDataChanged();
-    }
-
-    public List<StavkaIznajmljivanja> getListaStavki() {
-        return listaStavki;
     }
 }

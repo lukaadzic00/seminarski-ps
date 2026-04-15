@@ -16,7 +16,7 @@ import model.Citalac;
 import model.Iznajmljivanje;
 import model.StavkaIznajmljivanja;
 import modeliTabele.ModelTabeleKnjige;
-import modeliTabele.ModelTabeleIznajmljivanje;
+import modeliTabele.ModelTabeleStavkaIzn;
 import session.Session;
 
 /**
@@ -26,7 +26,7 @@ import session.Session;
 public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
     private ModelTabeleKnjige modelTabeleKnjige;
-    private ModelTabeleIznajmljivanje modelTabeleIznajmljivanje;
+    private ModelTabeleStavkaIzn modelTabeleIznajmljivanje;
     private Citalac citalac;
     /**
      * Creates new form FormaKreirajIznajmljivanje
@@ -38,7 +38,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         
         this.modelTabeleKnjige = new ModelTabeleKnjige();
         jTableKnjige.setModel(modelTabeleKnjige);
-        this.modelTabeleIznajmljivanje = new ModelTabeleIznajmljivanje();
+        this.modelTabeleIznajmljivanje = new ModelTabeleStavkaIzn();
         jTableIznajmljivanje.setModel(modelTabeleIznajmljivanje);
         
         podesiTabelu(jTableKnjige);

@@ -5,10 +5,12 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -103,6 +105,13 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
     }
 
     @Override
+    public String toString() {
+        return "StavkaIznajmljivanja{" + "iznajmljivanje=" + iznajmljivanje + ", rb=" + rb + ", datumVracanja=" + datumVracanja + ", brojDana=" + brojDana + ", iznosPoDanu=" + iznosPoDanu + ", iznos=" + iznos + ", valuta=" + valuta + ", knjiga=" + knjiga + '}';
+    }
+    
+    
+
+    @Override
     public String tableName() {
         return "stavka_iznajmljivanja";
     }
@@ -114,12 +123,12 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String pkName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public int id() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return iznajmljivanje.getId();
     }
 
     @Override
@@ -139,16 +148,40 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String textJoin() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " JOIN knjiga k ON si.id_knjiga=k.id_knjiga";
     }
 
     @Override
     public String getCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "si.id_iznajmljivanje=" + iznajmljivanje.getId();
     }
 
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<AbstractDomainObject> listaStavki = new ArrayList<>();
+        
+        while(rs.next()){
+            int idKnjiga = rs.getInt("k.id_knjiga");
+            String naziv = rs.getString("k.naziv");
+            String autor = rs.getString("k.autor");
+            Zanr zanr = Zanr.valueOf(rs.getString("k.zanr"));
+            double iznosPoDanu = rs.getDouble("k.iznos_po_danu");
+            String valuta = rs.getString("k.valuta");
+            Knjiga knjiga = new Knjiga(idKnjiga, naziv, autor, zanr, iznosPoDanu, valuta);
+            System.out.println("KNJIGA : " + knjiga.toString());
+            
+            int idIzn = rs.getInt("si.id_iznajmljivanje");
+            int rb = rs.getInt("si.rb");
+            java.sql.Date datumSql = rs.getDate("si.datum_vracanja");
+            LocalDate datum = datumSql.toLocalDate();
+            int brojDana = rs.getInt("si.broj_dana");
+            double iznosPoDanuStavka = rs.getDouble("si.iznos_po_danu");
+            double iznos = rs.getDouble("si.iznos");
+            StavkaIznajmljivanja stavka = new StavkaIznajmljivanja(null, rb, datum, brojDana, iznosPoDanuStavka, iznos, "DIN", knjiga);
+            System.out.println("STAVKA : " + stavka.getRb() + " " + stavka.getKnjiga().getNaziv());
+            
+            listaStavki.add(stavka);
+        }
+        return listaStavki;
     }
 }

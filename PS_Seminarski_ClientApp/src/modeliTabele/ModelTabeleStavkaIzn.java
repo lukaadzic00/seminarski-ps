@@ -19,6 +19,13 @@ public class ModelTabeleStavkaIzn extends AbstractTableModel{
 
     private List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
     private final String[] kolone = {"Naziv", "Autor", "Zanr", "Iznos po danu", "Broj dana", "Valuta"};
+
+    public void setListaStavki(List<StavkaIznajmljivanja> listaStavki) {
+        this.listaStavki = listaStavki;
+        fireTableDataChanged();
+    }
+    
+    
     
     @Override
     public int getRowCount() {

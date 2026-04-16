@@ -22,6 +22,7 @@ import model.Iznajmljivanje;
 import model.Kategorija;
 import model.KategorijaCitaoca;
 import model.Knjiga;
+import model.StavkaIznajmljivanja;
 import so.AbstractSO;
 import so.SOKreirajCitaoca;
 import so.SOKreirajIznajmljivanje;
@@ -32,6 +33,7 @@ import so.SOPretraziIznajmljivanje;
 import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
 import so.SOVratiListuSveKategorijeCitaoca;
+import so.SOVratiListuSveStavkeIznajmljivanja;
 import so.SOVratiListuSviBibliotekari;
 import so.SOVratiListuSviCitaoci;
 
@@ -247,6 +249,22 @@ public class Controller {
         } catch(SQLException ex){
             ex.printStackTrace();
             return new Response(null, "Greska prilikom izvrsenja operacije pretrazi iznajmljivanje");
+        }
+    }
+
+    public Response vratiSveStavkeIznajmljivanja(Request request) throws Exception {
+        try{
+            List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
+            Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
+            
+            SOVratiListuSveStavkeIznajmljivanja vratiSveStavke = new SOVratiListuSveStavkeIznajmljivanja();
+            vratiSveStavke.execute(iznajmljivanje);
+            listaStavki = vratiSveStavke.getListaStavki();
+            
+            return new Response(listaStavki, "Lista stavki za izabrano iznajmljivanje");
+        } catch(SQLException ex){
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije vrati sve stavke iznajmljivanja");
         }
     }
 }

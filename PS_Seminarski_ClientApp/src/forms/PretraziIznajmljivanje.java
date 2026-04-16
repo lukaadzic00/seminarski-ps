@@ -69,6 +69,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         jTextFieldIznos = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldBrojKnjiga = new javax.swing.JTextField();
+        jButtonDetalji = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -104,6 +105,13 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         jLabel2.setText("Maksimalan iznos:");
 
         jLabel4.setText("Maksimalan broj knjiga:");
+
+        jButtonDetalji.setText("Detalji");
+        jButtonDetalji.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDetaljiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,8 +153,10 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                                 .addComponent(jTextFieldIznos, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(164, 164, 164))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDetalji))
+                .addGap(58, 58, 58))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,8 +164,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelCitalac)
@@ -171,14 +180,16 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextFieldIznos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextFieldIznos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextFieldBrojKnjiga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldBrojKnjiga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonDetalji))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPretrazi)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
@@ -242,6 +253,18 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         modelTabele.setListaIznajmljivanja(listaIznajmljivanja);
     }//GEN-LAST:event_jButtonPretraziActionPerformed
 
+    private void jButtonDetaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetaljiActionPerformed
+        int selektovaniRed = jTable.getSelectedRow();
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(this, "Morate selektovati red iz tabele", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        Iznajmljivanje iznajmljivanje = modelTabele.getListaIznajmljivanja().get(selektovaniRed);
+        DetaljiIznajmljivanje dialogDetaljiIzn = new DetaljiIznajmljivanje(this, rootPaneCheckingEnabled, iznajmljivanje);
+        dialogDetaljiIzn.setVisible(true);
+    }//GEN-LAST:event_jButtonDetaljiActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -249,6 +272,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDetalji;
     private javax.swing.JButton jButtonPretrazi;
     private javax.swing.JComboBox<Bibliotekar> jComboBoxBibliotekari;
     private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;

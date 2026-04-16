@@ -20,6 +20,7 @@ import model.Iznajmljivanje;
 import model.Kategorija;
 import model.KategorijaCitaoca;
 import model.Knjiga;
+import model.StavkaIznajmljivanja;
 
 /**
  *
@@ -189,6 +190,19 @@ public class Controller {
             
             Response response = (Response) receiver.receive();
             return (List<Iznajmljivanje>) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<StavkaIznajmljivanja> vratiSveStavkeIznajmljivanja(Iznajmljivanje iznajmljivanje) {
+        try {
+            Request request = new Request(Operacija.VRATI_SVE_STAVKE_IZNAJMLJIVANJA, iznajmljivanje);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (List<StavkaIznajmljivanja>) response.getRezultat();
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }

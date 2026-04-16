@@ -22,6 +22,10 @@ public class ModelTabeleIznajmljivanje extends AbstractTableModel {
         this.listaIznajmljivanja = listaIznajmljivanja;
         fireTableDataChanged();
     }
+
+    public List<Iznajmljivanje> getListaIznajmljivanja() {
+        return listaIznajmljivanja;
+    }
     
     
     

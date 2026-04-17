@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -85,6 +86,35 @@ public class Citalac extends AbstractDomainObject{
     public String toString() {
         return ime + " " + prezime;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Citalac other = (Citalac) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.ime, other.ime)) {
+            return false;
+        }
+        return Objects.equals(this.prezime, other.prezime);
+    }
+    
+    
 
     @Override
     public String tableName() {
@@ -167,5 +197,10 @@ public class Citalac extends AbstractDomainObject{
     @Override
     public String updateValues() {
         return "ime='" + ime + "', prezime='" + prezime + "', email='" + email + "', telefon='" + telefon + "', id_kategorija=" + kategorija.getId();
+    }
+
+    @Override
+    public String updateCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -32,6 +32,7 @@ import so.SOPretraziCitaoca;
 import so.SOPretraziIznajmljivanje;
 import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
+import so.SOPromeniIznajmljivanje;
 import so.SOVratiListuSveKategorijeCitaoca;
 import so.SOVratiListuSveStavkeIznajmljivanja;
 import so.SOVratiListuSviBibliotekari;
@@ -265,6 +266,26 @@ public class Controller {
         } catch(SQLException ex){
             ex.printStackTrace();
             return new Response(null, "Greska prilikom izvrsenja operacije vrati sve stavke iznajmljivanja");
+        }
+    }
+
+    public Response promeniIznajmljivanje(Request request) throws Exception {
+        try{
+            Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
+            System.out.println("CONTROLLER SERVER : " + iznajmljivanje.getCitalac().getId());
+            
+            SOPromeniIznajmljivanje promeniIznajmljivanje = new SOPromeniIznajmljivanje();
+            promeniIznajmljivanje.execute(iznajmljivanje);
+            int affectedRows = promeniIznajmljivanje.getAffectedRows();
+            
+            if(affectedRows != 0){
+                return new Response(affectedRows, "Izmenjen je citalac za izabrano iznajmljivanje");
+            } else{
+                return new Response(affectedRows, "Nije izmenjen citalac za izabrano iznajmljivanje");
+            }
+        } catch(SQLException ex){
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije promeni iznajmljivanje");
         }
     }
 }

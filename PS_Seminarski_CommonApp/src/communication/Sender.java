@@ -24,6 +24,7 @@ public class Sender {
     
     public void send(Object obj) throws Exception{
         try {
+            out.reset();
             out.writeObject(obj);
             out.flush();
         } catch (IOException ex) {

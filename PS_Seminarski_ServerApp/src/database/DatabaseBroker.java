@@ -366,8 +366,9 @@ public class DatabaseBroker {
     }
     
     // "UPDATE citalac SET ime=?, prezime=?, email=?, telefon=?, id_kategorija=? WHERE id_citalac=?"
+    // MORAM DA IZMENIM UPDATE ZA CITALAC
     public int update(AbstractDomainObject ado) throws Exception{
-        String query = "UPDATE " + ado.tableName() + " SET " + ado.updateValues() + " WHERE " + ado.pkName()+ "=" + ado.id();
+        String query = "UPDATE " + ado.tableName() + " SET " + ado.updateValues() + " WHERE " + ado.updateCondition();
         System.out.println(query);
         
         Statement st = connection.createStatement();

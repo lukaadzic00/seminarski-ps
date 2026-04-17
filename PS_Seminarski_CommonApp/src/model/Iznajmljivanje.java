@@ -139,7 +139,7 @@ public class Iznajmljivanje extends AbstractDomainObject{
 
     @Override
     public String updateValues() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_citalac = " + citalac.getId();
     }
 
     @Override
@@ -169,6 +169,11 @@ public class Iznajmljivanje extends AbstractDomainObject{
         return upit;
     }
 
+    @Override
+    public String updateCondition() {
+        return "id_iznajmljivanje = " + id;
+    }
+    
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
         ArrayList<AbstractDomainObject> listaIznajmljivanja = new ArrayList<>();

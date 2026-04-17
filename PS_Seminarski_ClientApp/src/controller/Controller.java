@@ -208,4 +208,18 @@ public class Controller {
         }
         return null;
     }
+
+    public int promeniIznajmljivanje(Iznajmljivanje iznajmljivanje) {
+        try {
+            Request request = new Request(Operacija.PROMENI_IZNAJMLJIVANJE, iznajmljivanje);
+            sender.send(request);
+            System.out.println("CONTROLLER CLIENT : " + iznajmljivanje.getCitalac().getId());
+            
+            Response response = (Response) receiver.receive();
+            return (int) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

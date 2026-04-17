@@ -261,8 +261,8 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         }
         
         Iznajmljivanje iznajmljivanje = modelTabele.getListaIznajmljivanja().get(selektovaniRed);
-        DetaljiIznajmljivanje dialogDetaljiIzn = new DetaljiIznajmljivanje(this, rootPaneCheckingEnabled, iznajmljivanje);
-        dialogDetaljiIzn.setVisible(true);
+        DetaljiIznajmljivanje formaDetaljiIzn = new DetaljiIznajmljivanje(iznajmljivanje);
+        formaDetaljiIzn.setVisible(true);
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 
     

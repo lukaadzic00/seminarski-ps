@@ -5,8 +5,12 @@
 package forms;
 
 import controller.Controller;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import model.Citalac;
 import model.Iznajmljivanje;
 import model.StavkaIznajmljivanja;
 import modeliTabele.ModelTabeleStavkaIzn;
@@ -15,23 +19,29 @@ import modeliTabele.ModelTabeleStavkaIzn;
  *
  * @author lukaa
  */
-public class DetaljiIznajmljivanje extends javax.swing.JDialog {
+public class DetaljiIznajmljivanje extends javax.swing.JFrame {
 
-    ModelTabeleStavkaIzn modelTabele;
-    Iznajmljivanje iznajmljivanje;
+    private ModelTabeleStavkaIzn modelTabele;
+    private Iznajmljivanje iznajmljivanje;
+    private Citalac citalac;
+    private int poslednjeSelektRed = -1;
     /**
      * Creates new form DetaljiIznajmljivanje
      */
-    public DetaljiIznajmljivanje(java.awt.Frame parent, boolean modal, Iznajmljivanje iznajmljivanje) {
-        super(parent, modal);
+    public DetaljiIznajmljivanje(Iznajmljivanje iznajmljivanje) {
         initComponents();
         this.iznajmljivanje = iznajmljivanje;
+        this.citalac = iznajmljivanje.getCitalac();
         this.modelTabele = new ModelTabeleStavkaIzn();
+        
+        popuniComboboxCitaoci();
         
         List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
         System.out.println("BROJ STAVKI : " + listaStavki);
         modelTabele.setListaStavki(listaStavki);
         podesiTabelu(modelTabele);
+        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -46,6 +56,10 @@ public class DetaljiIznajmljivanje extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
         jButtonObrisi = new javax.swing.JButton();
+        jLabelCitalac = new javax.swing.JLabel();
+        jButtonPromeniCitaoca = new javax.swing.JButton();
+        jComboBoxCitaoci = new javax.swing.JComboBox<>();
+        jButtonSacuvajCitaoca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -64,29 +78,84 @@ public class DetaljiIznajmljivanje extends javax.swing.JDialog {
 
         jButtonObrisi.setText("Obrisi");
 
+        jLabelCitalac.setText("CItalac: ");
+
+        jButtonPromeniCitaoca.setText("Promeni");
+        jButtonPromeniCitaoca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPromeniCitaocaActionPerformed(evt);
+            }
+        });
+
+        jButtonSacuvajCitaoca.setText("Sacuvaj");
+        jButtonSacuvajCitaoca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSacuvajCitaocaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButtonObrisi)
-                .addContainerGap(21, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelCitalac)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonPromeniCitaoca)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSacuvajCitaoca))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonObrisi)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCitalac)
+                    .addComponent(jButtonPromeniCitaoca)
+                    .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSacuvajCitaoca))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonObrisi)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonObrisi))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonPromeniCitaocaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPromeniCitaocaActionPerformed
+        jComboBoxCitaoci.setEnabled(true);
+    }//GEN-LAST:event_jButtonPromeniCitaocaActionPerformed
+
+    private void jButtonSacuvajCitaocaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajCitaocaActionPerformed
+        Citalac izabraniCitalac = (Citalac) jComboBoxCitaoci.getSelectedItem();
+        if(izabraniCitalac.equals(citalac)){
+            return;
+        }
+        
+        System.out.println("PRE IZMENE : " + iznajmljivanje.getCitalac().getId());
+        iznajmljivanje.setCitalac(izabraniCitalac);
+        System.out.println("POSLE IZMENE : " + iznajmljivanje.getCitalac().getId());
+        int affectedRows = Controller.getInstance().promeniIznajmljivanje(iznajmljivanje);
+        if(affectedRows != 0){
+            JOptionPane.showMessageDialog(rootPane, "Uspesno ste izmenili citaoca za izabrano iznajmljivanje");
+            return;
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Sistem nije uspesno izmenio citaoca za izabrano iznajmljivanje");
+            return;
+        }
+    }//GEN-LAST:event_jButtonSacuvajCitaocaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -95,6 +164,10 @@ public class DetaljiIznajmljivanje extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonObrisi;
+    private javax.swing.JButton jButtonPromeniCitaoca;
+    private javax.swing.JButton jButtonSacuvajCitaoca;
+    private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;
+    private javax.swing.JLabel jLabelCitalac;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
@@ -105,19 +178,34 @@ public class DetaljiIznajmljivanje extends javax.swing.JDialog {
         jTable.setColumnSelectionAllowed(false);
         jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        jTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        // dogadjaj - odselektovanja reda
+        jTable.addMouseListener(new MouseAdapter() {
             @Override
-            public void mousePressed(java.awt.event.MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 int row = jTable.rowAtPoint(e.getPoint());
 
-                if (row == -1) return;
-
-                if (jTable.isRowSelected(row)) {
+                if (row == poslednjeSelektRed) {
                     jTable.clearSelection();
+                    poslednjeSelektRed = -1;
                 } else {
-                    jTable.setRowSelectionInterval(row, row);
+                    poslednjeSelektRed = row;
                 }
             }
         });
+    }
+
+    private void popuniComboboxCitaoci() {
+        List<Citalac> listaCitaoca = Controller.getInstance().vratiSveCitaoce();
+        jComboBoxCitaoci.removeAllItems();
+        Citalac selektovani = null;
+        
+        for (Citalac c : listaCitaoca) {
+            jComboBoxCitaoci.addItem(c);
+            if(c.equals(citalac)){
+                selektovani = c;
+            }
+        }
+        jComboBoxCitaoci.setSelectedItem(selektovani);
+        jComboBoxCitaoci.setEnabled(false);
     }
 }

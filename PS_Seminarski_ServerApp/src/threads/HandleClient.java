@@ -66,6 +66,8 @@ public class HandleClient extends Thread {
                     response = Controller.getInstance().vratiSveStavkeIznajmljivanja(request);
                 } else if(request.getOp() == Operacija.PROMENI_IZNAJMLJIVANJE){
                     response = Controller.getInstance().promeniIznajmljivanje(request);
+                } else if(request.getOp() == Operacija.OBRISI_STAVKU){
+                    response = Controller.getInstance().obrisiStavku(request);
                 }
                 
                 // posalji odgovor

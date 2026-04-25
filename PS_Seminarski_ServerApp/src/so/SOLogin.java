@@ -4,6 +4,8 @@
  */
 package so;
 
+import java.util.List;
+import model.AbstractDomainObject;
 import model.Bibliotekar;
 
 /**
@@ -33,6 +35,7 @@ public class SOLogin extends AbstractSO{
     @Override
     protected void executeOperation(Object param) throws Exception {
         Bibliotekar b = (Bibliotekar) param;
-        ulogovani = (Bibliotekar) dbb.selectObject(b);
+        List<AbstractDomainObject> lista = dbb.select(b);
+        ulogovani = (Bibliotekar) lista.get(0);
     }
 }

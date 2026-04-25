@@ -109,7 +109,7 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
         return "StavkaIznajmljivanja{" + "iznajmljivanje=" + iznajmljivanje + ", rb=" + rb + ", datumVracanja=" + datumVracanja + ", brojDana=" + brojDana + ", iznosPoDanu=" + iznosPoDanu + ", iznos=" + iznos + ", valuta=" + valuta + ", knjiga=" + knjiga + '}';
     }
     
-    
+    // Inherited methods
 
     @Override
     public String tableName() {
@@ -119,16 +119,6 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
     @Override
     public String alias() {
         return "si";
-    }
-
-    @Override
-    public String pkName() {
-        return "";
-    }
-
-    @Override
-    public int id() {
-        return iznajmljivanje.getId();
     }
 
     @Override
@@ -152,8 +142,8 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
     }
 
     @Override
-    public String getCondition() {
-        return "si.id_iznajmljivanje=" + iznajmljivanje.getId();
+    public String selectCondition() {
+        return "WHERE si.id_iznajmljivanje=" + iznajmljivanje.getId();
     }
 
     @Override
@@ -188,5 +178,15 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
     @Override
     public String updateCondition() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String deleteCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String selectColumns() {
+        return "*";
     }
 }

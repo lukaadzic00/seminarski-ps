@@ -111,6 +111,8 @@ public class Knjiga extends AbstractDomainObject{
         }
         return Objects.equals(this.autor, other.autor);
     }
+    
+    // Inherited methods
 
     @Override
     public String tableName() {
@@ -120,16 +122,6 @@ public class Knjiga extends AbstractDomainObject{
     @Override
     public String alias() {
         return "k";
-    }
-
-    @Override
-    public String pkName() {
-        return "id_knjiga";
-    }
-
-    @Override
-    public int id() {
-        return id;
     }
 
     @Override
@@ -153,8 +145,8 @@ public class Knjiga extends AbstractDomainObject{
     }
 
     @Override
-    public String getCondition() {
-        String uslov = "1=1";
+    public String selectCondition() {
+        String uslov = "WHERE 1=1";
         
         if(naziv != null && !naziv.trim().isEmpty()){
             uslov += " AND naziv LIKE '%" + naziv + "%'";
@@ -193,5 +185,13 @@ public class Knjiga extends AbstractDomainObject{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
+    @Override
+    public String deleteCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String selectColumns() {
+        return "*";
+    }
 }

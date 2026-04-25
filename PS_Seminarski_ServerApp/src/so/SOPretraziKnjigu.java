@@ -32,7 +32,7 @@ public class SOPretraziKnjigu extends AbstractSO{
     @Override
     protected void executeOperation(Object obj) throws Exception {
         Knjiga knjiga = (Knjiga) obj;
-        List<AbstractDomainObject> lista = dbb.selectList(knjiga);
+        List<AbstractDomainObject> lista = dbb.select(knjiga);
         for (AbstractDomainObject ado : lista) {
             listaKnjiga.add((Knjiga) ado);
         }

@@ -28,7 +28,7 @@ public class SOVratiListuSviBibliotekari extends AbstractSO{
     @Override
     protected void executeOperation(Object obj) throws Exception {
         Bibliotekar bibliotekar = (Bibliotekar) obj;
-        List<AbstractDomainObject> lista = dbb.selectList(bibliotekar);
+        List<AbstractDomainObject> lista = dbb.select(bibliotekar);
         for (AbstractDomainObject ado : lista) {
             listaBibliotekara.add((Bibliotekar) ado);
         }

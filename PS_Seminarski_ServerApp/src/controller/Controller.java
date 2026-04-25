@@ -28,6 +28,7 @@ import so.SOKreirajCitaoca;
 import so.SOKreirajIznajmljivanje;
 import so.SOLogin;
 import so.SOObrisiCitaoca;
+import so.SOObrisiStavku;
 import so.SOPretraziCitaoca;
 import so.SOPretraziIznajmljivanje;
 import so.SOPretraziKnjigu;
@@ -272,7 +273,6 @@ public class Controller {
     public Response promeniIznajmljivanje(Request request) throws Exception {
         try{
             Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
-            System.out.println("CONTROLLER SERVER : " + iznajmljivanje.getCitalac().getId());
             
             SOPromeniIznajmljivanje promeniIznajmljivanje = new SOPromeniIznajmljivanje();
             promeniIznajmljivanje.execute(iznajmljivanje);
@@ -287,5 +287,24 @@ public class Controller {
             ex.printStackTrace();
             return new Response(null, "Greska prilikom izvrsenja operacije promeni iznajmljivanje");
         }
+    }
+
+    public Response obrisiStavku(Request request) {
+        try {
+            StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) request.getParam();
+            
+            SOObrisiStavku obrisiStavku = new SOObrisiStavku();
+            obrisiStavku.execute(stavka);
+            int affectedRows = obrisiStavku.getRowsAffected();
+            
+            if(affectedRows != 0){
+                return new Response(affectedRows, "Stavka je uspesno obrisana");
+            } else {
+                return new Response(affectedRows, "Stavka nije uspesno obrisana");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

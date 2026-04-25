@@ -70,7 +70,7 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<KategorijaCitaoca>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Greska u funkciji vratiSveKategorije, Client Controller");
         }
         return null;
     }
@@ -213,7 +213,19 @@ public class Controller {
         try {
             Request request = new Request(Operacija.PROMENI_IZNAJMLJIVANJE, iznajmljivanje);
             sender.send(request);
-            System.out.println("CONTROLLER CLIENT : " + iznajmljivanje.getCitalac().getId());
+            
+            Response response = (Response) receiver.receive();
+            return (int) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int obrisiStavku(StavkaIznajmljivanja selektovanaStavka) {
+        try {
+            Request request = new Request(Operacija.OBRISI_STAVKU, selektovanaStavka);
+            sender.send(request);
             
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();

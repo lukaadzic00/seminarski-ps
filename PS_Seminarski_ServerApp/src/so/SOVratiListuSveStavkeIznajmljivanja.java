@@ -34,7 +34,7 @@ public class SOVratiListuSveStavkeIznajmljivanja extends AbstractSO {
         StavkaIznajmljivanja stavka = new StavkaIznajmljivanja();
         stavka.setIznajmljivanje(iznajmljivanje);
         
-        List<AbstractDomainObject> lista = dbb.selectList(stavka);
+        List<AbstractDomainObject> lista = dbb.select(stavka);
         for (AbstractDomainObject ado : lista) {
             //StavkaIznajmljivanja si = (StavkaIznajmljivanja) ado;
             //si.setIznajmljivanje(iznajmljivanje);

@@ -77,6 +77,11 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable);
 
         jButtonObrisi.setText("Obrisi");
+        jButtonObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonObrisiActionPerformed(evt);
+            }
+        });
 
         jLabelCitalac.setText("CItalac: ");
 
@@ -156,6 +161,21 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_jButtonSacuvajCitaocaActionPerformed
+
+    private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
+        int selektovaniRed = jTable.getSelectedRow();
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(this, "Morate selektovati stavku iz tabele", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
+        int rowsAffected = Controller.getInstance().obrisiStavku(selektovanaStavka);
+        if(rowsAffected != 0){
+            JOptionPane.showMessageDialog(this, "Uspesno ste obrisali stavku iznajmljivanja", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     /**
      * @param args the command line arguments

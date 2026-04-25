@@ -308,7 +308,7 @@ public class DatabaseBroker {
     
     
     
-    public AbstractDomainObject selectObject(AbstractDomainObject ado) throws Exception{
+    /*public AbstractDomainObject selectObject(AbstractDomainObject ado) throws Exception{
         String query = "SELECT * FROM " + ado.tableName() + " " + ado.alias() + " "
                 + ado.textJoin() + " WHERE " + ado.getCondition();
         
@@ -322,11 +322,15 @@ public class DatabaseBroker {
         } else {
             return lista.get(0);
         }
-    }
+    }*/
 
-    public List<AbstractDomainObject> selectList(AbstractDomainObject ado) throws Exception {
-        String query = "SELECT * FROM " + ado.tableName() + " " + ado.alias() + " "
-                + ado.textJoin() + " WHERE " + ado.getCondition();
+    // FINISHED
+    public List<AbstractDomainObject> select(AbstractDomainObject ado) throws Exception {
+        String query = "SELECT " + ado.selectColumns()
+                        + " FROM " + ado.tableName()
+                        + " " + ado.alias()
+                        + " " + ado.textJoin()
+                        + " " + ado.selectCondition();
         
         System.out.println(query);
         Statement st = connection.createStatement();
@@ -334,12 +338,11 @@ public class DatabaseBroker {
         return ado.getList(rs);
     }
     
-    // "INSERT INTO iznajmljivanje (broj_knjiga, datum_uzimanja, ukupan_iznos, valuta, id_bibliotekar, id_citalac) VALUES (?,?,?,?,?,?)"
-    // "INSERT INTO stavka_iznajmljivanja (id_iznajmljivanje, rb, datum_vracanja, broj_dana, iznos_po_danu, iznos, valuta, id_knjiga) VALUES (?,?,?,?,?,?,?,?)"
+    // FINISHED
     public int insert(AbstractDomainObject ado) throws Exception {
         int id = -1;
-        String query = "INSERT INTO " + ado.tableName() + " (" + ado.insertColumns()
-                + ") VALUES (" + ado.insertValues() + ")";
+        String query = "INSERT INTO " + ado.tableName() + " (" + ado.insertColumns() + ") VALUES (" + ado.insertValues() + ")";
+        
         
         System.out.println(query);
         Statement st = connection.createStatement();
@@ -355,8 +358,10 @@ public class DatabaseBroker {
         return id;
     }
     
+    // FINISHED
     public int delete(AbstractDomainObject ado) throws Exception{
-        String query = "DELETE FROM " + ado.tableName() + " WHERE " + ado.pkName() + "=" + ado.id();
+        
+        String query = "DELETE FROM " + ado.tableName() + " WHERE " + ado.deleteCondition();
         System.out.println(query);
         
         Statement st = connection.createStatement();
@@ -365,8 +370,7 @@ public class DatabaseBroker {
         return rowsAffected;
     }
     
-    // "UPDATE citalac SET ime=?, prezime=?, email=?, telefon=?, id_kategorija=? WHERE id_citalac=?"
-    // MORAM DA IZMENIM UPDATE ZA CITALAC
+    // FINISHED
     public int update(AbstractDomainObject ado) throws Exception{
         String query = "UPDATE " + ado.tableName() + " SET " + ado.updateValues() + " WHERE " + ado.updateCondition();
         System.out.println(query);

@@ -28,7 +28,7 @@ public class SOVratiListuSviCitaoci extends AbstractSO{
     @Override
     protected void executeOperation(Object obj) throws Exception {
         Citalac citalac = (Citalac) obj;
-        List<AbstractDomainObject> lista = dbb.selectList(citalac);
+        List<AbstractDomainObject> lista = dbb.select(citalac);
         for (AbstractDomainObject ado : lista) {
             listaCitalaca.add((Citalac) ado);
         }

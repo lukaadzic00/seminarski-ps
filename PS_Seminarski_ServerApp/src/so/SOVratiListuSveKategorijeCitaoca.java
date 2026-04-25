@@ -29,7 +29,7 @@ public class SOVratiListuSveKategorijeCitaoca extends AbstractSO{
     @Override
     protected void executeOperation(Object param) throws Exception {
         KategorijaCitaoca kc = new KategorijaCitaoca();
-        List<AbstractDomainObject> lista = dbb.selectList(kc);
+        List<AbstractDomainObject> lista = dbb.select(kc);
         listaKategorija = new ArrayList<>();
         for(AbstractDomainObject ado : lista){
             listaKategorija.add((KategorijaCitaoca) ado);

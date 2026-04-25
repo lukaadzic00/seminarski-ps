@@ -55,6 +55,8 @@ public class KategorijaCitaoca extends AbstractDomainObject{
     public String toString() {
         return String.valueOf(naziv);
     }
+    
+    // Inherited methods
 
     @Override
     public String tableName() {
@@ -82,8 +84,8 @@ public class KategorijaCitaoca extends AbstractDomainObject{
     }
 
     @Override
-    public String getCondition() {
-        return "1=1";
+    public String selectCondition() {
+        return "WHERE 1=1";
     }
 
     @Override
@@ -103,15 +105,7 @@ public class KategorijaCitaoca extends AbstractDomainObject{
         return lista;
     }
 
-    @Override
-    public String pkName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public int id() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     @Override
     public String updateValues() {
@@ -121,5 +115,15 @@ public class KategorijaCitaoca extends AbstractDomainObject{
     @Override
     public String updateCondition() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String deleteCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String selectColumns() {
+        return "*";
     }
 }

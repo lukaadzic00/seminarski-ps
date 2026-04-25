@@ -106,6 +106,8 @@ public class Iznajmljivanje extends AbstractDomainObject{
     public void addStavka(StavkaIznajmljivanja stavka){
         listaStavki.add(stavka);
     }
+    
+    // Inherited 
 
     @Override
     public String tableName() {
@@ -115,16 +117,6 @@ public class Iznajmljivanje extends AbstractDomainObject{
     @Override
     public String alias() {
         return "i";
-    }
-
-    @Override
-    public String pkName() {
-        return "id_iznajmljivanje";
-    }
-
-    @Override
-    public int id() {
-        return id;
     }
 
     @Override
@@ -148,8 +140,8 @@ public class Iznajmljivanje extends AbstractDomainObject{
     }
 
     @Override
-    public String getCondition() {
-        String upit = "1=1";
+    public String selectCondition() {
+        String upit = "WHERE 1=1";
         if(citalac != null){
             upit += " AND i.id_citalac=" + citalac.getId();
         }
@@ -200,5 +192,15 @@ public class Iznajmljivanje extends AbstractDomainObject{
         }
         
         return listaIznajmljivanja;
+    }
+
+    @Override
+    public String deleteCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String selectColumns() {
+        return "*";
     }
 }

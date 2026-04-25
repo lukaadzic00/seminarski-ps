@@ -111,6 +111,8 @@ public class Bibliotekar extends AbstractDomainObject{
         return Objects.equals(this.sifra, other.sifra);
     }
 
+    // Inherited methods
+    
     @Override
     public String tableName() {
         return "bibliotekar";
@@ -137,8 +139,8 @@ public class Bibliotekar extends AbstractDomainObject{
     }
 
     @Override
-    public String getCondition() {
-        String upit = "1=1";
+    public String selectCondition() {
+        String upit = "WHERE 1=1";
         if(korisnickoIme != null && sifra != null){
             upit += " AND b.korisnicko_ime='" + korisnickoIme + "' AND b.sifra='" + sifra + "'";
         }
@@ -166,16 +168,6 @@ public class Bibliotekar extends AbstractDomainObject{
     }
 
     @Override
-    public String pkName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public int id() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public String updateValues() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -184,6 +176,14 @@ public class Bibliotekar extends AbstractDomainObject{
     public String updateCondition() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
+
+    @Override
+    public String deleteCondition() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String selectColumns() {
+        return "*";
+    }
 }

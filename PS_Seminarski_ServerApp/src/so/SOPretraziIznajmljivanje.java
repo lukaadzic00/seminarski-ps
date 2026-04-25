@@ -32,7 +32,7 @@ public class SOPretraziIznajmljivanje extends AbstractSO{
     @Override
     protected void executeOperation(Object obj) throws Exception {
         Iznajmljivanje iznajmljivanje = (Iznajmljivanje) obj;
-        List<AbstractDomainObject> lista = dbb.selectList(iznajmljivanje);
+        List<AbstractDomainObject> lista = dbb.select(iznajmljivanje);
         for (AbstractDomainObject ado : lista) {
             listaIznajmljivanja.add((Iznajmljivanje) ado);
         }

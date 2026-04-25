@@ -114,7 +114,7 @@ public class Citalac extends AbstractDomainObject{
         return Objects.equals(this.prezime, other.prezime);
     }
     
-    
+    // Inherited methods
 
     @Override
     public String tableName() {
@@ -143,8 +143,8 @@ public class Citalac extends AbstractDomainObject{
     }
 
     @Override
-    public String getCondition() {
-        String uslov = "1=1";
+    public String selectCondition() {
+        String uslov = "WHERE 1=1";
 
         if (ime != null && !ime.trim().isEmpty()) {
             uslov += " AND ime LIKE '%" + ime + "%'";
@@ -185,22 +185,22 @@ public class Citalac extends AbstractDomainObject{
     }
 
     @Override
-    public String pkName() {
-        return "id_citalac";
-    }
-
-    @Override
-    public int id() {
-        return id; 
-    }
-
-    @Override
     public String updateValues() {
         return "ime='" + ime + "', prezime='" + prezime + "', email='" + email + "', telefon='" + telefon + "', id_kategorija=" + kategorija.getId();
     }
 
     @Override
     public String updateCondition() {
+        return "1=1";
+    }
+
+    @Override
+    public String deleteCondition() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String selectColumns() {
+        return "*";
     }
 }

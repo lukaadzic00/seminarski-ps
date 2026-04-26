@@ -202,21 +202,10 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         }
         
         StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
-        DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, rootPaneCheckingEnabled, selektovanaStavka);
+        DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, rootPaneCheckingEnabled, iznajmljivanje, selektovanaStavka);
         dialogDetaljiStavka.setVisible(true);
         
-        
-        
-        int rowsAffected = Controller.getInstance().promeniStavku(selektovanaStavka);
-        if(rowsAffected != 0){
-            JOptionPane.showMessageDialog(this, "Stavka je uspesno promenjena", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Stavka nije uspesno promenjena", "Greska", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
-        modelTabele.setListaStavki(listaStavki);
+        modelTabele.updateStavka(selektovaniRed);
     }//GEN-LAST:event_jButtonPromeniActionPerformed
 
     /**

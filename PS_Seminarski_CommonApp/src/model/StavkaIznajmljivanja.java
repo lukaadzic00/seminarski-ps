@@ -133,7 +133,7 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String updateValues() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "datum_vracanja = '" + datumVracanja + "', broj_dana = " + brojDana;
     }
 
     @Override
@@ -180,7 +180,7 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String updateCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_iznajmljivanje = " + iznajmljivanje.getId() + " AND rb = " + rb;
     }
 
     @Override

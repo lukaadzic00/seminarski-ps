@@ -30,6 +30,10 @@ public class ModelTabeleStavkaIzn extends AbstractTableModel{
         fireTableDataChanged();
     }
     
+    public void updateStavka(int index){
+        fireTableRowsUpdated(index, index);
+    }
+    
     
     
     @Override

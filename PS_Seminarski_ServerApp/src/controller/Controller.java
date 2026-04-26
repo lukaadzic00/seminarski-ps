@@ -34,6 +34,7 @@ import so.SOPretraziIznajmljivanje;
 import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
 import so.SOPromeniIznajmljivanje;
+import so.SOPromeniStavku;
 import so.SOVratiListuSveKategorijeCitaoca;
 import so.SOVratiListuSveStavkeIznajmljivanja;
 import so.SOVratiListuSviBibliotekari;
@@ -301,6 +302,26 @@ public class Controller {
                 return new Response(affectedRows, "Stavka je uspesno obrisana");
             } else {
                 return new Response(affectedRows, "Stavka nije uspesno obrisana");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Response promeniStavku(Request request) {
+        try {
+            System.out.println("DOSAO JE U CONTROLLER NA SERVERSKOJ STRANI");
+            StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) request.getParam();
+            
+            SOPromeniStavku promeniStavku = new SOPromeniStavku();
+            promeniStavku.execute(stavka);
+            int affectedRows = promeniStavku.getRowsAffected();
+            
+            if(affectedRows != 0){
+                return new Response(affectedRows, "Stavka iznajmljivanja je uspesno promenjena");
+            } else {
+                return new Response(affectedRows, "Stavka iznajmljivanja nije uspesno promenjena");
             }
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

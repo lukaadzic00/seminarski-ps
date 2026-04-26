@@ -4,10 +4,12 @@
  */
 package forms;
 
+import controller.Controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
+import model.Iznajmljivanje;
 import model.StavkaIznajmljivanja;
 
 /**
@@ -16,17 +18,17 @@ import model.StavkaIznajmljivanja;
  */
 public class DetaljiStavka extends javax.swing.JDialog {
 
+    private Iznajmljivanje iznajmljivanje;
     private StavkaIznajmljivanja stavka;
     /**
      * Creates new form DetaljiStavka
      */
-    public DetaljiStavka(java.awt.Frame parent, boolean modal, StavkaIznajmljivanja stavka) {
+    public DetaljiStavka(java.awt.Frame parent, boolean modal, Iznajmljivanje iznajmljivanje, StavkaIznajmljivanja stavka) {
         super(parent, modal);
         initComponents();
+        this.iznajmljivanje = iznajmljivanje;
         this.stavka = stavka;
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        jTextFieldDatum.setText(stavka.getDatumVracanja().format(formatter));
         jTextFieldBrojDana.setText(stavka.getBrojDana() + "");
     }
 
@@ -40,8 +42,6 @@ public class DetaljiStavka extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextFieldDatum = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldBrojDana = new javax.swing.JTextField();
         jButtonPotvrdi = new javax.swing.JButton();
@@ -50,8 +50,6 @@ public class DetaljiStavka extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Stavka Iznajmljivanja");
-
-        jLabel2.setText("Datum vracanja:");
 
         jLabel3.setText("Broj dana:");
 
@@ -69,17 +67,14 @@ public class DetaljiStavka extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldBrojDana, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButtonPotvrdi)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextFieldDatum)
-                                .addComponent(jTextFieldBrojDana, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(jButtonPotvrdi)))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -87,36 +82,23 @@ public class DetaljiStavka extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextFieldBrojDana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonPotvrdi)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonPotvrdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPotvrdiActionPerformed
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate datum = null;
-
-        try {
-            datum = LocalDate.parse(jTextFieldDatum.getText().trim(), formatter);
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(null, "Unesite datum u formatu dd.MM.yyyy");
-            return;
-        }
-        
         String brojDanaStr = jTextFieldBrojDana.getText();
+        int brojDana;
         try{
-            int brojDana = Integer.parseInt(brojDanaStr);
+            brojDana = Integer.parseInt(brojDanaStr);
             if(brojDana <= 0){
                 JOptionPane.showMessageDialog(null, "Broj dana mora biti veći od 0");
                 return;
@@ -125,45 +107,33 @@ public class DetaljiStavka extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Broj dana mora biti ceo broj");
             return;
         }
+        
+        LocalDate datumUzimanja = iznajmljivanje.getDatumUzimanja();
+        LocalDate datumVracanja = datumUzimanja.plusDays(brojDana);
+        stavka.setDatumVracanja(datumVracanja);
+        stavka.setBrojDana(brojDana);
+        
+        System.out.println("Pre poziva kontrolera");
+        int affectedRows = Controller.getInstance().promeniStavku(stavka);
+        System.out.println("Nakon poziva kontrolera");
+        if(affectedRows != 0){
+            JOptionPane.showMessageDialog(this, "Stavka je uspesno promenjena");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Stavka nije uspesno promenjena");
+            this.dispose();
+        }
     }//GEN-LAST:event_jButtonPotvrdiActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetaljiStavka.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetaljiStavka.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetaljiStavka.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DetaljiStavka.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonPotvrdi;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextFieldBrojDana;
-    private javax.swing.JTextField jTextFieldDatum;
     // End of variables declaration//GEN-END:variables
 }

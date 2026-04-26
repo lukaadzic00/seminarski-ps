@@ -290,6 +290,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         int uspesnoKreiranoIznajmljivanje = Controller.getInstance().kreirajIznajmljivanje(iznajmljivanje);
         if(uspesnoKreiranoIznajmljivanje != -1){
             JOptionPane.showMessageDialog(this, "Uspesno ste kreirali iznajmljivanje", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
             return;
         } else {
             JOptionPane.showMessageDialog(this, "Greska. Iznajmljivanje nije uspesno kreirano", "Greska", JOptionPane.ERROR_MESSAGE);

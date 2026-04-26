@@ -161,13 +161,16 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
             System.out.println("KNJIGA : " + knjiga.toString());
             
             int idIzn = rs.getInt("si.id_iznajmljivanje");
+            Iznajmljivanje iznajmljivanje = new Iznajmljivanje();
+            iznajmljivanje.setId(idIzn);
+            
             int rb = rs.getInt("si.rb");
             java.sql.Date datumSql = rs.getDate("si.datum_vracanja");
             LocalDate datum = datumSql.toLocalDate();
             int brojDana = rs.getInt("si.broj_dana");
             double iznosPoDanuStavka = rs.getDouble("si.iznos_po_danu");
             double iznos = rs.getDouble("si.iznos");
-            StavkaIznajmljivanja stavka = new StavkaIznajmljivanja(null, rb, datum, brojDana, iznosPoDanuStavka, iznos, "DIN", knjiga);
+            StavkaIznajmljivanja stavka = new StavkaIznajmljivanja(iznajmljivanje, rb, datum, brojDana, iznosPoDanuStavka, iznos, "DIN", knjiga);
             System.out.println("STAVKA : " + stavka.getRb() + " " + stavka.getKnjiga().getNaziv());
             
             listaStavki.add(stavka);
@@ -182,7 +185,7 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String deleteCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_iznajmljivanje = " + getIznajmljivanje().getId() + " AND rb = " + getRb();
     }
 
     @Override

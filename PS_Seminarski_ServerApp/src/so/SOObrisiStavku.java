@@ -22,13 +22,11 @@ public class SOObrisiStavku extends AbstractSO{
     
     @Override
     protected void precondition(Object obj) throws Exception {
+        
         StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) obj;
         
         if(stavka == null){
             throw new Error("Prosledjena stavka je null");
-        }
-        if(stavka.getIznajmljivanje() == null){
-            throw new Error("Prosledjena stavka nije vezana ni za jedno iznajmljivanje");
         }
     }
 

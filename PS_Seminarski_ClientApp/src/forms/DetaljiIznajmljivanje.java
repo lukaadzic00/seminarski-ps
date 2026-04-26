@@ -60,6 +60,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         jButtonPromeniCitaoca = new javax.swing.JButton();
         jComboBoxCitaoci = new javax.swing.JComboBox<>();
         jButtonSacuvajCitaoca = new javax.swing.JButton();
+        jButtonPromeni = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -99,6 +100,13 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             }
         });
 
+        jButtonPromeni.setText("Promeni");
+        jButtonPromeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPromeniActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,8 +125,10 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonObrisi)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonObrisi)
+                            .addComponent(jButtonPromeni))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +142,10 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonObrisi))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonObrisi)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonPromeni)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
@@ -172,10 +185,39 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
         int rowsAffected = Controller.getInstance().obrisiStavku(selektovanaStavka);
         if(rowsAffected != 0){
-            JOptionPane.showMessageDialog(this, "Uspesno ste obrisali stavku iznajmljivanja", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Stavka je uspesno obrisana", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Stavka nije uspesno obrisana", "Greska", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        modelTabele.deleteStavka(selektovaniRed);
     }//GEN-LAST:event_jButtonObrisiActionPerformed
+
+    private void jButtonPromeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPromeniActionPerformed
+        int selektovaniRed = jTable.getSelectedRow();
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(this, "Morate selektovati stavku iz tabele", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
+        DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, rootPaneCheckingEnabled, selektovanaStavka);
+        dialogDetaljiStavka.setVisible(true);
+        
+        
+        
+        int rowsAffected = Controller.getInstance().promeniStavku(selektovanaStavka);
+        if(rowsAffected != 0){
+            JOptionPane.showMessageDialog(this, "Stavka je uspesno promenjena", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Stavka nije uspesno promenjena", "Greska", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
+        modelTabele.setListaStavki(listaStavki);
+    }//GEN-LAST:event_jButtonPromeniActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,6 +226,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonObrisi;
+    private javax.swing.JButton jButtonPromeni;
     private javax.swing.JButton jButtonPromeniCitaoca;
     private javax.swing.JButton jButtonSacuvajCitaoca;
     private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;

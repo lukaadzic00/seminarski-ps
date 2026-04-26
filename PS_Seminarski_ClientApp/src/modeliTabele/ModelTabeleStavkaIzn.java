@@ -25,6 +25,11 @@ public class ModelTabeleStavkaIzn extends AbstractTableModel{
         fireTableDataChanged();
     }
     
+    public void deleteStavka(int index){
+        listaStavki.remove(index);
+        fireTableDataChanged();
+    }
+    
     
     
     @Override

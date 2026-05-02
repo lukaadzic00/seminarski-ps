@@ -4,6 +4,7 @@
  */
 package so;
 
+import model.Iznajmljivanje;
 import model.StavkaIznajmljivanja;
 
 /**
@@ -29,6 +30,15 @@ public class SOPromeniStavku extends AbstractSO{
     @Override
     protected void executeOperation(Object obj) throws Exception {
         StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) obj;
+        Iznajmljivanje iznajmljivanje = stavka.getIznajmljivanje();
+        
         rowsAffected = dbb.update(stavka);
+        
+        double ukupanIznosBezStavke = iznajmljivanje.getUkupanIznos() - (stavka.getBrojDana()*stavka.getIznosPoDanu());
+        stavka.setIznos(stavka.getNoviBrojDana() * stavka.getIznosPoDanu());
+        double ukupanIznos = ukupanIznosBezStavke + stavka.getIznos();
+        iznajmljivanje.setUkupanIznos(ukupanIznos);
+        
+        dbb.update(iznajmljivanje);
     }
 }

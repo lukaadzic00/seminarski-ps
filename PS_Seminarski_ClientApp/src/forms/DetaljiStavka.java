@@ -28,6 +28,7 @@ public class DetaljiStavka extends javax.swing.JDialog {
         initComponents();
         this.iznajmljivanje = iznajmljivanje;
         this.stavka = stavka;
+        this.stavka.setIznajmljivanje(iznajmljivanje);
         
         jTextFieldBrojDana.setText(stavka.getBrojDana() + "");
     }
@@ -111,11 +112,12 @@ public class DetaljiStavka extends javax.swing.JDialog {
         LocalDate datumUzimanja = iznajmljivanje.getDatumUzimanja();
         LocalDate datumVracanja = datumUzimanja.plusDays(brojDana);
         stavka.setDatumVracanja(datumVracanja);
-        stavka.setBrojDana(brojDana);
+        stavka.setNoviBrojDana(brojDana);
         
-        System.out.println("Pre poziva kontrolera");
+        System.out.println("BROJ DANA STARI: " + stavka.getBrojDana() + ", BROJ DANA NOVI: " + stavka.getNoviBrojDana() + ", IZNOS STAVKE: " + stavka.getIznos());
+        System.out.println("IZNOS IZNAJMLJIVANJA: " + stavka.getIznajmljivanje().getUkupanIznos());
+        
         int affectedRows = Controller.getInstance().promeniStavku(stavka);
-        System.out.println("Nakon poziva kontrolera");
         if(affectedRows != 0){
             JOptionPane.showMessageDialog(this, "Stavka je uspesno promenjena");
             this.dispose();

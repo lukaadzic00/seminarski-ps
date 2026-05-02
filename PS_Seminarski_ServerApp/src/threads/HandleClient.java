@@ -69,8 +69,9 @@ public class HandleClient extends Thread {
                 } else if(request.getOp() == Operacija.OBRISI_STAVKU){
                     response = Controller.getInstance().obrisiStavku(request);
                 } else if(request.getOp() == Operacija.PROMENI_STAVKU){
-                    System.out.println("REQUEST STIGAO U HANDLE CLIENT NA SERVERSKU STRANU");
                     response = Controller.getInstance().promeniStavku(request);
+                } else if(request.getOp() == Operacija.DODAJ_STAVKE){
+                    response = Controller.getInstance().dodajStavke(request);
                 }
                 
                 // posalji odgovor

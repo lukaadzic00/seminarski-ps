@@ -8,7 +8,9 @@ import model.Knjiga;
 import model.Zanr;
 import controller.Controller;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -23,19 +25,20 @@ import session.Session;
  *
  * @author lukaa
  */
-public class KreirajIznajmljivanje extends javax.swing.JDialog {
+public class DodajStavku extends javax.swing.JDialog {
 
     private ModelTabeleKnjige modelTabeleKnjige;
     private ModelTabeleStavkaIzn modelTabeleStavka;
-    private Citalac citalac;
+    private Iznajmljivanje iznajmljivanje;
+    private List<StavkaIznajmljivanja> noveStavke = new ArrayList<>();
     /**
      * Creates new form FormaKreirajIznajmljivanje
      */
-    public KreirajIznajmljivanje(Citalac selektovaniCitalac) {
+    public DodajStavku(JFrame parent, Iznajmljivanje iznajmljivanje) {
+        super(parent, true);
         initComponents();
         ucitajCombobox();
-        citalac = selektovaniCitalac;
-        
+        this.iznajmljivanje = iznajmljivanje;
         this.modelTabeleKnjige = new ModelTabeleKnjige();
         jTableKnjige.setModel(modelTabeleKnjige);
         this.modelTabeleStavka = new ModelTabeleStavkaIzn();
@@ -43,6 +46,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         
         podesiTabelu(jTableKnjige);
         podesiTabelu(jTableIznajmljivanje);
+        popuniTabeluStavki();
     }
 
     /**
@@ -70,7 +74,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         jButtonDodajKnjigu = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableIznajmljivanje = new javax.swing.JTable();
-        jButtonKreirajIzn = new javax.swing.JButton();
+        jButtonSacuvaj = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -138,10 +142,10 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         ));
         jScrollPane3.setViewportView(jTableIznajmljivanje);
 
-        jButtonKreirajIzn.setText("Kreiraj Iznajmljivanje");
-        jButtonKreirajIzn.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSacuvaj.setText("Sacuvaj");
+        jButtonSacuvaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonKreirajIznActionPerformed(evt);
+                jButtonSacuvajActionPerformed(evt);
             }
         });
 
@@ -152,7 +156,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonKreirajIzn)
+                    .addComponent(jButtonSacuvaj)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,9 +184,9 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addComponent(jLabel1)
-                .addGap(43, 43, 43)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -206,7 +210,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonKreirajIzn)
+                .addComponent(jButtonSacuvaj)
                 .addGap(9, 9, 9))
         );
 
@@ -265,38 +269,21 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         stavka.setKnjiga(selektovanaKnjiga);
         
         modelTabeleStavka.addStavka(stavka);
+        noveStavke.add(stavka);
         jTableKnjige.clearSelection();
     }//GEN-LAST:event_jButtonDodajKnjiguActionPerformed
 
-    private void jButtonKreirajIznActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKreirajIznActionPerformed
-        Iznajmljivanje iznajmljivanje = new Iznajmljivanje();
+    private void jButtonSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajActionPerformed
+        iznajmljivanje.setListaStavki(noveStavke);
+        int affectedRows = Controller.getInstance().dodajStavke(iznajmljivanje);
         
-        int brojKnjiga = modelTabeleStavka.getListaStavki().size();
-        LocalDate datumUzimanja = LocalDate.now();
-        double ukupanIznos = 0;
-        for (StavkaIznajmljivanja s : modelTabeleStavka.getListaStavki()) {
-            ukupanIznos += s.getIznos();
-        }
-        
-        iznajmljivanje.setBrojKnjiga(brojKnjiga);
-        iznajmljivanje.setDatumUzimanja(datumUzimanja);
-        iznajmljivanje.setUkupanIznos(ukupanIznos);
-        iznajmljivanje.setValuta("DIN");
-        iznajmljivanje.setBibliotekar(Session.getInstance().getUlogovaniKorisnik());
-        iznajmljivanje.setCitalac(citalac);
-        iznajmljivanje.setListaStavki(modelTabeleStavka.getListaStavki());
-        System.out.println("Broj stavki: " + iznajmljivanje.getListaStavki().size());
-        
-        int uspesnoKreiranoIznajmljivanje = Controller.getInstance().kreirajIznajmljivanje(iznajmljivanje);
-        if(uspesnoKreiranoIznajmljivanje != -1){
-            JOptionPane.showMessageDialog(this, "Uspesno ste kreirali iznajmljivanje", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+        if(affectedRows == noveStavke.size()){
+            JOptionPane.showMessageDialog(rootPane, "Uspesno ste dodali izabrane stavke");
             this.dispose();
-            return;
         } else {
-            JOptionPane.showMessageDialog(this, "Greska. Iznajmljivanje nije uspesno kreirano", "Greska", JOptionPane.ERROR_MESSAGE);
-            return;
+            JOptionPane.showMessageDialog(rootPane, "Niste uspesno dodali izabrane stavke");
         }
-    }//GEN-LAST:event_jButtonKreirajIznActionPerformed
+    }//GEN-LAST:event_jButtonSacuvajActionPerformed
 
     /**
      * @param args the command line arguments
@@ -305,8 +292,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDodajKnjigu;
-    private javax.swing.JButton jButtonKreirajIzn;
     private javax.swing.JButton jButtonPretrazi;
+    private javax.swing.JButton jButtonSacuvaj;
     private javax.swing.JComboBox<Zanr> jComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -353,5 +340,10 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
                 }
             }
         });
+    }
+
+    private void popuniTabeluStavki() {
+        List<StavkaIznajmljivanja> stavke = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
+        modelTabeleStavka.setListaStavki(stavke);
     }
 }

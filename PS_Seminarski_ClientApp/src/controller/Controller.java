@@ -239,7 +239,19 @@ public class Controller {
         try {
             Request request = new Request(Operacija.PROMENI_STAVKU, stavka);
             sender.send(request);
-            System.out.println("Poslat request ka serverskoj strani");
+            
+            Response response = (Response) receiver.receive();
+            return (int) response.getRezultat();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int dodajStavke(Iznajmljivanje iznajmljivanje) {
+        try {
+            Request request = new Request(Operacija.DODAJ_STAVKE, iznajmljivanje);
+            sender.send(request);
             
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();

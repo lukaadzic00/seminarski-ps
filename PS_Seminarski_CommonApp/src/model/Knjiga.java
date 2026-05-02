@@ -106,11 +106,9 @@ public class Knjiga extends AbstractDomainObject{
             return false;
         }
         final Knjiga other = (Knjiga) obj;
-        if (!Objects.equals(this.naziv, other.naziv)) {
-            return false;
-        }
-        return Objects.equals(this.autor, other.autor);
+        return this.id == other.id;
     }
+
     
     // Inherited methods
 

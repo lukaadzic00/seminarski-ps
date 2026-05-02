@@ -28,7 +28,8 @@ import modeliTabele.ModelTabeleIznajmljivanje;
  */
 public class PretraziIznajmljivanje extends javax.swing.JFrame {
 
-    ModelTabeleIznajmljivanje modelTabele;
+    private ModelTabeleIznajmljivanje modelTabele;
+    private Iznajmljivanje filterIzn;
     /**
      * Creates new form KreirajCitaoca
      */
@@ -242,7 +243,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
             }
         }
         
-        Iznajmljivanje filterIzn = new Iznajmljivanje();
+        filterIzn = new Iznajmljivanje();
         filterIzn.setCitalac(citalac);
         filterIzn.setBibliotekar(bibliotekar);
         filterIzn.setDatumUzimanja(datum);
@@ -262,6 +263,16 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         
         Iznajmljivanje iznajmljivanje = modelTabele.getListaIznajmljivanja().get(selektovaniRed);
         DetaljiIznajmljivanje formaDetaljiIzn = new DetaljiIznajmljivanje(iznajmljivanje);
+        
+        formaDetaljiIzn.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                // forma je zatvorena, osvezi tabelu
+                List<Iznajmljivanje> listaIznajmljivanja = Controller.getInstance().pretraziIznajmljivanje(filterIzn);
+                modelTabele.setListaIznajmljivanja(listaIznajmljivanja);
+            }
+        });
+        
         formaDetaljiIzn.setVisible(true);
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 

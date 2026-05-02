@@ -34,10 +34,11 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         this.citalac = iznajmljivanje.getCitalac();
         this.modelTabele = new ModelTabeleStavkaIzn();
         
+        System.out.println("UKUPAN IZNOS: " + iznajmljivanje.getUkupanIznos());
+        System.out.println("BROJ KNJIGA: " + iznajmljivanje.getBrojKnjiga());
         popuniComboboxCitaoci();
         
         List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
-        System.out.println("BROJ STAVKI : " + listaStavki);
         modelTabele.setListaStavki(listaStavki);
         podesiTabelu(modelTabele);
         
@@ -61,6 +62,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         jComboBoxCitaoci = new javax.swing.JComboBox<>();
         jButtonSacuvajCitaoca = new javax.swing.JButton();
         jButtonPromeni = new javax.swing.JButton();
+        jButtonDodaj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -107,6 +109,13 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             }
         });
 
+        jButtonDodaj.setText("Dodaj");
+        jButtonDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDodajActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,7 +136,8 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonObrisi)
-                            .addComponent(jButtonPromeni))))
+                            .addComponent(jButtonPromeni)
+                            .addComponent(jButtonDodaj))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -140,12 +150,14 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                     .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSacuvajCitaoca))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonObrisi)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonPromeni)))
+                        .addComponent(jButtonPromeni)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonDodaj)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
@@ -183,6 +195,8 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         }
         
         StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
+        selektovanaStavka.setIznajmljivanje(iznajmljivanje);
+        selektovanaStavka.getIznajmljivanje().setListaStavki(modelTabele.getListaStavki());
         int rowsAffected = Controller.getInstance().obrisiStavku(selektovanaStavka);
         if(rowsAffected != 0){
             JOptionPane.showMessageDialog(this, "Stavka je uspesno obrisana", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
@@ -191,7 +205,14 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             return;
         }
         
-        modelTabele.deleteStavka(selektovaniRed);
+        iznajmljivanje.setBrojKnjiga(iznajmljivanje.getBrojKnjiga() - 1);
+        iznajmljivanje.setUkupanIznos(iznajmljivanje.getUkupanIznos() - selektovanaStavka.getIznos());
+        
+        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
+        if(listaStavki.size() == 0){
+            this.dispose();
+        }
+        modelTabele.setListaStavki(listaStavki);
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     private void jButtonPromeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPromeniActionPerformed
@@ -202,11 +223,20 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         }
         
         StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
-        DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, rootPaneCheckingEnabled, iznajmljivanje, selektovanaStavka);
+        DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, true, iznajmljivanje, selektovanaStavka);
         dialogDetaljiStavka.setVisible(true);
         
-        modelTabele.updateStavka(selektovaniRed);
+        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
+        modelTabele.setListaStavki(listaStavki);
     }//GEN-LAST:event_jButtonPromeniActionPerformed
+
+    private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
+        DodajStavku formaDodajStavku = new DodajStavku(this, iznajmljivanje);
+        formaDodajStavku.setVisible(true);
+        
+        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
+        modelTabele.setListaStavki(listaStavki);
+    }//GEN-LAST:event_jButtonDodajActionPerformed
 
     /**
      * @param args the command line arguments
@@ -214,6 +244,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonDodaj;
     private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonPromeni;
     private javax.swing.JButton jButtonPromeniCitaoca;

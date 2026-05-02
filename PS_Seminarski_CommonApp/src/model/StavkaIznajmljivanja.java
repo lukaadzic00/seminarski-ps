@@ -25,6 +25,9 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
     private double iznos;
     private String valuta;
     private Knjiga knjiga;
+    private Integer stariRb;
+    private Integer noviBrojDana;
+    
 
     public StavkaIznajmljivanja() {
     }
@@ -104,6 +107,24 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
         this.knjiga = knjiga;
     }
 
+    public Integer getStariRb() {
+        return stariRb;
+    }
+
+    public void setStariRb(Integer stariRb) {
+        this.stariRb = stariRb;
+    }
+
+    public Integer getNoviBrojDana() {
+        return noviBrojDana;
+    }
+
+    public void setNoviBrojDana(Integer noviBrojDana) {
+        this.noviBrojDana = noviBrojDana;
+    }
+    
+    
+
     @Override
     public String toString() {
         return "StavkaIznajmljivanja{" + "iznajmljivanje=" + iznajmljivanje + ", rb=" + rb + ", datumVracanja=" + datumVracanja + ", brojDana=" + brojDana + ", iznosPoDanu=" + iznosPoDanu + ", iznos=" + iznos + ", valuta=" + valuta + ", knjiga=" + knjiga + '}';
@@ -133,7 +154,7 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String updateValues() {
-        return "datum_vracanja = '" + datumVracanja + "', broj_dana = " + brojDana;
+        return "rb = " + rb + ", datum_vracanja = '" + datumVracanja + "', broj_dana = " + noviBrojDana + ", iznos = " + (noviBrojDana * iznosPoDanu);
     }
 
     @Override
@@ -180,7 +201,13 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
 
     @Override
     public String updateCondition() {
-        return "id_iznajmljivanje = " + iznajmljivanje.getId() + " AND rb = " + rb;
+        String upit = "id_iznajmljivanje = " + iznajmljivanje.getId() + " AND rb = ";
+        if(stariRb == null){
+            upit = upit + rb;
+        } else {
+            upit = upit + stariRb;
+        }
+        return upit;
     }
 
     @Override

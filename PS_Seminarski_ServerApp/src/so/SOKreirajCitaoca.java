@@ -4,6 +4,7 @@
  */
 package so;
 
+import java.util.List;
 import model.AbstractDomainObject;
 import model.Citalac;
 
@@ -37,5 +38,4 @@ public class SOKreirajCitaoca extends AbstractSO{
         Citalac c = (Citalac) obj;
         id = dbb.insert(c);
     }
-    
 }

@@ -131,7 +131,21 @@ public class Iznajmljivanje extends AbstractDomainObject{
 
     @Override
     public String updateValues() {
-        return "id_citalac = " + citalac.getId();
+        String upit = "";
+        if(citalac != null){
+            upit += "id_citalac = " + citalac.getId() + ", ";
+        }
+        if(brojKnjiga != 0){
+            upit += "broj_knjiga = " + brojKnjiga + ", ";
+        }
+        if(ukupanIznos != 0){
+            upit += "ukupan_iznos = " + ukupanIznos + ", ";
+        }
+        
+        if(upit.endsWith(", ")){
+            upit = upit.substring(0, upit.length() - 2);
+        }
+        return upit;
     }
 
     @Override
@@ -196,7 +210,7 @@ public class Iznajmljivanje extends AbstractDomainObject{
 
     @Override
     public String deleteCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_iznajmljivanje = " + id;
     }
 
     @Override

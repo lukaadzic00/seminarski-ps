@@ -24,6 +24,7 @@ import model.KategorijaCitaoca;
 import model.Knjiga;
 import model.StavkaIznajmljivanja;
 import so.AbstractSO;
+import so.SODodajStavke;
 import so.SOKreirajCitaoca;
 import so.SOKreirajIznajmljivanje;
 import so.SOLogin;
@@ -311,7 +312,6 @@ public class Controller {
 
     public Response promeniStavku(Request request) {
         try {
-            System.out.println("DOSAO JE U CONTROLLER NA SERVERSKOJ STRANI");
             StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) request.getParam();
             
             SOPromeniStavku promeniStavku = new SOPromeniStavku();
@@ -322,6 +322,25 @@ public class Controller {
                 return new Response(affectedRows, "Stavka iznajmljivanja je uspesno promenjena");
             } else {
                 return new Response(affectedRows, "Stavka iznajmljivanja nije uspesno promenjena");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Response dodajStavke(Request request) {
+        try {
+            Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
+            
+            SODodajStavke dodajStavke = new SODodajStavke();
+            dodajStavke.execute(iznajmljivanje);
+            int rowsAffected = dodajStavke.getRowsAffected();
+            
+            if(rowsAffected == iznajmljivanje.getListaStavki().size()){
+                return new Response(rowsAffected, "Uspesno su dodate izabrane stavke");
+            } else {
+                return new Response(rowsAffected, "Nisu uspesno dodate izabrane stavke");
             }
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

@@ -33,15 +33,23 @@ public class SODodajStavke extends AbstractSO{
         int brojKnjiga = iznajmljivanje.getBrojKnjiga();
         int rb = brojKnjiga + 1;
         
+        int i = 0;
+        double iznos = 0;
         for (StavkaIznajmljivanja stavka : iznajmljivanje.getListaStavki()) {
             stavka.setIznajmljivanje(iznajmljivanje);
             stavka.setRb(rb);
             int id = dbb.insert(stavka);
-            if(id == 1){
+            if(id != 0){
                 rowsAffected++;
             }
             
+            iznos += stavka.getIznos();
+            i++;
             rb++;
         }
+        
+        iznajmljivanje.setBrojKnjiga(brojKnjiga + i);
+        iznajmljivanje.setUkupanIznos(iznajmljivanje.getUkupanIznos() + iznos);
+        dbb.update(iznajmljivanje);
     }
 }

@@ -240,9 +240,11 @@ public class DodajStavku extends javax.swing.JDialog {
         }
         
         Knjiga selektovanaKnjiga = modelTabeleKnjige.getRow(selektovaniRed);
-        if(modelTabeleStavka.getListaStavki().contains(selektovanaKnjiga)){
-            JOptionPane.showMessageDialog(this, "Izabrana knjiga je vec dodata u listu", "Upozorenje", JOptionPane.WARNING_MESSAGE);
-            return;
+        for (StavkaIznajmljivanja s : modelTabeleStavka.getListaStavki()) {
+            if (s.getKnjiga().equals(selektovanaKnjiga)) {
+                JOptionPane.showMessageDialog(this, "Izabrana knjiga je vec dodata u listu", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
         }
         
         String unos = JOptionPane.showInputDialog(this, "Unesite broj dana:");

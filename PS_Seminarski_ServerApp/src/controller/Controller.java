@@ -22,6 +22,7 @@ import model.Iznajmljivanje;
 import model.Kategorija;
 import model.KategorijaCitaoca;
 import model.Knjiga;
+import model.RadnaSmena;
 import model.StavkaIznajmljivanja;
 import so.AbstractSO;
 import so.SODodajStavke;
@@ -36,6 +37,7 @@ import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
 import so.SOPromeniIznajmljivanje;
 import so.SOPromeniStavku;
+import so.SOUbaciRadnuSmenu;
 import so.SOVratiListuSveKategorijeCitaoca;
 import so.SOVratiListuSveStavkeIznajmljivanja;
 import so.SOVratiListuSviBibliotekari;
@@ -341,6 +343,25 @@ public class Controller {
                 return new Response(rowsAffected, "Uspesno su dodate izabrane stavke");
             } else {
                 return new Response(rowsAffected, "Nisu uspesno dodate izabrane stavke");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Response ubaciRadnuSmenu(Request request) {
+        try {
+            RadnaSmena radnaSmena = (RadnaSmena) request.getParam();
+            
+            SOUbaciRadnuSmenu ubaciRadnuSmenu = new SOUbaciRadnuSmenu();
+            ubaciRadnuSmenu.execute(radnaSmena);
+            int generatedKey = ubaciRadnuSmenu.getGeneratedKey();
+            
+            if(generatedKey != -1){
+                return new Response(generatedKey, "Radna smena je uspesno ubacena");
+            } else {
+                return new Response(generatedKey, "Radna smena nije uspesno ubacena");
             }
         } catch (Exception ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);

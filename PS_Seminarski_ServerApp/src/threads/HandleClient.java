@@ -72,6 +72,8 @@ public class HandleClient extends Thread {
                     response = Controller.getInstance().promeniStavku(request);
                 } else if(request.getOp() == Operacija.DODAJ_STAVKE){
                     response = Controller.getInstance().dodajStavke(request);
+                } else if(request.getOp() == Operacija.UBACI_RADNU_SMENU){
+                    response = Controller.getInstance().ubaciRadnuSmenu(request);
                 }
                 
                 // posalji odgovor

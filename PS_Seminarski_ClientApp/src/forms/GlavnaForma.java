@@ -98,6 +98,11 @@ public class GlavnaForma extends javax.swing.JFrame {
         jMenuRadnaSmena.setText("Radna Smena");
 
         jMenuItemUbaciRadnuSmenu.setText("Ubaci");
+        jMenuItemUbaciRadnuSmenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUbaciRadnuSmenuActionPerformed(evt);
+            }
+        });
         jMenuRadnaSmena.add(jMenuItemUbaciRadnuSmenu);
 
         jMenuBar.add(jMenuRadnaSmena);
@@ -151,6 +156,13 @@ public class GlavnaForma extends javax.swing.JFrame {
         formaPretraziIznajmljivanje.setLocationRelativeTo(null);
         formaPretraziIznajmljivanje.setVisible(true);
     }//GEN-LAST:event_jMenuItemPretraziIznActionPerformed
+
+    private void jMenuItemUbaciRadnuSmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUbaciRadnuSmenuActionPerformed
+        UbaciRadnuSmenu dialogUbaciRadnuSmenu = new UbaciRadnuSmenu(this, rootPaneCheckingEnabled);
+        dialogUbaciRadnuSmenu.pack();
+        dialogUbaciRadnuSmenu.setLocationRelativeTo(null);
+        dialogUbaciRadnuSmenu.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUbaciRadnuSmenuActionPerformed
 
     /**
      * @param args the command line arguments

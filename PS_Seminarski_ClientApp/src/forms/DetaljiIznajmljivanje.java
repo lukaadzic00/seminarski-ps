@@ -178,7 +178,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         iznajmljivanje.setCitalac(izabraniCitalac);
         System.out.println("POSLE IZMENE : " + iznajmljivanje.getCitalac().getId());
         int affectedRows = Controller.getInstance().promeniIznajmljivanje(iznajmljivanje);
-        if(affectedRows != 0){
+        if(affectedRows != -1){
             JOptionPane.showMessageDialog(rootPane, "Uspesno ste izmenili citaoca za izabrano iznajmljivanje");
             return;
         } else {
@@ -198,7 +198,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         selektovanaStavka.setIznajmljivanje(iznajmljivanje);
         selektovanaStavka.getIznajmljivanje().setListaStavki(modelTabele.getListaStavki());
         int rowsAffected = Controller.getInstance().obrisiStavku(selektovanaStavka);
-        if(rowsAffected != 0){
+        if(rowsAffected != -1){
             JOptionPane.showMessageDialog(this, "Stavka je uspesno obrisana", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "Stavka nije uspesno obrisana", "Greska", JOptionPane.ERROR_MESSAGE);

@@ -27,15 +27,26 @@ public class SOKreirajCitaoca extends AbstractSO{
         }
         
         Citalac c = (Citalac) param;
-        
         if(c.getIme() == null || c.getPrezime() == null || c.getEmail() == null || c.getTelefon() == null || c.getKategorija() == null){
             throw new Exception("Neki od parametara kod citaoca je null");
+        }
+        if (!c.getIme().matches("[a-zA-ZšđčćžŠĐČĆŽ]+")) {
+            throw new Exception("Ime sadrzi neke karaktere koji nisu samo slova");
+        }
+        if (!c.getPrezime().matches("[a-zA-ZšđčćžŠĐČĆŽ]+")) {
+            throw new Exception("Prezime sadrzi neke karaktere koji nisu samo slova");
+        }
+        if (!c.getEmail().contains("@")) {
+            throw new Exception("Email ne sadrzi karakter '@'");
+        }
+        if (!c.getTelefon().matches("\\+3816\\d{4,8}")) {
+            throw new Exception("Telefon nije u dobrom formatu");
         }
     }
 
     @Override
     protected void executeOperation(Object obj) throws Exception {
-        Citalac c = (Citalac) obj;
-        id = dbb.insert(c);
+        Citalac citalac = (Citalac) obj;
+        id = dbb.insert(citalac);
     }
 }

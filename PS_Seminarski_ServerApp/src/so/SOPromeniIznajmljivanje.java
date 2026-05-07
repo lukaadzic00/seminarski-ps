@@ -34,5 +34,10 @@ public class SOPromeniIznajmljivanje extends AbstractSO {
     protected void executeOperation(Object obj) throws Exception {
         Iznajmljivanje iznajmljivanje = (Iznajmljivanje) obj;
         affectedRows = dbb.update(iznajmljivanje);
+        
+        
+        //iznajmljivanje lista stavki IZMENJENA NOVE STAVKE
+        
+        //u bazi STARE STAVKE postojece stavke za to iznajmljivanje
     }
 }

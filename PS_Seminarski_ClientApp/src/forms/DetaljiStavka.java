@@ -118,7 +118,7 @@ public class DetaljiStavka extends javax.swing.JDialog {
         System.out.println("IZNOS IZNAJMLJIVANJA: " + stavka.getIznajmljivanje().getUkupanIznos());
         
         int affectedRows = Controller.getInstance().promeniStavku(stavka);
-        if(affectedRows != 0){
+        if(affectedRows != -1){
             JOptionPane.showMessageDialog(this, "Stavka je uspesno promenjena");
             this.dispose();
         } else {

@@ -108,7 +108,7 @@ public class UbaciRadnuSmenu extends javax.swing.JDialog {
         radnaSmena.setTrajanje(trajanje);
         
         int key = Controller.getInstance().ubaciRadnuSmenu(radnaSmena);
-        if(key != 0){
+        if(key != -1){
             JOptionPane.showMessageDialog(rootPane, "Sistem je zapamtio radnu smenu");
         } else {
             JOptionPane.showMessageDialog(rootPane, "Sistem ne moze da zapamti radnu smenu");

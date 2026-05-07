@@ -103,18 +103,26 @@ public class FormaLogin extends javax.swing.JFrame {
         
         Bibliotekar bibliotekar = new Bibliotekar(0, null, null, null, korisnickoIme, sifra);
         bibliotekar = Controller.getInstance().prijaviBibliotekara(bibliotekar);
-        
+
         if(bibliotekar != null){
+            JOptionPane.showMessageDialog(this, "Korisničko ime i šifra su ispravni.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
             Session.getInstance().setUlogovaniKorisnik(bibliotekar);
-            GlavnaForma glavnaForma = new GlavnaForma();
-            glavnaForma.pack();                       // finalizuje veličinu forme
-            glavnaForma.setLocationRelativeTo(null);
-            glavnaForma.setVisible(true);
+            try{
+                GlavnaForma glavnaForma = new GlavnaForma();
+                glavnaForma.pack();                       // finalizuje veličinu forme
+                glavnaForma.setLocationRelativeTo(null);
+                glavnaForma.setVisible(true);
+            } catch(Exception ex){
+                JOptionPane.showMessageDialog(this, "Ne može da se otvori glavna forma i meni.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Korisnicko ime i sifra nisu ispravni.");
+            JOptionPane.showMessageDialog(this, "Korisničko ime i šifra nisu ispravni.", "Greška", JOptionPane.ERROR_MESSAGE);
             return;
         }
+         
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     private void jTextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsernameActionPerformed

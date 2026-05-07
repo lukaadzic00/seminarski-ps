@@ -191,12 +191,12 @@ public class Citalac extends AbstractDomainObject{
 
     @Override
     public String updateCondition() {
-        return "1=1";
+        return "1=1 AND id_citalac = " + id;
     }
 
     @Override
     public String deleteCondition() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_citalac = " + id;
     }
 
     @Override

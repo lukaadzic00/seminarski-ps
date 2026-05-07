@@ -41,6 +41,7 @@ public class GlavnaForma extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jButtonOdjaviSe = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuIznajmljivanje = new javax.swing.JMenu();
         jMenuItemKreirajIzn = new javax.swing.JMenuItem();
@@ -54,6 +55,13 @@ public class GlavnaForma extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Zdravo");
+
+        jButtonOdjaviSe.setText("Odjavi se");
+        jButtonOdjaviSe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOdjaviSeActionPerformed(evt);
+            }
+        });
 
         jMenuIznajmljivanje.setText("Iznajmljivanje");
 
@@ -113,17 +121,21 @@ public class GlavnaForma extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(262, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(129, 129, 129)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(jButtonOdjaviSe)
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(153, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButtonOdjaviSe))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         pack();
@@ -164,12 +176,20 @@ public class GlavnaForma extends javax.swing.JFrame {
         dialogUbaciRadnuSmenu.setVisible(true);
     }//GEN-LAST:event_jMenuItemUbaciRadnuSmenuActionPerformed
 
+    private void jButtonOdjaviSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOdjaviSeActionPerformed
+        ulogovaniBibliotekar = null;
+        FormaLogin formaLogin = new FormaLogin();
+        formaLogin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonOdjaviSeActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonOdjaviSe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuCitalac;

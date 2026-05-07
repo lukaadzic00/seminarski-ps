@@ -51,16 +51,17 @@ public class Controller {
     }
 
     public Bibliotekar prijaviBibliotekara(Bibliotekar bibliotekar) {
-        Request request = new Request(Operacija.PRIJAVI_BIBLIOTEKARA, bibliotekar);
         try {
+            Request request = new Request(Operacija.PRIJAVI_BIBLIOTEKARA, bibliotekar);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            bibliotekar = (Bibliotekar) response.getRezultat();
+            return (Bibliotekar) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji prijavi_bibliotekara: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return bibliotekar;
     }
 
     public List<KategorijaCitaoca> vratiSveKategorije() {
@@ -71,27 +72,24 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<KategorijaCitaoca>) response.getRezultat();
         } catch (Exception ex) {
-            System.out.println("Greska u funkciji vratiSveKategorije, Client Controller");
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_kategorije: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
-    public boolean kreirajCitaoca(Citalac citalac) {
+    public int kreirajCitaoca(Citalac citalac) {
         try {
             Request request = new Request(Operacija.KREIRAJ_CITAOCA, citalac);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            int id = (int) response.getRezultat();
-            if(id != -1){
-                return true;
-            } else {
-                return false;
-            }
+            return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji kreiraj_citaoca: " + ex.getMessage());
+            ex.printStackTrace();
+            return -1;
         }
-        return false;
     }
 
     public List<Citalac> pretraziCitaoca(Citalac citalac) {
@@ -102,9 +100,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<Citalac>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji pretrazi_citaoca po filteru: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public int obrisiCitaoca(Citalac citalac) {
@@ -115,7 +114,9 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            return 0;
+            System.out.println("[CLIENT - Controller] Greška pri operaciji obrisi_citaoca: " + ex.getMessage());
+            ex.printStackTrace();
+            return -1;
         }
     }
 
@@ -127,9 +128,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji promeni_citaoca: " + ex.getMessage());
+            ex.printStackTrace();
+            return -1;
         }
-        return 0;
     }
 
     public List<Knjiga> pretraziKnjigu(Knjiga filter) {
@@ -140,9 +142,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<Knjiga>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji pretrazi_knjigu po filteru: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public int kreirajIznajmljivanje(Iznajmljivanje iznajmljivanje) {
@@ -153,9 +156,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji kreiraj_iznajmljivanje: " + ex.getMessage());
+            ex.printStackTrace();
+            return -1;
         }
-        return -1;
     }
 
     public List<Citalac> vratiSveCitaoce() {
@@ -166,9 +170,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<Citalac>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_citaoce: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public List<Bibliotekar> vratiSveBibliotekare() {
@@ -179,9 +184,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<Bibliotekar>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_bibliotekare: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public List<Iznajmljivanje> pretraziIznajmljivanje(Iznajmljivanje filterIzn) {
@@ -192,9 +198,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<Iznajmljivanje>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji pretrazi_iznajmljivanje po filteru: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public List<StavkaIznajmljivanja> vratiSveStavkeIznajmljivanja(Iznajmljivanje iznajmljivanje) {
@@ -205,9 +212,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (List<StavkaIznajmljivanja>) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_stavke_iznajmljivanja: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public int promeniIznajmljivanje(Iznajmljivanje iznajmljivanje) {
@@ -218,9 +226,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji promeni_iznajmljivanje: " + ex.getMessage());
+            ex.printStackTrace();
+            return -1;
         }
-        return 0;
     }
 
     public int obrisiStavku(StavkaIznajmljivanja selektovanaStavka) {
@@ -231,9 +240,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji obrisi_stavku: " + ex.getMessage());
+            ex.printStackTrace();
+            return -1;
         }
-        return 0;
     }
 
     public int promeniStavku(StavkaIznajmljivanja stavka) {
@@ -244,9 +254,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji promeni_stavku: " + ex.getMessage());
+            ex.printStackTrace(); // ispisuje ceo stack trace - tacno koja linija je pukla
+            return -1;
         }
-        return 0;
     }
 
     public int dodajStavke(Iznajmljivanje iznajmljivanje) {
@@ -257,9 +268,10 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji dodaj_stavke: " + ex.getMessage());
+            ex.printStackTrace(); // ispisuje ceo stack trace - tacno koja linija je pukla
+            return -1;
         }
-        return 0;
     }
 
     public int ubaciRadnuSmenu(RadnaSmena radnaSmena) {
@@ -270,8 +282,9 @@ public class Controller {
             Response response = (Response) receiver.receive();
             return (int) response.getRezultat();
         } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[CLIENT - Controller] Greška pri operaciji ubaci_radnu_smenu: " + ex.getMessage());
+            ex.printStackTrace(); // ispisuje ceo stack trace - tacno koja linija je pukla
+            return -1;
         }
-        return 0;
     }
 }

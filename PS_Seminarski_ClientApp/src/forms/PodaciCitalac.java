@@ -34,11 +34,12 @@ public class PodaciCitalac extends javax.swing.JDialog {
             mod = ModPodaciCitalac.PROMENI;
         }
         
-        setLocationRelativeTo(null);
         initComponents();
         ucitajComboBox();
+        setLocationRelativeTo(parent);
         
         if(mod == ModPodaciCitalac.PROMENI){
+            jButtonObrisi.setVisible(true);
             jTextFieldIme.setText(citalacZaIzmenu.getIme());
             jTextFieldPrezime.setText(citalacZaIzmenu.getPrezime());
             jTextFieldEmail.setText(citalacZaIzmenu.getEmail());
@@ -51,6 +52,8 @@ public class PodaciCitalac extends javax.swing.JDialog {
                     break;
                 }
             }
+        } else if(mod == ModPodaciCitalac.KREIRAJ){
+            jButtonObrisi.setVisible(false);
         }
     }
 
@@ -75,6 +78,7 @@ public class PodaciCitalac extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jComboBox = new javax.swing.JComboBox<>();
         jButtonPotvrdi = new javax.swing.JButton();
+        jButtonObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -98,6 +102,13 @@ public class PodaciCitalac extends javax.swing.JDialog {
             }
         });
 
+        jButtonObrisi.setText("Obriši");
+        jButtonObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonObrisiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,7 +116,10 @@ public class PodaciCitalac extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonPotvrdi)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonObrisi)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonPotvrdi))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -153,7 +167,9 @@ public class PodaciCitalac extends javax.swing.JDialog {
                     .addComponent(jLabel6)
                     .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonPotvrdi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPotvrdi)
+                    .addComponent(jButtonObrisi))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -167,35 +183,114 @@ public class PodaciCitalac extends javax.swing.JDialog {
         String telefon = jTextFieldTelefon.getText();
         KategorijaCitaoca kategorija = (KategorijaCitaoca) jComboBox.getSelectedItem();
         
+        
         if(mod == ModPodaciCitalac.KREIRAJ){
+            // provera validnosti unetih podataka
+            if (!ime.matches("[a-zA-ZšđčćžŠĐČĆŽ]+")) {
+                System.out.println("Ime nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!prezime.matches("[a-zA-ZšđčćžŠĐČĆŽ]+")) {
+                System.out.println("Prezime nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!email.contains("@")) {
+                System.out.println("Email nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!telefon.matches("\\+3816\\d{4,8}")) {
+                System.out.println("Telefon nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(jComboBox.getSelectedItem() == null){
+                System.out.println("Nije selektovana kategorija citaoca");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da kreira čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // kreiranje citaoca i ubacivanje u bazu
             Citalac citalac = new Citalac(0, ime, prezime, email, telefon, kategorija);
-
-            boolean dodat = Controller.getInstance().kreirajCitaoca(citalac);
-            if(dodat == true){
-                JOptionPane.showMessageDialog(this, "Sistem je kreirao citaoca", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            
+            int generatedId = Controller.getInstance().kreirajCitaoca(citalac);
+            if(generatedId != -1){
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio čitaoca", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira citaoca", "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca", "Greška", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else if(mod == ModPodaciCitalac.PROMENI){
+            // provera validnosti unetih podataka
+            if (!ime.matches("[a-zA-ZšđčćžŠĐČĆŽ]+")) {
+                System.out.println("Ime nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!prezime.matches("[a-zA-ZšđčćžŠĐČĆŽ]+")) {
+                System.out.println("Prezime nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!email.contains("@")) {
+                System.out.println("Email nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!telefon.matches("\\+3816\\d{4,8}")) {
+                System.out.println("Telefon nije u dobrom formatu");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if(jComboBox.getSelectedItem() == null){
+                System.out.println("Nije selektovana kategorija citaoca");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             citalacZaIzmenu.setIme(ime);
             citalacZaIzmenu.setPrezime(prezime);
             citalacZaIzmenu.setEmail(email);
             citalacZaIzmenu.setTelefon(telefon);
             citalacZaIzmenu.setKategorija(kategorija);
             
-            int uspesnoPromenjen = Controller.getInstance().promeniCitaoca(citalacZaIzmenu);
-            if(uspesnoPromenjen != 0){
+            int affectedRows = Controller.getInstance().promeniCitaoca(citalacZaIzmenu);
+            if(affectedRows == 1){
                 izmenjeno = true;
-                JOptionPane.showMessageDialog(this, "Sistem je uspesno izmenio citaoca", "Uspesna izmena", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio čitaoca.", "Uspesna izmena", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Sistem nije uspesno izmenio citaoca", "Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti čitaoca.", "Greska", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
     }//GEN-LAST:event_jButtonPotvrdiActionPerformed
+
+    private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
+        // pitanje za korisnika, da li je siguran da zeli da obrise citaoca
+        int potvrda = JOptionPane.showConfirmDialog(
+        this, 
+        "Da li ste sigurni da želite da obrišete čitaoca?", 
+        "Potvrda brisanja", 
+        JOptionPane.YES_NO_OPTION
+        );
+
+        if(potvrda != JOptionPane.YES_OPTION){
+            return;
+        }
+    
+        // brisanje citaoca
+        int rowsAffected = Controller.getInstance().obrisiCitaoca(citalacZaIzmenu);
+        if(rowsAffected == 1){
+            JOptionPane.showMessageDialog(this, "Sistem je obrisao čitaoca.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne može da obriše čitaoca.", "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +298,7 @@ public class PodaciCitalac extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonPotvrdi;
     private javax.swing.JComboBox<KategorijaCitaoca> jComboBox;
     private javax.swing.JLabel jLabel1;

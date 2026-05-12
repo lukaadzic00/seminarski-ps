@@ -255,7 +255,7 @@ public class Controller {
             return (int) response.getRezultat();
         } catch (Exception ex) {
             System.out.println("[CLIENT - Controller] Greška pri operaciji promeni_stavku: " + ex.getMessage());
-            ex.printStackTrace(); // ispisuje ceo stack trace - tacno koja linija je pukla
+            ex.printStackTrace();
             return -1;
         }
     }
@@ -269,7 +269,7 @@ public class Controller {
             return (int) response.getRezultat();
         } catch (Exception ex) {
             System.out.println("[CLIENT - Controller] Greška pri operaciji dodaj_stavke: " + ex.getMessage());
-            ex.printStackTrace(); // ispisuje ceo stack trace - tacno koja linija je pukla
+            ex.printStackTrace();
             return -1;
         }
     }
@@ -283,8 +283,22 @@ public class Controller {
             return (int) response.getRezultat();
         } catch (Exception ex) {
             System.out.println("[CLIENT - Controller] Greška pri operaciji ubaci_radnu_smenu: " + ex.getMessage());
-            ex.printStackTrace(); // ispisuje ceo stack trace - tacno koja linija je pukla
+            ex.printStackTrace();
             return -1;
+        }
+    }
+
+    public List<Knjiga> vratiSveKnjige() {
+        try {
+            Request request = new Request(Operacija.VRATI_SVE_KNJIGE, null);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (List<Knjiga>) response.getRezultat();
+        } catch (Exception ex) {
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_knjige: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
     }
 }

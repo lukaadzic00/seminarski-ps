@@ -156,6 +156,7 @@ public class Iznajmljivanje extends AbstractDomainObject{
     @Override
     public String selectCondition() {
         String upit = "WHERE 1=1";
+        
         if(citalac != null){
             upit += " AND i.id_citalac=" + citalac.getId();
         }

@@ -39,7 +39,12 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         ucitajComboBoxCitaoci();
         ucitajComboBoxBibliotekari();
         
+        // prvobitno prikazi listu SVIH iznajmljivanja
+        filterIzn = new Iznajmljivanje();
+        List<Iznajmljivanje> listaIznajmljivanja = Controller.getInstance().pretraziIznajmljivanje(filterIzn);
+        
         ModelTabeleIznajmljivanje modelTabele = new ModelTabeleIznajmljivanje();
+        modelTabele.setListaIznajmljivanja(listaIznajmljivanja);
         jTable.setModel(modelTabele);
         jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jTable.setRowSelectionAllowed(true);
@@ -251,13 +256,21 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         filterIzn.setBrojKnjiga(brojKnjiga);
         
         List<Iznajmljivanje> listaIznajmljivanja = Controller.getInstance().pretraziIznajmljivanje(filterIzn);
+        if(listaIznajmljivanja != null){
+            JOptionPane.showMessageDialog(this, "Sistem je našao iznajmljivanja po zadatim kriterijumima", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne može da nađe iznajmljivanja po zadatim kriterijumima", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         modelTabele.setListaIznajmljivanja(listaIznajmljivanja);
     }//GEN-LAST:event_jButtonPretraziActionPerformed
 
     private void jButtonDetaljiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetaljiActionPerformed
         int selektovaniRed = jTable.getSelectedRow();
-        if(selektovaniRed == -1){
-            JOptionPane.showMessageDialog(this, "Morate selektovati red iz tabele", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+        if(selektovaniRed != -1){
+            JOptionPane.showMessageDialog(this, "Sistem je našao iznajmljivanje", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne može da nađe iznajmljivanje", "Upozorenje", JOptionPane.WARNING_MESSAGE);
             return;
         }
         

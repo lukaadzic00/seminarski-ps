@@ -39,10 +39,19 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         popuniComboboxCitaoci();
         
         List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
+        iznajmljivanje.setListaStavki(listaStavki);
         modelTabele.setListaStavki(listaStavki);
         podesiTabelu(modelTabele);
         
         setLocationRelativeTo(null);
+        
+        // popuni informacije o iznajmljivanju
+        jTextFieldID.setText(iznajmljivanje.getId() + "");
+        jTextFieldDatum.setText(iznajmljivanje.getDatumUzimanja() + "");
+        jTextFieldUkupnaCena.setText(iznajmljivanje.getUkupanIznos() + " DIN");
+        jTextFieldID.setEnabled(false);
+        jTextFieldDatum.setEnabled(false);
+        jTextFieldUkupnaCena.setEnabled(false);
     }
 
     /**
@@ -63,6 +72,13 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         jButtonSacuvajCitaoca = new javax.swing.JButton();
         jButtonPromeni = new javax.swing.JButton();
         jButtonDodaj = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldID = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldDatum = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTextFieldUkupnaCena = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -116,6 +132,15 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("ID:");
+
+        jLabel2.setText("Datum kreiranja:");
+
+        jLabel3.setText("Ukupna cena:");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel4.setText("Detalji iznajmljivanja");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,32 +149,58 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelCitalac)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonPromeniCitaoca)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSacuvajCitaoca))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButtonObrisi)
                             .addComponent(jButtonPromeni)
-                            .addComponent(jButtonDodaj))))
+                            .addComponent(jButtonDodaj)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabelCitalac)
+                            .addGap(18, 18, 18)
+                            .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButtonPromeniCitaoca)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButtonSacuvajCitaoca))))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCitalac)
                     .addComponent(jButtonPromeniCitaoca)
                     .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSacuvajCitaoca))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -158,7 +209,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                         .addComponent(jButtonPromeni)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonDodaj)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -250,9 +301,16 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPromeniCitaoca;
     private javax.swing.JButton jButtonSacuvajCitaoca;
     private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelCitalac;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
+    private javax.swing.JTextField jTextFieldDatum;
+    private javax.swing.JTextField jTextFieldID;
+    private javax.swing.JTextField jTextFieldUkupnaCena;
     // End of variables declaration//GEN-END:variables
 
     private void podesiTabelu(ModelTabeleStavkaIzn modelTabele) {

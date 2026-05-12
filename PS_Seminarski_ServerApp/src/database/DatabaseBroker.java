@@ -73,7 +73,9 @@ public class DatabaseBroker {
         }
     }
 
-    /*
+    /* NEKE OD HARDKODOVANIH METODA, KOJE SE VISE NE KORISTE
+    /* SADA SE KORISTI GENERICKI DATABASEBROKER, CIJE SU METODE DEFINISANE PRI DNU KLASE
+    
     public Bibliotekar prijaviBibliotekara(Bibliotekar bibliotekar) {
         
         try {
@@ -203,7 +205,7 @@ public class DatabaseBroker {
         }
         return uspeh > 0;
     }
-    */
+    
 
     public boolean promeniCitaoca(Citalac citalac) {
         try {
@@ -302,6 +304,8 @@ public class DatabaseBroker {
         return true;
     }
     
+    */
+    
     
     /* -------------------------------------------------------------- */
     
@@ -324,7 +328,6 @@ public class DatabaseBroker {
         }
     }*/
 
-    // FINISHED
     public List<AbstractDomainObject> select(AbstractDomainObject ado) throws Exception {
         String query = "SELECT " + ado.selectColumns()
                         + " FROM " + ado.tableName()
@@ -338,7 +341,6 @@ public class DatabaseBroker {
         return ado.getList(rs);
     }
     
-    // FINISHED
     public int insert(AbstractDomainObject ado) throws Exception {
         int id = -1;
         String query = "INSERT INTO " + ado.tableName() + " (" + ado.insertColumns() + ") VALUES (" + ado.insertValues() + ")";
@@ -358,7 +360,6 @@ public class DatabaseBroker {
         return id;
     }
     
-    // FINISHED
     public int delete(AbstractDomainObject ado) throws Exception{
         
         String query = "DELETE FROM " + ado.tableName() + " WHERE " + ado.deleteCondition();
@@ -370,7 +371,6 @@ public class DatabaseBroker {
         return rowsAffected;
     }
     
-    // FINISHED
     public int update(AbstractDomainObject ado) throws Exception{
         String query = "UPDATE " + ado.tableName() + " SET " + ado.updateValues() + " WHERE " + ado.updateCondition();
         System.out.println(query);

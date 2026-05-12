@@ -39,6 +39,7 @@ import so.SOPromeniIznajmljivanje;
 import so.SOPromeniStavku;
 import so.SOUbaciRadnuSmenu;
 import so.SOVratiListuSveKategorijeCitaoca;
+import so.SOVratiListuSveKnjige;
 import so.SOVratiListuSveStavkeIznajmljivanja;
 import so.SOVratiListuSviBibliotekari;
 import so.SOVratiListuSviCitaoci;
@@ -367,5 +368,21 @@ public class Controller {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public Response vratiSveKnjige(Request request) {
+        try {
+            List<Knjiga> listaKnjiga = new ArrayList<>();
+            Knjiga knjiga = new Knjiga();
+            
+            SOVratiListuSveKnjige vratiListuSveKnjige = new SOVratiListuSveKnjige();
+            vratiListuSveKnjige.execute(knjiga);
+            listaKnjiga = vratiListuSveKnjige.getListaKnjiga();
+            
+            return new Response(listaKnjiga, "Lista svih knjiga");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije vrati sve knjige");
+        }
     }
 }

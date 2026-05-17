@@ -109,12 +109,13 @@ public class UbaciRadnuSmenu extends javax.swing.JDialog {
         
         int key = Controller.getInstance().ubaciRadnuSmenu(radnaSmena);
         if(key != -1){
-            JOptionPane.showMessageDialog(rootPane, "Sistem je zapamtio radnu smenu");
+            JOptionPane.showMessageDialog(rootPane, "Sistem je zapamtio radnu smenu", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Sistem ne moze da zapamti radnu smenu");
+            JOptionPane.showMessageDialog(rootPane, "Sistem ne može da zapamti radnu smenu", "Greška", JOptionPane.ERROR_MESSAGE);
         }
         
         this.dispose();
+        return;
     }//GEN-LAST:event_jButtonPotvrdiActionPerformed
 
     /**

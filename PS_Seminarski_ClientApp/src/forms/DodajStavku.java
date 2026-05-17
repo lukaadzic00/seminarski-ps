@@ -28,25 +28,29 @@ import session.Session;
 public class DodajStavku extends javax.swing.JDialog {
 
     private ModelTabeleKnjige modelTabeleKnjige;
-    private ModelTabeleStavkaIzn modelTabeleStavka;
-    private Iznajmljivanje iznajmljivanje;
-    private List<StavkaIznajmljivanja> noveStavke = new ArrayList<>();
+    private ModelTabeleStavkaIzn modelTabeleNoveStavke;
+    private ModelTabeleStavkaIzn modelTabelePostojeceStavke;
     /**
      * Creates new form FormaKreirajIznajmljivanje
      */
-    public DodajStavku(JFrame parent, Iznajmljivanje iznajmljivanje) {
-        super(parent, true);
+    public DodajStavku(JFrame parent, boolean modal, ModelTabeleStavkaIzn modelTabelePostojeceStavke) {
+        super(parent, modal);
         initComponents();
         ucitajCombobox();
-        this.iznajmljivanje = iznajmljivanje;
+        this.modelTabelePostojeceStavke = modelTabelePostojeceStavke;
+        
+        // model tabele knjige
         this.modelTabeleKnjige = new ModelTabeleKnjige();
+        List<Knjiga> listaSvihKnjiga = Controller.getInstance().vratiSveKnjige();
+        modelTabeleKnjige.setLista(listaSvihKnjiga);
         jTableKnjige.setModel(modelTabeleKnjige);
-        this.modelTabeleStavka = new ModelTabeleStavkaIzn();
-        jTableIznajmljivanje.setModel(modelTabeleStavka);
+        
+        // model tabele stavke iznajmljivanja
+        this.modelTabeleNoveStavke = new ModelTabeleStavkaIzn();
+        jTableNoveStavke.setModel(modelTabeleNoveStavke);
         
         podesiTabelu(jTableKnjige);
-        podesiTabelu(jTableIznajmljivanje);
-        popuniTabeluStavki();
+        podesiTabelu(jTableNoveStavke);
     }
 
     /**
@@ -73,8 +77,9 @@ public class DodajStavku extends javax.swing.JDialog {
         jTableKnjige = new javax.swing.JTable();
         jButtonDodajKnjigu = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTableIznajmljivanje = new javax.swing.JTable();
+        jTableNoveStavke = new javax.swing.JTable();
         jButtonSacuvaj = new javax.swing.JButton();
+        jButtonObrisi = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,7 +107,7 @@ public class DodajStavku extends javax.swing.JDialog {
 
         jLabel5.setText("Zanr:");
 
-        jButtonPretrazi.setText("Pretrazi knjigu");
+        jButtonPretrazi.setText("Pretraži knjigu");
         jButtonPretrazi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPretraziActionPerformed(evt);
@@ -129,7 +134,7 @@ public class DodajStavku extends javax.swing.JDialog {
             }
         });
 
-        jTableIznajmljivanje.setModel(new javax.swing.table.DefaultTableModel(
+        jTableNoveStavke.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -140,12 +145,19 @@ public class DodajStavku extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTableIznajmljivanje);
+        jScrollPane3.setViewportView(jTableNoveStavke);
 
         jButtonSacuvaj.setText("Sacuvaj");
         jButtonSacuvaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSacuvajActionPerformed(evt);
+            }
+        });
+
+        jButtonObrisi.setText("Obriši");
+        jButtonObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonObrisiActionPerformed(evt);
             }
         });
 
@@ -156,7 +168,10 @@ public class DodajStavku extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonSacuvaj)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonObrisi)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSacuvaj))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +225,9 @@ public class DodajStavku extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButtonSacuvaj)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonSacuvaj)
+                    .addComponent(jButtonObrisi))
                 .addGap(9, 9, 9))
         );
 
@@ -232,21 +249,24 @@ public class DodajStavku extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonPretraziActionPerformed
 
     private void jButtonDodajKnjiguActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajKnjiguActionPerformed
+        // provera selektovanog reda u tabeli
         int selektovaniRed = jTableKnjige.getSelectedRow();
         
         if(selektovaniRed == -1){
-            JOptionPane.showMessageDialog(this, "Morate selektovati knjigu koju zelite dodati", "Greska", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Morate selektovati knjigu koju želite dodati", "Greška", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
+        // provera da li izabrana knjiga vec postoji u listi stavki
         Knjiga selektovanaKnjiga = modelTabeleKnjige.getRow(selektovaniRed);
-        for (StavkaIznajmljivanja s : modelTabeleStavka.getListaStavki()) {
+        for (StavkaIznajmljivanja s : modelTabelePostojeceStavke.getListaStavki()) {
             if (s.getKnjiga().equals(selektovanaKnjiga)) {
-                JOptionPane.showMessageDialog(this, "Izabrana knjiga je vec dodata u listu", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Izabrana knjiga je već dodata u listu", "Upozorenje", JOptionPane.WARNING_MESSAGE);
                 return;
             }
         }
         
+        // odabir broja dana na koliko se knjiga iznajmljuje
         String unos = JOptionPane.showInputDialog(this, "Unesite broj dana:");
         if (unos == null) return;
         int brojDana;
@@ -258,11 +278,11 @@ public class DodajStavku extends javax.swing.JDialog {
             return;
         }
         
+        // pretvaramo izabranu knjigu u stavku
         System.out.println("IZABRANA KNJIGA JE: " + selektovanaKnjiga);
         StavkaIznajmljivanja stavka = new StavkaIznajmljivanja();
         LocalDate datumUzimanja = LocalDate.now();
-        LocalDate datumVracanja = datumUzimanja.plusDays(brojDana);
-        
+        LocalDate datumVracanja = datumUzimanja.plusDays(brojDana); 
         stavka.setDatumVracanja(datumVracanja);
         stavka.setBrojDana(brojDana);
         stavka.setIznosPoDanu(selektovanaKnjiga.getIznosPoDanu());
@@ -270,22 +290,30 @@ public class DodajStavku extends javax.swing.JDialog {
         stavka.setValuta("DIN");
         stavka.setKnjiga(selektovanaKnjiga);
         
-        modelTabeleStavka.addStavka(stavka);
-        noveStavke.add(stavka);
+        // dodajemo stavku u model tabele stavke
+        modelTabeleNoveStavke.addStavka(stavka);
         jTableKnjige.clearSelection();
     }//GEN-LAST:event_jButtonDodajKnjiguActionPerformed
 
     private void jButtonSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajActionPerformed
-        iznajmljivanje.setListaStavki(noveStavke);
-        int affectedRows = Controller.getInstance().dodajStavke(iznajmljivanje);
-        
-        if(affectedRows == noveStavke.size()){
-            JOptionPane.showMessageDialog(rootPane, "Uspesno ste dodali izabrane stavke");
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Niste uspesno dodali izabrane stavke");
+        for (StavkaIznajmljivanja s : modelTabeleNoveStavke.getListaStavki()) {
+            modelTabelePostojeceStavke.addStavka(s);
         }
+        this.dispose();
     }//GEN-LAST:event_jButtonSacuvajActionPerformed
+
+    private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
+        // provera selektovanog reda u tabeli
+        int selektovaniRed = jTableNoveStavke.getSelectedRow();
+        
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(this, "Morate selektovati stavku koju želite obrisati", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        modelTabeleNoveStavke.deleteStavka(selektovaniRed);
+        jTableNoveStavke.clearSelection();
+    }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,6 +322,7 @@ public class DodajStavku extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDodajKnjigu;
+    private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonPretrazi;
     private javax.swing.JButton jButtonSacuvaj;
     private javax.swing.JComboBox<Zanr> jComboBox;
@@ -306,8 +335,8 @@ public class DodajStavku extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTableIznajmljivanje;
     private javax.swing.JTable jTableKnjige;
+    private javax.swing.JTable jTableNoveStavke;
     private javax.swing.JTextField jTextFieldAutor;
     private javax.swing.JTextField jTextFieldNaziv;
     // End of variables declaration//GEN-END:variables
@@ -342,10 +371,5 @@ public class DodajStavku extends javax.swing.JDialog {
                 }
             }
         });
-    }
-
-    private void popuniTabeluStavki() {
-        List<StavkaIznajmljivanja> stavke = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
-        modelTabeleStavka.setListaStavki(stavke);
     }
 }

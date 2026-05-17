@@ -218,17 +218,17 @@ public class Controller {
         }
     }
 
-    public int promeniIznajmljivanje(Iznajmljivanje iznajmljivanje) {
+    public boolean promeniIznajmljivanje(Iznajmljivanje iznajmljivanje) {
         try {
             Request request = new Request(Operacija.PROMENI_IZNAJMLJIVANJE, iznajmljivanje);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            return (int) response.getRezultat();
+            return (boolean) response.getRezultat();
         } catch (Exception ex) {
             System.out.println("[CLIENT - Controller] Greška pri operaciji promeni_iznajmljivanje: " + ex.getMessage());
             ex.printStackTrace();
-            return -1;
+            return false;
         }
     }
 

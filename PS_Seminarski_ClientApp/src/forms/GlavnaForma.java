@@ -65,7 +65,7 @@ public class GlavnaForma extends javax.swing.JFrame {
 
         jMenuIznajmljivanje.setText("Iznajmljivanje");
 
-        jMenuItemKreirajIzn.setText("Kreiraj Iznajmljivanje");
+        jMenuItemKreirajIzn.setText("Kreiraj iznajmljivanje");
         jMenuItemKreirajIzn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemKreirajIznActionPerformed(evt);
@@ -73,7 +73,7 @@ public class GlavnaForma extends javax.swing.JFrame {
         });
         jMenuIznajmljivanje.add(jMenuItemKreirajIzn);
 
-        jMenuItemPretraziIzn.setText("Pretrazi Iznajmljivanje");
+        jMenuItemPretraziIzn.setText("Pretraži iznajmljivanje");
         jMenuItemPretraziIzn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemPretraziIznActionPerformed(evt);
@@ -83,9 +83,9 @@ public class GlavnaForma extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuIznajmljivanje);
 
-        jMenuCitalac.setText("Citalac");
+        jMenuCitalac.setText("Čitalac");
 
-        jMenuItemKreirajCitaoca.setText("Kreiraj Citaoca");
+        jMenuItemKreirajCitaoca.setText("Kreiraj čitaoca");
         jMenuItemKreirajCitaoca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemKreirajCitaocaActionPerformed(evt);
@@ -93,7 +93,7 @@ public class GlavnaForma extends javax.swing.JFrame {
         });
         jMenuCitalac.add(jMenuItemKreirajCitaoca);
 
-        jMenuItemPretraziCitaoca.setText("Pretrazi Citaoca");
+        jMenuItemPretraziCitaoca.setText("Pretraži čitaoca");
         jMenuItemPretraziCitaoca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemPretraziCitaocaActionPerformed(evt);
@@ -122,20 +122,20 @@ public class GlavnaForma extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
                 .addComponent(jButtonOdjaviSe)
-                .addGap(14, 14, 14))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(172, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButtonOdjaviSe))
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();

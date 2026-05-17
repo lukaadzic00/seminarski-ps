@@ -109,22 +109,20 @@ public class DetaljiStavka extends javax.swing.JDialog {
             return;
         }
         
+        // 1. umanji ukupan iznos iznajmljivanja za staru cenu stavke
+        iznajmljivanje.setUkupanIznos(iznajmljivanje.getUkupanIznos() - stavka.getIznos());
+        
+        // 2. postavi novu cenu,datum vracanja i ukupan iznos za stavku
         LocalDate datumUzimanja = iznajmljivanje.getDatumUzimanja();
         LocalDate datumVracanja = datumUzimanja.plusDays(brojDana);
         stavka.setDatumVracanja(datumVracanja);
-        stavka.setNoviBrojDana(brojDana);
+        stavka.setBrojDana(brojDana);
+        stavka.setIznos(stavka.getBrojDana() * stavka.getIznosPoDanu());
         
-        System.out.println("BROJ DANA STARI: " + stavka.getBrojDana() + ", BROJ DANA NOVI: " + stavka.getNoviBrojDana() + ", IZNOS STAVKE: " + stavka.getIznos());
-        System.out.println("IZNOS IZNAJMLJIVANJA: " + stavka.getIznajmljivanje().getUkupanIznos());
+        // 3. dodaj novu cenu stavke na iznajmljivanje
+        iznajmljivanje.setUkupanIznos(iznajmljivanje.getUkupanIznos() + stavka.getIznos());
         
-        int affectedRows = Controller.getInstance().promeniStavku(stavka);
-        if(affectedRows != -1){
-            JOptionPane.showMessageDialog(this, "Stavka je uspesno promenjena");
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Stavka nije uspesno promenjena");
-            this.dispose();
-        }
+        this.dispose();
     }//GEN-LAST:event_jButtonPotvrdiActionPerformed
 
     /**

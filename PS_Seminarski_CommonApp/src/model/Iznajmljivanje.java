@@ -25,6 +25,8 @@ public class Iznajmljivanje extends AbstractDomainObject{
     private Bibliotekar bibliotekar;
     private Citalac citalac;
     private List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
+    private boolean izmenjeneStavke = false;
+    private boolean izmenjenCitalac = false;
 
     public Iznajmljivanje() {
     }
@@ -106,6 +108,23 @@ public class Iznajmljivanje extends AbstractDomainObject{
     public void addStavka(StavkaIznajmljivanja stavka){
         listaStavki.add(stavka);
     }
+
+    public boolean isIzmenjeneStavke() {
+        return izmenjeneStavke;
+    }
+
+    public void setIzmenjeneStavke(boolean izmenjeneStavke) {
+        this.izmenjeneStavke = izmenjeneStavke;
+    }
+
+    public boolean isIzmenjenCitalac() {
+        return izmenjenCitalac;
+    }
+
+    public void setIzmenjenCitalac(boolean izmenjenCitalac) {
+        this.izmenjenCitalac = izmenjenCitalac;
+    }
+    
     
     // Inherited 
 

@@ -25,18 +25,15 @@ import model.Knjiga;
 import model.RadnaSmena;
 import model.StavkaIznajmljivanja;
 import so.AbstractSO;
-import so.SODodajStavke;
 import so.SOKreirajCitaoca;
 import so.SOKreirajIznajmljivanje;
 import so.SOLogin;
 import so.SOObrisiCitaoca;
-import so.SOObrisiStavku;
 import so.SOPretraziCitaoca;
 import so.SOPretraziIznajmljivanje;
 import so.SOPretraziKnjigu;
 import so.SOPromeniCitaoca;
 import so.SOPromeniIznajmljivanje;
-import so.SOPromeniStavku;
 import so.SOUbaciRadnuSmenu;
 import so.SOVratiListuSveKategorijeCitaoca;
 import so.SOVratiListuSveKnjige;
@@ -281,76 +278,19 @@ public class Controller {
             
             SOPromeniIznajmljivanje promeniIznajmljivanje = new SOPromeniIznajmljivanje();
             promeniIznajmljivanje.execute(iznajmljivanje);
-            int affectedRows = promeniIznajmljivanje.getAffectedRows();
+            boolean uspesnoPromenjeno = promeniIznajmljivanje.isUspeh();
             
-            if(affectedRows != 0){
-                return new Response(affectedRows, "Izmenjen je citalac za izabrano iznajmljivanje");
+            if(uspesnoPromenjeno){
+                return new Response(true, "Iznajmljivanje je uspesno izmenjeno");
             } else{
-                return new Response(affectedRows, "Nije izmenjen citalac za izabrano iznajmljivanje");
+                return new Response(false, "Iznajmljivanje nije uspesno izmenjeno");
             }
         } catch(SQLException ex){
             ex.printStackTrace();
-            return new Response(null, "Greska prilikom izvrsenja operacije promeni iznajmljivanje");
+            return new Response(false, "Greska prilikom izvrsenja operacije promeni iznajmljivanje");
         }
     }
-
-    public Response obrisiStavku(Request request) {
-        try {
-            StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) request.getParam();
-            
-            SOObrisiStavku obrisiStavku = new SOObrisiStavku();
-            obrisiStavku.execute(stavka);
-            int affectedRows = obrisiStavku.getRowsAffected();
-            
-            if(affectedRows != 0){
-                return new Response(affectedRows, "Stavka je uspesno obrisana");
-            } else {
-                return new Response(affectedRows, "Stavka nije uspesno obrisana");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public Response promeniStavku(Request request) {
-        try {
-            StavkaIznajmljivanja stavka = (StavkaIznajmljivanja) request.getParam();
-            
-            SOPromeniStavku promeniStavku = new SOPromeniStavku();
-            promeniStavku.execute(stavka);
-            int affectedRows = promeniStavku.getRowsAffected();
-            
-            if(affectedRows != 0){
-                return new Response(affectedRows, "Stavka iznajmljivanja je uspesno promenjena");
-            } else {
-                return new Response(affectedRows, "Stavka iznajmljivanja nije uspesno promenjena");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public Response dodajStavke(Request request) {
-        try {
-            Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
-            
-            SODodajStavke dodajStavke = new SODodajStavke();
-            dodajStavke.execute(iznajmljivanje);
-            int rowsAffected = dodajStavke.getRowsAffected();
-            
-            if(rowsAffected == iznajmljivanje.getListaStavki().size()){
-                return new Response(rowsAffected, "Uspesno su dodate izabrane stavke");
-            } else {
-                return new Response(rowsAffected, "Nisu uspesno dodate izabrane stavke");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
+    
     public Response ubaciRadnuSmenu(Request request) {
         try {
             RadnaSmena radnaSmena = (RadnaSmena) request.getParam();

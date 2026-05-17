@@ -79,6 +79,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldUkupnaCena = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jButtonSacuvaj = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -111,7 +112,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             }
         });
 
-        jButtonSacuvajCitaoca.setText("Sacuvaj");
+        jButtonSacuvajCitaoca.setText("Potvrdi");
         jButtonSacuvajCitaoca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSacuvajCitaocaActionPerformed(evt);
@@ -141,6 +142,13 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setText("Detalji iznajmljivanja");
 
+        jButtonSacuvaj.setText("Sačuvaj");
+        jButtonSacuvaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSacuvajActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,35 +157,38 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonObrisi)
-                            .addComponent(jButtonPromeni)
-                            .addComponent(jButtonDodaj)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonObrisi)
+                                    .addComponent(jButtonPromeni)
+                                    .addComponent(jButtonDodaj)
+                                    .addComponent(jButtonSacuvaj)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelCitalac)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonPromeniCitaoca)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonSacuvajCitaoca)))
+                        .addContainerGap(16, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabelCitalac)
-                            .addGap(18, 18, 18)
-                            .addComponent(jComboBoxCitaoci, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonPromeniCitaoca)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonSacuvajCitaoca))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(jTextFieldID, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldDatum, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(232, 232, 232))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,10 +216,12 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonObrisi)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonPromeni)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonDodaj)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonDodaj)))
+                        .addComponent(jButtonSacuvaj)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -225,17 +238,9 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
             return;
         }
         
-        System.out.println("PRE IZMENE : " + iznajmljivanje.getCitalac().getId());
         iznajmljivanje.setCitalac(izabraniCitalac);
-        System.out.println("POSLE IZMENE : " + iznajmljivanje.getCitalac().getId());
-        int affectedRows = Controller.getInstance().promeniIznajmljivanje(iznajmljivanje);
-        if(affectedRows != -1){
-            JOptionPane.showMessageDialog(rootPane, "Uspesno ste izmenili citaoca za izabrano iznajmljivanje");
-            return;
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Sistem nije uspesno izmenio citaoca za izabrano iznajmljivanje");
-            return;
-        }
+        iznajmljivanje.setIzmenjenCitalac(true);
+        jComboBoxCitaoci.setEnabled(false);
     }//GEN-LAST:event_jButtonSacuvajCitaocaActionPerformed
 
     private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
@@ -246,24 +251,14 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         }
         
         StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
-        selektovanaStavka.setIznajmljivanje(iznajmljivanje);
-        selektovanaStavka.getIznajmljivanje().setListaStavki(modelTabele.getListaStavki());
-        int rowsAffected = Controller.getInstance().obrisiStavku(selektovanaStavka);
-        if(rowsAffected != -1){
-            JOptionPane.showMessageDialog(this, "Stavka je uspesno obrisana", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "Stavka nije uspesno obrisana", "Greska", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        modelTabele.deleteStavka(selektovaniRed);
         
+        iznajmljivanje.setIzmenjeneStavke(true);
         iznajmljivanje.setBrojKnjiga(iznajmljivanje.getBrojKnjiga() - 1);
         iznajmljivanje.setUkupanIznos(iznajmljivanje.getUkupanIznos() - selektovanaStavka.getIznos());
+        iznajmljivanje.setListaStavki(modelTabele.getListaStavki());
         
-        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
-        if(listaStavki.size() == 0){
-            this.dispose();
-        }
-        modelTabele.setListaStavki(listaStavki);
+        jTextFieldUkupnaCena.setText(iznajmljivanje.getUkupanIznos() + " DIN");
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
     private void jButtonPromeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPromeniActionPerformed
@@ -277,17 +272,44 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, true, iznajmljivanje, selektovanaStavka);
         dialogDetaljiStavka.setVisible(true);
         
-        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
-        modelTabele.setListaStavki(listaStavki);
+        modelTabele.setListaStavki(modelTabele.getListaStavki());
+        jTextFieldUkupnaCena.setText(iznajmljivanje.getUkupanIznos() + " DIN");
+        iznajmljivanje.setIzmenjeneStavke(true);
+        iznajmljivanje.setListaStavki(modelTabele.getListaStavki());
     }//GEN-LAST:event_jButtonPromeniActionPerformed
 
     private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
-        DodajStavku formaDodajStavku = new DodajStavku(this, iznajmljivanje);
+        DodajStavku formaDodajStavku = new DodajStavku(this, true, modelTabele);
         formaDodajStavku.setVisible(true);
         
-        List<StavkaIznajmljivanja> listaStavki = Controller.getInstance().vratiSveStavkeIznajmljivanja(iznajmljivanje);
-        modelTabele.setListaStavki(listaStavki);
+        iznajmljivanje.setListaStavki(modelTabele.getListaStavki());
+        // promena atributa iznajmljivanje.ukupanIznos
+        double noviUkupanIznos = 0;
+        for (StavkaIznajmljivanja s : modelTabele.getListaStavki()) {
+            noviUkupanIznos += s.getIznos();
+        }
+        iznajmljivanje.setIzmenjeneStavke(true);
+        iznajmljivanje.setUkupanIznos(noviUkupanIznos);
+        jTextFieldUkupnaCena.setText(iznajmljivanje.getUkupanIznos() + "");
     }//GEN-LAST:event_jButtonDodajActionPerformed
+
+    private void jButtonSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacuvajActionPerformed
+        if(!iznajmljivanje.isIzmenjenCitalac() && !iznajmljivanje.isIzmenjeneStavke()){
+            JOptionPane.showMessageDialog(this, "Niste izvršili nikakvu izmenu.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            return;
+        }
+        iznajmljivanje.setListaStavki(modelTabele.getListaStavki());
+        iznajmljivanje.setBrojKnjiga(modelTabele.getListaStavki().size());
+        
+        boolean uspeh = Controller.getInstance().promeniIznajmljivanje(iznajmljivanje);
+        if(uspeh){
+            JOptionPane.showMessageDialog(this, "Sistem je zapamtio iznajmljivanje.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti iznajmljivanje.", "Greška", JOptionPane.ERROR_MESSAGE);
+        }
+        this.dispose();
+    }//GEN-LAST:event_jButtonSacuvajActionPerformed
 
     /**
      * @param args the command line arguments
@@ -299,6 +321,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
     private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonPromeni;
     private javax.swing.JButton jButtonPromeniCitaoca;
+    private javax.swing.JButton jButtonSacuvaj;
     private javax.swing.JButton jButtonSacuvajCitaoca;
     private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;
     private javax.swing.JLabel jLabel1;

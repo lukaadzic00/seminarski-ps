@@ -11,7 +11,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemKreirajIzn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kreiraj Iznajmljivanje"/>
+                <Property name="text" type="java.lang.String" value="Kreiraj iznajmljivanje"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemKreirajIznActionPerformed"/>
@@ -19,7 +19,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPretraziIzn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Pretrazi Iznajmljivanje"/>
+                <Property name="text" type="java.lang.String" value="Pretra&#x17e;i iznajmljivanje"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPretraziIznActionPerformed"/>
@@ -29,12 +29,12 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuCitalac">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Citalac"/>
+            <Property name="text" type="java.lang.String" value="&#x10c;italac"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemKreirajCitaoca">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kreiraj Citaoca"/>
+                <Property name="text" type="java.lang.String" value="Kreiraj &#x10d;itaoca"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemKreirajCitaocaActionPerformed"/>
@@ -42,7 +42,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPretraziCitaoca">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Pretrazi Citaoca"/>
+                <Property name="text" type="java.lang.String" value="Pretra&#x17e;i &#x10d;itaoca"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPretraziCitaocaActionPerformed"/>
@@ -92,23 +92,23 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" pref="125" max="-2" attributes="0"/>
-              <EmptySpace pref="46" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" pref="101" max="-2" attributes="0"/>
+              <EmptySpace pref="236" max="32767" attributes="0"/>
               <Component id="jButtonOdjaviSe" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace pref="172" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonOdjaviSe" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="146" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

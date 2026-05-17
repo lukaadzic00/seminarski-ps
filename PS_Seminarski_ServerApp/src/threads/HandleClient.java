@@ -66,12 +66,6 @@ public class HandleClient extends Thread {
                     response = Controller.getInstance().vratiSveStavkeIznajmljivanja(request);
                 } else if(request.getOp() == Operacija.PROMENI_IZNAJMLJIVANJE){
                     response = Controller.getInstance().promeniIznajmljivanje(request);
-                } else if(request.getOp() == Operacija.OBRISI_STAVKU){
-                    response = Controller.getInstance().obrisiStavku(request);
-                } else if(request.getOp() == Operacija.PROMENI_STAVKU){
-                    response = Controller.getInstance().promeniStavku(request);
-                } else if(request.getOp() == Operacija.DODAJ_STAVKE){
-                    response = Controller.getInstance().dodajStavke(request);
                 } else if(request.getOp() == Operacija.UBACI_RADNU_SMENU){
                     response = Controller.getInstance().ubaciRadnuSmenu(request);
                 } else if(request.getOp() == Operacija.VRATI_SVE_KNJIGE){

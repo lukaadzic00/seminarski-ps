@@ -26,7 +26,7 @@ public class Receiver {
         try {
             return in.readObject();
         } catch (IOException ex) {
-            throw new Exception("Error receiving object!\n"+ex.getMessage());
+            throw ex;
         }
     }
     

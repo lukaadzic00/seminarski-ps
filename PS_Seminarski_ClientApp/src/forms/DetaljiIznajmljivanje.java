@@ -8,6 +8,8 @@ import controller.Controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import model.Citalac;
@@ -359,7 +361,12 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
     }
 
     private void popuniComboboxCitaoci() {
-        List<Citalac> listaCitaoca = Controller.getInstance().vratiSveCitaoce();
+        List<Citalac> listaCitaoca = null;
+        try {
+            listaCitaoca = Controller.getInstance().vratiSveCitaoce();
+        } catch (Exception ex) {
+            Logger.getLogger(DetaljiIznajmljivanje.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jComboBoxCitaoci.removeAllItems();
         Citalac selektovani = null;
         

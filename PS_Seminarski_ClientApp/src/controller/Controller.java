@@ -163,7 +163,7 @@ public class Controller {
         }
     }
 
-    public List<Citalac> vratiSveCitaoce() {
+    public List<Citalac> vratiSveCitaoce() throws Exception{
         try {
             Request request = new Request(Operacija.VRATI_SVE_CITAOCE, null);
             sender.send(request);
@@ -172,8 +172,7 @@ public class Controller {
             return (List<Citalac>) response.getRezultat();
         } catch (Exception ex) {
             System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_citaoce: " + ex.getMessage());
-            ex.printStackTrace();
-            return null;
+            throw new RuntimeException("SERVER_DOWN");
         }
     }
 

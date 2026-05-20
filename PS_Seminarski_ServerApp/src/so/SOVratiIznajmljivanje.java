@@ -14,7 +14,7 @@ import model.StavkaIznajmljivanja;
  *
  * @author lukaa
  */
-public class SOVratiListuSveStavkeIznajmljivanja extends AbstractSO {
+public class SOVratiIznajmljivanje extends AbstractSO {
 
     List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
 

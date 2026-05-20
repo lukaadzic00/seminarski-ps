@@ -16,6 +16,8 @@ import model.Citalac;
 import model.Kategorija;
 import model.KategorijaCitaoca;
 import form.mods.ModPretraziCitalac;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -39,7 +41,14 @@ public class PretraziCitalac extends javax.swing.JFrame {
         ucitajComboBox();
         
         modelTabele = new ModelTabeleCitalac();
-        List<Citalac> listaSvihCitalaca = Controller.getInstance().vratiSveCitaoce();
+        List<Citalac> listaSvihCitalaca;
+        try {
+            listaSvihCitalaca = Controller.getInstance().vratiSveCitaoce();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ne moze se ucitati lista svih citalac", "Greska", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         modelTabele.setLista(listaSvihCitalaca);
         
         jTable.setModel(modelTabele);
@@ -297,7 +306,13 @@ public class PretraziCitalac extends javax.swing.JFrame {
         jTextFieldTelefon.setText("");
         jComboBoxKategorija.setSelectedItem(null);
         
-        List<Citalac> listaCitalaca = Controller.getInstance().vratiSveCitaoce();
+        List<Citalac> listaCitalaca = null;
+        try {
+            listaCitalaca = Controller.getInstance().vratiSveCitaoce();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne može da nađe čitaoca.", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         modelTabele.setLista(listaCitalaca);    
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 

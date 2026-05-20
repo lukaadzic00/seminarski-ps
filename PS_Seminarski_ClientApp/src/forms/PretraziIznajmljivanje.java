@@ -18,6 +18,8 @@ import model.KategorijaCitaoca;
 import form.mods.ModPretraziCitalac;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Bibliotekar;
 import model.Iznajmljivanje;
 import modeliTabele.ModelTabeleIznajmljivanje;
@@ -315,7 +317,12 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
 
     private void ucitajComboBoxCitaoci() {
         jComboBoxCitaoci.removeAllItems();
-        List<Citalac> listaCitalaca = Controller.getInstance().vratiSveCitaoce();
+        List<Citalac> listaCitalaca = null;
+        try {
+            listaCitalaca = Controller.getInstance().vratiSveCitaoce();
+        } catch (Exception ex) {
+            Logger.getLogger(PretraziIznajmljivanje.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for (Citalac citalac : listaCitalaca) {
             jComboBoxCitaoci.addItem(citalac);
         }

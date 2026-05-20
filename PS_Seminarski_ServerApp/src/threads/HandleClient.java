@@ -90,8 +90,10 @@ public class HandleClient extends Thread {
                 // posalji odgovor
                 sender.send(response);
             }
-        } catch (EOFException | SocketException e) {
-            System.out.println("Klijent se diskonektovao (X ili crash)");
+        } catch (SocketException ex) {
+            System.out.println("Klijent je prekinuo konekciju.");
+        } catch (EOFException ex) {
+            System.out.println("Klijent je zatvorio aplikaciju.");
         } catch (Exception ex) {
             Logger.getLogger(HandleClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

@@ -157,24 +157,26 @@ public class BaseConfiguration extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void prepareForm() {
-         try {
-            Properties properties = new Properties();
-            properties.load(new FileInputStream("DBBrokerConfig.properties"));
-            url = properties.getProperty("url");
-            String username = properties.getProperty("username");
-            String password = properties.getProperty("password");
+        Properties properties = new Properties();
+
+        try (FileInputStream in = new FileInputStream("src/database/DBBrokerConfig.properties");) {
+
+            properties.load(in);
+
+            String url = properties.getProperty("url", "");
+            String username = properties.getProperty("username", "");
+            String password = properties.getProperty("password", "");
 
             txtUrl.setText(url);
-            System.out.println("URL: " + url);
             txtUsername.setText(username);
             txtPass.setText(password);
-        } catch (FileNotFoundException ex) {
-            System.out.println("Usao je catch blok");
+
+        } catch (IOException ex) {
+            // ako fajl ne postoji ili ne može da se učita
+            System.out.println("Usao u catch blok");
             txtUrl.setText("");
             txtUsername.setText("");
             txtPass.setText("");
-        } catch (IOException ex) {
-            Logger.getLogger(BaseConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

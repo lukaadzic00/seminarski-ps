@@ -39,7 +39,7 @@ import so.SOPromeniIznajmljivanje;
 import so.SOUbaciRadnuSmenu;
 import so.SOVratiListuSveKategorijeCitaoca;
 import so.SOVratiListuSveKnjige;
-import so.SOVratiListuSveStavkeIznajmljivanja;
+import so.SOVratiIznajmljivanje;
 import so.SOVratiListuSviBibliotekari;
 import so.SOVratiListuSviCitaoci;
 import threads.ServerThread;
@@ -289,7 +289,7 @@ public class Controller {
             List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
             Iznajmljivanje iznajmljivanje = (Iznajmljivanje) request.getParam();
             
-            SOVratiListuSveStavkeIznajmljivanja vratiSveStavke = new SOVratiListuSveStavkeIznajmljivanja();
+            SOVratiIznajmljivanje vratiSveStavke = new SOVratiIznajmljivanje();
             vratiSveStavke.execute(iznajmljivanje);
             listaStavki = vratiSveStavke.getListaStavki();
             

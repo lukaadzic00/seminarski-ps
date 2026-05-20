@@ -111,13 +111,13 @@ public class ServerForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtBrojKlijenata, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(lblStatus))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(145, 145, 145)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnZaustaviServer)
-                            .addComponent(btnPokreniServer))))
+                            .addComponent(btnPokreniServer)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(lblStatus)))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -127,9 +127,9 @@ public class ServerForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtBrojKlijenata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addGap(28, 28, 28)
                 .addComponent(lblStatus)
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
                 .addComponent(btnPokreniServer)
                 .addGap(18, 18, 18)
                 .addComponent(btnZaustaviServer)
@@ -149,6 +149,7 @@ public class ServerForm extends javax.swing.JFrame {
             int max = Integer.parseInt(txtBrojKlijenata.getText());
             ServerState.getInstance().setMaxKlijenata(max);
             serverManager.startServer(max);
+            meniIzmeniKonf.setEnabled(false);
             btnPokreniServer.setEnabled(false);
             btnZaustaviServer.setEnabled(true);
             lblStatus.setText("Server je pokrenut");
@@ -166,6 +167,8 @@ public class ServerForm extends javax.swing.JFrame {
             lblStatus.setText("Server je ugasen!");
             btnPokreniServer.setEnabled(true);
             btnZaustaviServer.setEnabled(false);
+            txtBrojKlijenata.setEnabled(true);
+            meniIzmeniKonf.setEnabled(true);
         }
     }//GEN-LAST:event_btnZaustaviServerActionPerformed
 
@@ -175,6 +178,7 @@ public class ServerForm extends javax.swing.JFrame {
             btnPokreniServer.setVisible(true);
             btnZaustaviServer.setVisible(true);
             btnZaustaviServer.setEnabled(false);
+            txtBrojKlijenata.setEnabled(false);
         }
     }//GEN-LAST:event_txtBrojKlijenataKeyPressed
 

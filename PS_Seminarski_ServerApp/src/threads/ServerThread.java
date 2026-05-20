@@ -86,7 +86,7 @@ public class ServerThread extends Thread {
 
         // ugasi klijente
         for (HandleClient c : klijenti) {
-            c.interrupt();
+            c.stopClient();
         }
         
         klijenti.clear();

@@ -116,28 +116,34 @@ public class BaseConfiguration extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
-       try {
-            String url = txtUrl.getText();
-            String username = txtUsername.getText();
-            String password = String.valueOf(txtPass.getPassword());
+        try {
+            String url = txtUrl.getText().trim();
+            String username = txtUsername.getText().trim();
+            String password = String.valueOf(txtPass.getPassword()).trim();
 
-            if (url.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Niste popunili url baze!!!");
+            if (url.isEmpty() || username.isEmpty() || password.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                    "Sva polja moraju biti popunjena!");
                 return;
             }
 
             Properties prop = new Properties();
-            try (FileOutputStream out = new FileOutputStream("DBBrokerConfig.properties")) {
+            try (FileOutputStream out = new FileOutputStream("src/database/DBBrokerConfig.properties")) {
                 prop.setProperty("url", url);
                 prop.setProperty("username", username);
                 prop.setProperty("password", password);
                 prop.store(out, null);
             }
 
-            JOptionPane.showMessageDialog(this, "Uspesno sacuvana konfiguracija.");
+            JOptionPane.showMessageDialog(this,
+                "Uspešno sačuvana konfiguracija.");
+
             this.dispose();
+
         } catch (IOException ex) {
             Logger.getLogger(BaseConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                "Greška pri čuvanju konfiguracije!");
         }
     }//GEN-LAST:event_btnSacuvajActionPerformed
 

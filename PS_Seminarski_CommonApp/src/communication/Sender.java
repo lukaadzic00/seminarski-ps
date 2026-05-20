@@ -20,6 +20,7 @@ public class Sender {
 
     public Sender(Socket socket) throws IOException {
         out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
     }
     
     public void send(Object obj) throws Exception{
@@ -29,6 +30,16 @@ public class Sender {
             out.flush();
         } catch (IOException ex) {
             throw new Exception("Error sending object: \n"+ex.getMessage());
+        }
+    }
+    
+    public void close() {
+        try {
+            if (out != null) {
+                out.close();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

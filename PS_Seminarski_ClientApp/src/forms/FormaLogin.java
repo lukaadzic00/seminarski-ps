@@ -4,6 +4,7 @@
  */
 package forms;
 
+import communication.Response;
 import model.Bibliotekar;
 import controller.Controller;
 import javax.swing.JOptionPane;
@@ -20,7 +21,6 @@ public class FormaLogin extends javax.swing.JFrame {
     public FormaLogin() {
         initComponents();
         setLocationRelativeTo(null);
-        Controller.getInstance();
     }
 
     /**
@@ -91,7 +91,7 @@ public class FormaLogin extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonLogin)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,7 +102,9 @@ public class FormaLogin extends javax.swing.JFrame {
         String sifra = new String(jPasswordField1.getPassword());
         
         Bibliotekar bibliotekar = new Bibliotekar(0, null, null, null, korisnickoIme, sifra);
-        bibliotekar = Controller.getInstance().prijaviBibliotekara(bibliotekar);
+        Controller.getInstance();
+        Response response = Controller.getInstance().prijaviBibliotekara(bibliotekar);
+        bibliotekar = (Bibliotekar) response.getRezultat();
 
         if(bibliotekar != null){
             JOptionPane.showMessageDialog(this, "Korisničko ime i šifra su ispravni.", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
@@ -119,10 +121,17 @@ public class FormaLogin extends javax.swing.JFrame {
             
             this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Korisničko ime i šifra nisu ispravni.", "Greška", JOptionPane.ERROR_MESSAGE);
-            return;
+            if("Bibliotekar nije uspesno prijavljen".equals(response.getPoruka())){
+                JOptionPane.showMessageDialog(this, "Korisničko ime i šifra nisu ispravni.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if("Bibliotekar je vec ulogovan".equals(response.getPoruka())){
+                JOptionPane.showMessageDialog(this, "Bibliotekar je već ulogovan pod ovim korisničkim imenom.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if("Maksimalna popunjenost servera".equals(response.getPoruka())){
+                JOptionPane.showMessageDialog(this, "Server je maksimalno popunjen.", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
-         
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     private void jTextFieldUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUsernameActionPerformed

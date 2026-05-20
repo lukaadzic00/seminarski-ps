@@ -14,6 +14,10 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import controller.Controller;
+import controller.ServerState;
+import java.io.EOFException;
+import java.net.SocketException;
+import model.Bibliotekar;
 /**
  *
  * @author lukaa
@@ -21,9 +25,13 @@ import controller.Controller;
 public class HandleClient extends Thread {
     private Sender sender;
     private Receiver receiver;
+    private ServerThread serverThread;
+    private volatile boolean running = true;
+    private String loggedUsername;
 
-    public HandleClient(Socket socket) {
+    public HandleClient(Socket socket, ServerThread serverThread) {
         try {
+            this.serverThread = serverThread;
             sender = new Sender(socket);
             receiver = new Receiver(socket);
         } catch (IOException ex) {
@@ -33,15 +41,20 @@ public class HandleClient extends Thread {
 
     @Override
     public void run() {
-        while(true){
-            try {
+        try{
+            while(running){
+            
                 // primi zahtev
                 Request request = (Request) receiver.receive();
-                
+
                 // obradi zahtev
                 Response response = null;
                 if(request.getOp() == Operacija.PRIJAVI_BIBLIOTEKARA){
                     response = Controller.getInstance().prijaviBibliotekara(request);
+                    Bibliotekar b = (Bibliotekar) response.getRezultat();
+                    if (b != null) {
+                        loggedUsername = b.getKorisnickoIme();
+                    }
                 } else if(request.getOp() == Operacija.VRATI_SVE_KATEGORIJE){
                     response = Controller.getInstance().vratiSveKategorije(request);
                 } else if(request.getOp() == Operacija.KREIRAJ_CITAOCA){
@@ -70,14 +83,35 @@ public class HandleClient extends Thread {
                     response = Controller.getInstance().ubaciRadnuSmenu(request);
                 } else if(request.getOp() == Operacija.VRATI_SVE_KNJIGE){
                     response = Controller.getInstance().vratiSveKnjige(request);
+                } else if(request.getOp() == Operacija.ODJAVI_BIBLIOTEKARA){
+                    response = Controller.getInstance().odjaviBibliotekara(request);
                 }
-                
+
                 // posalji odgovor
                 sender.send(response);
-            } catch (Exception ex) {
-                Logger.getLogger(HandleClient.class.getName()).log(Level.SEVERE, null, ex);
-                break;
             }
+        } catch (EOFException | SocketException e) {
+            System.out.println("Klijent se diskonektovao (X ili crash)");
+        } catch (Exception ex) {
+            Logger.getLogger(HandleClient.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            stopClient();
+            serverThread.ukloniKlijenta(this);
+            ServerState.getInstance().clientDisconnected();
+            
+            if (loggedUsername != null) {
+                Controller.getInstance().odjavi(loggedUsername);
+            }
+        }
+    }
+    
+    public void stopClient() {
+        try {
+            running = false;
+            receiver.close();
+            sender.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

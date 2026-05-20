@@ -29,4 +29,14 @@ public class Receiver {
             throw new Exception("Error receiving object!\n"+ex.getMessage());
         }
     }
+    
+    public void close() {
+        try {
+            if (in != null) {
+                in.close();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

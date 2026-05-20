@@ -4,6 +4,7 @@
  */
 package forms;
 
+import controller.Controller;
 import javax.swing.JOptionPane;
 import model.Bibliotekar;
 import form.mods.ModPretraziCitalac;
@@ -177,10 +178,13 @@ public class GlavnaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemUbaciRadnuSmenuActionPerformed
 
     private void jButtonOdjaviSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOdjaviSeActionPerformed
-        ulogovaniBibliotekar = null;
-        FormaLogin formaLogin = new FormaLogin();
-        formaLogin.setVisible(true);
-        this.dispose();
+        boolean uspeh = Controller.getInstance().odjaviBibliotekara(ulogovaniBibliotekar);
+        if(uspeh){
+            ulogovaniBibliotekar = null;
+            FormaLogin formaLogin = new FormaLogin();
+            formaLogin.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButtonOdjaviSeActionPerformed
 
     /**

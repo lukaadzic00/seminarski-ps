@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Bibliotekar;
@@ -40,6 +42,7 @@ import so.SOVratiListuSveKnjige;
 import so.SOVratiListuSveStavkeIznajmljivanja;
 import so.SOVratiListuSviBibliotekari;
 import so.SOVratiListuSviCitaoci;
+import threads.ServerThread;
 
 /**
  *
@@ -48,6 +51,7 @@ import so.SOVratiListuSviCitaoci;
 public class Controller {
     private static Controller instance;
     private DatabaseBroker dbb;
+    private Set<String> ulogovaniKorisnici = ConcurrentHashMap.newKeySet();
     
     public static Controller getInstance(){
         if(instance == null){
@@ -62,14 +66,23 @@ public class Controller {
 
     public Response prijaviBibliotekara(Request request) throws Exception {
         try {
+            if(!ServerState.getInstance().canAccept()){
+                return new Response(null, "Maksimalna popunjenost servera");
+            }
+            
             Bibliotekar bibliotekar = (Bibliotekar) request.getParam();
             
+            if(ulogovaniKorisnici.contains(bibliotekar.getKorisnickoIme())){
+                return new Response(null, "Bibliotekar je vec ulogovan");
+            }
             SOLogin login = new SOLogin();
             login.execute(bibliotekar);
             Bibliotekar ulogovani = login.getUlogovani();
             
             String poruka;
             if(ulogovani != null){
+                ulogovaniKorisnici.add(ulogovani.getKorisnickoIme());
+                ServerState.getInstance().clientConnected();
                 poruka = "Bibliotekar uspesno prijavljen";
             } else {
                 poruka = "Bibliotekar nije uspesno prijavljen";
@@ -80,6 +93,21 @@ public class Controller {
             ex.printStackTrace();
             return new Response(null, "Greska pri login operaciji");
         }
+    }
+    
+    public Response odjaviBibliotekara(Request request) {
+        String username = ((Bibliotekar) request.getParam()).getKorisnickoIme();
+
+        if (ulogovaniKorisnici.remove(username)) {
+            ServerState.getInstance().clientDisconnected();
+            return new Response(true, "Uspesan logout");
+        }
+
+        return new Response(false, "Neuspesan logout");
+    }
+    
+    public void odjavi(String username) {
+        ulogovaniKorisnici.remove(username);
     }
 
     public Response vratiSveKategorije(Request request) throws Exception {

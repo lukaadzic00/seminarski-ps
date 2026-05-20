@@ -31,6 +31,7 @@ public class Controller {
     private static Controller instance;
     private Sender sender;
     private Receiver receiver;
+    private Socket socket;
     
     public static Controller getInstance(){
         if(instance == null){
@@ -41,22 +42,22 @@ public class Controller {
     
     private Controller(){
         try {
-            Socket socket = new Socket("localhost", 9000);
-            System.out.println("Klijent se povezao na server");
+            socket = new Socket("localhost", 9000);
             sender = new Sender(socket);
             receiver = new Receiver(socket);
+            System.out.println("Klijent se povezao na server");
         } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
-    public Bibliotekar prijaviBibliotekara(Bibliotekar bibliotekar) {
+    public Response prijaviBibliotekara(Bibliotekar bibliotekar) {
         try {
             Request request = new Request(Operacija.PRIJAVI_BIBLIOTEKARA, bibliotekar);
             sender.send(request);
             
             Response response = (Response) receiver.receive();
-            return (Bibliotekar) response.getRezultat();
+            return response;
         } catch (Exception ex) {
             System.out.println("[CLIENT - Controller] Greška pri operaciji prijavi_bibliotekara: " + ex.getMessage());
             ex.printStackTrace();
@@ -299,6 +300,20 @@ public class Controller {
             System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_knjige: " + ex.getMessage());
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean odjaviBibliotekara(Bibliotekar ulogovaniBibliotekar) {
+        try {
+            Request request = new Request(Operacija.ODJAVI_BIBLIOTEKARA, ulogovaniBibliotekar);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (boolean) response.getRezultat();
+        } catch (Exception ex) {
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_knjige: " + ex.getMessage());
+            ex.printStackTrace();
+            return false;
         }
     }
 }

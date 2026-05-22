@@ -4,7 +4,7 @@
  */
 package main;
 
-import form.ServerForm;
+import forms.ServerForm;
 import threads.ServerThread;
 
 /**

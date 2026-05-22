@@ -262,6 +262,10 @@ public class PretraziCitalac extends javax.swing.JFrame {
         Citalac citalac = new Citalac(0, ime, prezime, email, telefon, kategorija);
         filter = citalac;
         List<Citalac> listaCitalaca = Controller.getInstance().pretraziCitaoca(filter);
+        if(listaCitalaca == null){
+            JOptionPane.showMessageDialog(this, "Sistem ne može da nađe čitaoce po zadatim kriterijumima", "Greška", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         modelTabele.setLista(listaCitalaca);
         
         JOptionPane.showMessageDialog(this, "Sistem je našao čitaoce po zadatim kriterijumima", "Uspeh", JOptionPane.INFORMATION_MESSAGE);

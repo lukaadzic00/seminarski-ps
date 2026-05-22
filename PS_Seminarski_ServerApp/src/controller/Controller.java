@@ -4,6 +4,7 @@
  */
 package controller;
 
+import server.ServerState;
 import communication.Receiver;
 import communication.Request;
 import communication.Response;

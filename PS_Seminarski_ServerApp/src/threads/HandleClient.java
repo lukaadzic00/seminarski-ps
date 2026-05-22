@@ -14,7 +14,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import controller.Controller;
-import controller.ServerState;
+import server.ServerState;
 import java.io.EOFException;
 import java.net.SocketException;
 import model.Bibliotekar;

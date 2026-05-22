@@ -137,6 +137,7 @@ public class UbaciRadnuSmenu extends javax.swing.JDialog {
         for (Smena smena : Smena.values()) {
             jComboBoxNaziv.addItem(smena);
         }
+        jComboBoxNaziv.setSelectedItem(null);
     }
 
     private void popuniComboboxTrajanje() {
@@ -144,5 +145,6 @@ public class UbaciRadnuSmenu extends javax.swing.JDialog {
         for (int i = 1; i <= 12; i++) {
             jComboBoxTrajanje.addItem(i + "h");
         }
+        jComboBoxTrajanje.setSelectedItem(null);
     }
 }

@@ -8,10 +8,12 @@ import model.Knjiga;
 import model.Zanr;
 import controller.Controller;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import model.Autor;
 import model.Citalac;
 import model.Iznajmljivanje;
 import model.StavkaIznajmljivanja;
@@ -34,7 +36,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
      */
     public KreirajIznajmljivanje(Citalac selektovaniCitalac) {
         initComponents();
-        ucitajCombobox();
+        ucitajComboboxAutori();
+        ucitajComboboxZanrovi();
         citalac = selektovaniCitalac;
         jTextFieldUkupnaCena.setEditable(false);
         
@@ -67,9 +70,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNaziv = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextFieldAutor = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox = new javax.swing.JComboBox<>();
+        jComboBoxZanr = new javax.swing.JComboBox<>();
         jButtonPretrazi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableKnjige = new javax.swing.JTable();
@@ -80,6 +82,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         jButtonObrisi = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldUkupnaCena = new javax.swing.JTextField();
+        jComboBoxAutor = new javax.swing.JComboBox<>();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -184,8 +187,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jTextFieldNaziv)
-                                        .addComponent(jTextFieldAutor)
-                                        .addComponent(jComboBox, 0, 106, Short.MAX_VALUE))))
+                                        .addComponent(jComboBoxZanr, 0, 106, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addComponent(jLabel1))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -219,11 +222,11 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextFieldAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxZanr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonPretrazi)
@@ -246,7 +249,7 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
     private void jButtonPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretraziActionPerformed
         String naziv = jTextFieldNaziv.getText();
         String autor = jTextFieldAutor.getText();
-        Zanr zanr = (Zanr) jComboBox.getSelectedItem();
+        Zanr zanr = (Zanr) jComboBoxZanr.getSelectedItem();
         
         Knjiga filter = new Knjiga();
         filter.setNaziv(naziv);
@@ -359,7 +362,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
     private javax.swing.JButton jButtonKreirajIzn;
     private javax.swing.JButton jButtonObrisi;
     private javax.swing.JButton jButtonPretrazi;
-    private javax.swing.JComboBox<Zanr> jComboBox;
+    private javax.swing.JComboBox<Autor> jComboBoxAutor;
+    private javax.swing.JComboBox<Zanr> jComboBoxZanr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -372,17 +376,26 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableKnjige;
     private javax.swing.JTable jTableStavke;
-    private javax.swing.JTextField jTextFieldAutor;
     private javax.swing.JTextField jTextFieldNaziv;
     private javax.swing.JTextField jTextFieldUkupnaCena;
     // End of variables declaration//GEN-END:variables
 
-    private void ucitajCombobox() {
-        jComboBox.removeAllItems();
+    private void ucitajComboboxZanrovi() {
+        jComboBoxZanr.removeAllItems();
         for(Zanr z : Zanr.values()){
-            jComboBox.addItem(z);
+            jComboBoxZanr.addItem(z);
         }
-        jComboBox.setSelectedItem(null);
+        jComboBoxZanr.setSelectedItem(null);
+    }
+    
+    private void ucitajComboboxAutori() {
+        jComboBoxAutor.removeAllItems();
+        List<Autor> listaAutora = new ArrayList<>();
+        listaAutora = Controller.getInstance().vratiSveAutore();
+        for (Autor autor : listaAutora) {
+            jComboBoxAutor.addItem(autor);
+        }
+        jComboBoxAutor.setSelectedItem(null);
     }
 
     private void podesiTabelu(JTable tabela) {

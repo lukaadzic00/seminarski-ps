@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Autor;
 import model.Bibliotekar;
 import model.Citalac;
 import model.Iznajmljivanje;
@@ -41,6 +42,7 @@ import so.SOUbaciRadnuSmenu;
 import so.SOVratiListuSveKategorijeCitaoca;
 import so.SOVratiListuSveKnjige;
 import so.SOVratiIznajmljivanje;
+import so.SOVratiListuSviAutori;
 import so.SOVratiListuSviBibliotekari;
 import so.SOVratiListuSviCitaoci;
 import threads.ServerThread;
@@ -349,6 +351,22 @@ public class Controller {
             listaKnjiga = vratiListuSveKnjige.getListaKnjiga();
             
             return new Response(listaKnjiga, "Lista svih knjiga");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new Response(null, "Greska prilikom izvrsenja operacije vrati sve knjige");
+        }
+    }
+
+    public Response vratiSveAutore(Request request) {
+        try {
+            List<Autor> listaAutora = new ArrayList<>();
+            Autor autor = new Autor();
+            
+            SOVratiListuSviAutori vratiListuSviAutori = new SOVratiListuSviAutori();
+            vratiListuSviAutori.execute(autor);
+            listaAutora = vratiListuSviAutori.getListaAutora();
+            
+            return new Response(listaAutora, "Lista svih autora");
         } catch (Exception ex) {
             ex.printStackTrace();
             return new Response(null, "Greska prilikom izvrsenja operacije vrati sve knjige");

@@ -65,8 +65,8 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jTextFieldNaziv" max="32767" attributes="0"/>
-                                      <Component id="jTextFieldAutor" max="32767" attributes="0"/>
-                                      <Component id="jComboBox" alignment="0" pref="106" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxZanr" alignment="0" pref="106" max="32767" attributes="0"/>
+                                      <Component id="jComboBoxAutor" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -112,12 +112,12 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextFieldAutor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxAutor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBoxZanr" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -167,14 +167,12 @@
         <Property name="text" type="java.lang.String" value="Autor:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldAutor">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
         <Property name="text" type="java.lang.String" value="Zanr:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox">
+    <Component class="javax.swing.JComboBox" name="jComboBoxZanr">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
@@ -264,6 +262,16 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldUkupnaCena">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jComboBoxAutor">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Autor&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

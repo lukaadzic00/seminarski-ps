@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Autor;
 import model.Bibliotekar;
 import model.Citalac;
 import model.Iznajmljivanje;
@@ -313,6 +314,20 @@ public class Controller {
             System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_knjige: " + ex.getMessage());
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    public List<Autor> vratiSveAutore() {
+        try {
+            Request request = new Request(Operacija.VRATI_SVE_AUTORE, null);
+            sender.send(request);
+            
+            Response response = (Response) receiver.receive();
+            return (List<Autor>) response.getRezultat();
+        } catch (Exception ex) {
+            System.out.println("[CLIENT - Controller] Greška pri operaciji vrati_sve_autore: " + ex.getMessage());
+            ex.printStackTrace();
+            return null;
         }
     }
 }

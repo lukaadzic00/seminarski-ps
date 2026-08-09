@@ -4,12 +4,10 @@
  */
 package model;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -18,7 +16,7 @@ import java.util.Objects;
 public class Knjiga extends AbstractDomainObject{
     private int id;
     private String naziv;
-    private String autor;
+    private List<Autor> autori;
     private Zanr zanr;
     private double iznosPoDanu;
     private String valuta;
@@ -26,10 +24,10 @@ public class Knjiga extends AbstractDomainObject{
     public Knjiga() {
     }
 
-    public Knjiga(int id, String naziv, String autor, Zanr zanr, double iznosPoDanu, String valuta) {
+    public Knjiga(int id, String naziv, List<Autor> autori, Zanr zanr, double iznosPoDanu, String valuta) {
         this.id = id;
         this.naziv = naziv;
-        this.autor = autor;
+        this.autori = autori;
         this.zanr = zanr;
         this.iznosPoDanu = iznosPoDanu;
         this.valuta = valuta;
@@ -51,12 +49,12 @@ public class Knjiga extends AbstractDomainObject{
         this.naziv = naziv;
     }
 
-    public String getAutor() {
-        return autor;
+    public List<Autor> getAutori() {
+        return autori;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAutori(List<Autor> autori) {
+        this.autori = autori;
     }
 
     public Zanr getZanr() {
@@ -139,7 +137,7 @@ public class Knjiga extends AbstractDomainObject{
 
     @Override
     public String textJoin() {
-        return "";
+        return "JOIN knjiga_autor ka ON k.id = ka.id_knjiga JOIN autor a ON ka.id_autor = a.id";
     }
 
     @Override
@@ -147,13 +145,16 @@ public class Knjiga extends AbstractDomainObject{
         String uslov = "WHERE 1=1";
         
         if(naziv != null && !naziv.trim().isEmpty()){
-            uslov += " AND naziv LIKE '%" + naziv + "%'";
+            uslov += " AND k.naziv LIKE '%" + naziv + "%'";
         }
-        if(autor != null && !autor.trim().isEmpty()){
-            uslov += " AND autor LIKE '%" + autor + "%'";
+        
+        if(autori != null && !autori.isEmpty()){
+            Autor autor = autori.get(0);
+            uslov += " AND a.id = " + autor.getId();
         }
+        
         if(zanr != null){
-            uslov += " AND zanr='" + zanr.toString() + "'";
+            uslov += " AND k.zanr='" + zanr.toString() + "'";
         }
         
         return uslov;
@@ -161,21 +162,7 @@ public class Knjiga extends AbstractDomainObject{
 
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
-        ArrayList<AbstractDomainObject> listaKnjiga = new ArrayList<>();
-        
-        while(rs.next()){
-            int id = rs.getInt("id_knjiga");
-            String naziv = rs.getString("naziv");
-            String autor = rs.getString("autor");
-            Zanr zanr = Zanr.valueOf(rs.getString("zanr"));
-            double iznosPoDanu = rs.getDouble("iznos_po_danu");
-            String valuta = rs.getString("valuta");
-                
-            Knjiga k = new Knjiga(id, naziv, autor, zanr, iznosPoDanu, valuta);
-            listaKnjiga.add(k);
-        }
-        
-        return listaKnjiga;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -190,6 +177,6 @@ public class Knjiga extends AbstractDomainObject{
 
     @Override
     public String selectColumns() {
-        return "*";
+        return "DISTINCT k.*";
     }
 }

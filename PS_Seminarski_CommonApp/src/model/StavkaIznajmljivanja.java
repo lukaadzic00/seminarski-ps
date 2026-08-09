@@ -109,8 +109,6 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
         return "StavkaIznajmljivanja{" + "iznajmljivanje=" + iznajmljivanje + ", rb=" + rb + ", datumVracanja=" + datumVracanja + ", brojDana=" + brojDana + ", iznosPoDanu=" + iznosPoDanu + ", iznos=" + iznos + ", valuta=" + valuta + ", knjiga=" + knjiga + '}';
     }
     
-    
-    
     // Inherited methods
 
     @Override

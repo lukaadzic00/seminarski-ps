@@ -4,22 +4,17 @@
  */
 package forms;
 
-import modeliTabele.ModelTabeleCitalac;
 import controller.Controller;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import model.Citalac;
-import model.Kategorija;
-import model.KategorijaCitaoca;
-import form.mods.ModPretraziCitalac;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import model.Bibliotekar;
 import model.Iznajmljivanje;
 import modeliTabele.ModelTabeleIznajmljivanje;
@@ -40,6 +35,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         initComponents();
         ucitajComboBoxCitaoci();
         ucitajComboBoxBibliotekari();
+        ((JTextField) jDateChooser1.getDateEditor().getUiComponent()).setEditable(false);
         
         // prvobitno prikazi listu SVIH iznajmljivanja
         filterIzn = new Iznajmljivanje();
@@ -67,7 +63,6 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         jLabelCitalac = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextFieldDatumDo = new javax.swing.JTextField();
         jButtonPretrazi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable = new javax.swing.JTable();
@@ -78,6 +73,8 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextFieldBrojKnjiga = new javax.swing.JTextField();
         jButtonDetalji = new javax.swing.JButton();
+        jButtonPonistiFiltere = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -121,6 +118,13 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
             }
         });
 
+        jButtonPonistiFiltere.setText("Poništi filtere");
+        jButtonPonistiFiltere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPonistiFiltereActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,11 +148,13 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                                     .addComponent(jComboBoxCitaoci, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonPonistiFiltere)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonPretrazi))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldDatumDo, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -182,9 +188,9 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jComboBoxBibliotekari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
-                            .addComponent(jTextFieldDatumDo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -196,7 +202,9 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
                     .addComponent(jTextFieldBrojKnjiga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonDetalji))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonPretrazi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPretrazi)
+                    .addComponent(jButtonPonistiFiltere))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
@@ -206,16 +214,10 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
     private void jButtonPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretraziActionPerformed
         Citalac citalac = (Citalac) jComboBoxCitaoci.getSelectedItem();
         Bibliotekar bibliotekar = (Bibliotekar) jComboBoxBibliotekari.getSelectedItem();
-        String datumDo = jTextFieldDatumDo.getText();
-        LocalDate datum = null;
-        if(datumDo != null && !datumDo.isEmpty()){
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                datum = LocalDate.parse(jTextFieldDatumDo.getText(), formatter);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Neispravan format datuma!");
-                return;
-            }
+        Date odabraniDatum = jDateChooser1.getDate();
+        LocalDate datumDo = null;
+        if (odabraniDatum != null) {
+            datumDo = odabraniDatum.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
         
         String iznosStr = jTextFieldIznos.getText().trim();
@@ -224,12 +226,12 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
             try {
                 iznosStr = iznosStr.replace(",", ".");
                 iznos = Double.parseDouble(iznosStr);
-                if(iznos == 0.0){
-                    JOptionPane.showMessageDialog(null, "Uneti broj knjiga ne sme biti 0");
+                if(iznos <= 0.0){
+                    JOptionPane.showMessageDialog(null, "Uneti iznos ne sme biti manji ili jednak 0");
                     return;
                 }
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Uneti broj knjiga nije validan!");
+                JOptionPane.showMessageDialog(null, "Uneti iznos nije validan!");
                 return;
             }
         }
@@ -253,7 +255,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         filterIzn = new Iznajmljivanje();
         filterIzn.setCitalac(citalac);
         filterIzn.setBibliotekar(bibliotekar);
-        filterIzn.setDatumUzimanja(datum);
+        filterIzn.setDatumUzimanja(datumDo);
         filterIzn.setUkupanIznos(iznos);
         filterIzn.setBrojKnjiga(brojKnjiga);
         
@@ -291,6 +293,23 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         formaDetaljiIzn.setVisible(true);
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 
+    private void jButtonPonistiFiltereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonistiFiltereActionPerformed
+        jComboBoxCitaoci.setSelectedItem(null);
+        jComboBoxBibliotekari.setSelectedItem(null);
+        jDateChooser1.setDate(null);
+        jTextFieldIznos.setText("");
+        jTextFieldBrojKnjiga.setText("");
+        
+        filterIzn.setBibliotekar(null);
+        filterIzn.setCitalac(null);
+        filterIzn.setDatumUzimanja(null);
+        filterIzn.setUkupanIznos(0);
+        filterIzn.setBrojKnjiga(0);
+        
+        List<Iznajmljivanje> listaIznajmljivanja = Controller.getInstance().pretraziIznajmljivanje(filterIzn);
+        modelTabele.setListaIznajmljivanja(listaIznajmljivanja);
+    }//GEN-LAST:event_jButtonPonistiFiltereActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -299,9 +318,11 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetalji;
+    private javax.swing.JButton jButtonPonistiFiltere;
     private javax.swing.JButton jButtonPretrazi;
     private javax.swing.JComboBox<Bibliotekar> jComboBoxBibliotekari;
     private javax.swing.JComboBox<Citalac> jComboBoxCitaoci;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -311,7 +332,6 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable;
     private javax.swing.JTextField jTextFieldBrojKnjiga;
-    private javax.swing.JTextField jTextFieldDatumDo;
     private javax.swing.JTextField jTextFieldIznos;
     // End of variables declaration//GEN-END:variables
 

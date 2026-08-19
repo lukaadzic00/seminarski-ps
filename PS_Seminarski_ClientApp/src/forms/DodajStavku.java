@@ -14,12 +14,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import model.Citalac;
-import model.Iznajmljivanje;
+import model.Autor;
 import model.StavkaIznajmljivanja;
 import modeliTabele.ModelTabeleKnjige;
 import modeliTabele.ModelTabeleStavkaIzn;
-import session.Session;
 
 /**
  *
@@ -36,7 +34,8 @@ public class DodajStavku extends javax.swing.JDialog {
     public DodajStavku(JFrame parent, boolean modal, ModelTabeleStavkaIzn modelTabelePostojeceStavke) {
         super(parent, modal);
         initComponents();
-        ucitajCombobox();
+        ucitajComboboxAutor();
+        ucitajComboboxZanr();
         this.modelTabelePostojeceStavke = modelTabelePostojeceStavke;
         
         // model tabele knjige
@@ -69,9 +68,8 @@ public class DodajStavku extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jTextFieldNaziv = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextFieldAutor = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox = new javax.swing.JComboBox<>();
+        jComboBoxZanr = new javax.swing.JComboBox<>();
         jButtonPretrazi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableKnjige = new javax.swing.JTable();
@@ -80,6 +78,8 @@ public class DodajStavku extends javax.swing.JDialog {
         jTableNoveStavke = new javax.swing.JTable();
         jButtonSacuvaj = new javax.swing.JButton();
         jButtonObrisi = new javax.swing.JButton();
+        jComboBoxAutor = new javax.swing.JComboBox<>();
+        jButtonPonistiFiltere = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -161,6 +161,13 @@ public class DodajStavku extends javax.swing.JDialog {
             }
         });
 
+        jButtonPonistiFiltere.setText("Poništi filtere");
+        jButtonPonistiFiltere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPonistiFiltereActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,17 +175,19 @@ public class DodajStavku extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonObrisi)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSacuvaj))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButtonPretrazi)
+                    .addComponent(jButtonDodajKnjigu)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonObrisi)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonSacuvaj))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
                                 .addGroup(layout.createSequentialGroup()
+                                    .addGap(25, 25, 25)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -187,14 +196,16 @@ public class DodajStavku extends javax.swing.JDialog {
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jTextFieldNaziv)
-                                        .addComponent(jTextFieldAutor)
-                                        .addComponent(jComboBox, 0, 106, Short.MAX_VALUE))))
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonDodajKnjigu))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                                        .addComponent(jComboBoxAutor, 0, 164, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxZanr, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel1)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jButtonPonistiFiltere)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jButtonPretrazi)))
+                            .addGap(25, 25, 25)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,27 +213,29 @@ public class DodajStavku extends javax.swing.JDialog {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addGap(33, 33, 33)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jTextFieldNaziv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextFieldAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxAutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxZanr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonPretrazi)
-                            .addComponent(jButtonDodajKnjigu)))
+                            .addComponent(jButtonPonistiFiltere)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonDodajKnjigu)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -236,12 +249,18 @@ public class DodajStavku extends javax.swing.JDialog {
 
     private void jButtonPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretraziActionPerformed
         String naziv = jTextFieldNaziv.getText();
-        String autor = jTextFieldAutor.getText();
-        Zanr zanr = (Zanr) jComboBox.getSelectedItem();
+        Autor autor = (Autor) jComboBoxAutor.getSelectedItem();
+        Zanr zanr = (Zanr) jComboBoxZanr.getSelectedItem();
+        
+        List<Autor> listaAutora = null;
+        if(autor != null) {
+            listaAutora = new ArrayList<>();
+            listaAutora.add(autor);
+        }
         
         Knjiga filter = new Knjiga();
         filter.setNaziv(naziv);
-        filter.setAutor(autor);
+        filter.setAutori(listaAutora);
         filter.setZanr(zanr);
         
         List<Knjiga> listaKnjiga = Controller.getInstance().pretraziKnjigu(filter);
@@ -315,6 +334,15 @@ public class DodajStavku extends javax.swing.JDialog {
         jTableNoveStavke.clearSelection();
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
+    private void jButtonPonistiFiltereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonistiFiltereActionPerformed
+        jTextFieldNaziv.setText("");
+        jComboBoxZanr.setSelectedItem(null);
+        jComboBoxAutor.setSelectedItem(null);
+        
+        List<Knjiga> listaKnjiga = Controller.getInstance().vratiSveKnjige();
+        modelTabeleKnjige.setLista(listaKnjiga);
+    }//GEN-LAST:event_jButtonPonistiFiltereActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -323,9 +351,11 @@ public class DodajStavku extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDodajKnjigu;
     private javax.swing.JButton jButtonObrisi;
+    private javax.swing.JButton jButtonPonistiFiltere;
     private javax.swing.JButton jButtonPretrazi;
     private javax.swing.JButton jButtonSacuvaj;
-    private javax.swing.JComboBox<Zanr> jComboBox;
+    private javax.swing.JComboBox<Autor> jComboBoxAutor;
+    private javax.swing.JComboBox<Zanr> jComboBoxZanr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -337,16 +367,25 @@ public class DodajStavku extends javax.swing.JDialog {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableKnjige;
     private javax.swing.JTable jTableNoveStavke;
-    private javax.swing.JTextField jTextFieldAutor;
     private javax.swing.JTextField jTextFieldNaziv;
     // End of variables declaration//GEN-END:variables
 
-    private void ucitajCombobox() {
-        jComboBox.removeAllItems();
+    private void ucitajComboboxZanr() {
+        jComboBoxZanr.removeAllItems();
         for(Zanr z : Zanr.values()){
-            jComboBox.addItem(z);
+            jComboBoxZanr.addItem(z);
         }
-        jComboBox.setSelectedItem(null);
+        jComboBoxZanr.setSelectedItem(null);
+    }
+    
+    private void ucitajComboboxAutor() {
+        jComboBoxAutor.removeAllItems();
+        List<Autor> listaAutora = new ArrayList<>();
+        listaAutora = Controller.getInstance().vratiSveAutore();
+        for (Autor autor : listaAutora) {
+            jComboBoxAutor.addItem(autor);
+        }
+        jComboBoxAutor.setSelectedItem(null);
     }
 
     private void podesiTabelu(JTable tabela) {

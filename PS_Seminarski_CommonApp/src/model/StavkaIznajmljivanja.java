@@ -153,11 +153,10 @@ public class StavkaIznajmljivanja extends AbstractDomainObject{
         while(rs.next()){
             int idKnjiga = rs.getInt("k.id_knjiga");
             String naziv = rs.getString("k.naziv");
-            String autor = rs.getString("k.autor");
             Zanr zanr = Zanr.valueOf(rs.getString("k.zanr"));
             double iznosPoDanu = rs.getDouble("k.iznos_po_danu");
             String valuta = rs.getString("k.valuta");
-            Knjiga knjiga = new Knjiga(idKnjiga, naziv, autor, zanr, iznosPoDanu, valuta);
+            Knjiga knjiga = new Knjiga(idKnjiga, naziv, zanr, iznosPoDanu, valuta);
             System.out.println("KNJIGA : " + knjiga.toString());
             
             int idIzn = rs.getInt("si.id_iznajmljivanje");

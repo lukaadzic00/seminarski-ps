@@ -18,7 +18,7 @@ import model.StavkaIznajmljivanja;
 public class ModelTabeleStavkaIzn extends AbstractTableModel{
 
     private List<StavkaIznajmljivanja> listaStavki = new ArrayList<>();
-    private final String[] kolone = {"Naziv", "Autor", "Zanr", "Iznos po danu", "Broj dana", "Valuta"};
+    private final String[] kolone = {"Naziv", "Zanr", "Iznos po danu", "Broj dana", "Valuta"};
     
 
     public void setListaStavki(List<StavkaIznajmljivanja> listaStavki) {
@@ -54,14 +54,12 @@ public class ModelTabeleStavkaIzn extends AbstractTableModel{
             case 0:
                 return stavka.getKnjiga().getNaziv();
             case 1:
-                return stavka.getKnjiga().getAutor();
-            case 2:
                 return stavka.getKnjiga().getZanr();
-            case 3:
+            case 2:
                 return stavka.getKnjiga().getIznosPoDanu();
-            case 4:
+            case 3:
                 return stavka.getBrojDana();
-            case 5:
+            case 4:
                 return stavka.getValuta();
             default:
                 return null;
@@ -73,14 +71,12 @@ public class ModelTabeleStavkaIzn extends AbstractTableModel{
             case 0:
                 return "Naziv";
             case 1:
-                return "Autor";
-            case 2:
                 return "Zanr";
-            case 3:
+            case 2:
                 return "Iznos po danu";
-            case 4:
+            case 3:
                 return "Broj dana";
-            case 5:
+            case 4:
                 return "Valuta";
             default:
                 return null;

@@ -83,6 +83,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jTextFieldUkupnaCena = new javax.swing.JTextField();
         jComboBoxAutor = new javax.swing.JComboBox<>();
+        jButtonPonistiFiltere = new javax.swing.JButton();
+        jButtonIzmeni = new javax.swing.JButton();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,6 +168,20 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
         jLabel6.setText("Cena:");
 
+        jButtonPonistiFiltere.setText("Ponisti filtere");
+        jButtonPonistiFiltere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPonistiFiltereActionPerformed(evt);
+            }
+        });
+
+        jButtonIzmeni.setText("Izmeni");
+        jButtonIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIzmeniActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -173,38 +189,46 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonKreirajIzn))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonObrisi)
+                            .addComponent(jButtonIzmeni)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButtonPretrazi)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextFieldNaziv)
-                                        .addComponent(jComboBoxZanr, 0, 106, Short.MAX_VALUE)
-                                        .addComponent(jComboBoxAutor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonDodajKnjigu)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonObrisi)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonKreirajIzn))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldNaziv)
+                                    .addComponent(jComboBoxAutor, 0, 168, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxZanr, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButtonPonistiFiltere)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonPretrazi)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(404, 404, 404)
+                                .addComponent(jButtonDodajKnjigu))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,15 +253,22 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
                             .addComponent(jComboBoxZanr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonPretrazi)
-                            .addComponent(jButtonDodajKnjigu)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonPonistiFiltere)
+                            .addComponent(jButtonPretrazi)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonDodajKnjigu)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonObrisi)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonIzmeni)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonKreirajIzn)
-                    .addComponent(jButtonObrisi)
                     .addComponent(jLabel6)
                     .addComponent(jTextFieldUkupnaCena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9))
@@ -248,12 +279,20 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
     private void jButtonPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPretraziActionPerformed
         String naziv = jTextFieldNaziv.getText();
-        String autor = jTextFieldAutor.getText();
+        Autor autor = (Autor) jComboBoxAutor.getSelectedItem();
         Zanr zanr = (Zanr) jComboBoxZanr.getSelectedItem();
+        
+        System.out.println(naziv + " " + autor + " " + zanr);
+        
+        List<Autor> listaAutora = null;
+        if(autor != null) {
+            listaAutora = new ArrayList<>();
+            listaAutora.add(autor);
+        }
         
         Knjiga filter = new Knjiga();
         filter.setNaziv(naziv);
-        filter.setAutor(autor);
+        filter.setAutori(listaAutora);
         filter.setZanr(zanr);
         
         List<Knjiga> listaKnjiga = Controller.getInstance().pretraziKnjigu(filter);
@@ -339,7 +378,6 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
     private void jButtonObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonObrisiActionPerformed
         int selektovaniRed = jTableStavke.getSelectedRow();
-        
         if(selektovaniRed == -1){
             JOptionPane.showMessageDialog(this, "Morate selektovati stavku koju želite izbaciti", "Greška", JOptionPane.WARNING_MESSAGE);
             return;
@@ -352,6 +390,50 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
         jTableStavke.clearSelection();
     }//GEN-LAST:event_jButtonObrisiActionPerformed
 
+    private void jButtonPonistiFiltereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonistiFiltereActionPerformed
+        jTextFieldNaziv.setText("");
+        jComboBoxZanr.setSelectedItem(null);
+        jComboBoxAutor.setSelectedItem(null);
+        
+        List<Knjiga> listaKnjiga = Controller.getInstance().vratiSveKnjige();
+        modelTabeleKnjige.setLista(listaKnjiga);
+    }//GEN-LAST:event_jButtonPonistiFiltereActionPerformed
+
+    private void jButtonIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIzmeniActionPerformed
+        int selektovaniRed = jTableStavke.getSelectedRow();
+        if(selektovaniRed == -1){
+            JOptionPane.showMessageDialog(this, "Morate selektovati stavku iz tabele", "Upozorenje", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        StavkaIznajmljivanja selektovanaStavka = modelTabeleStavka.getListaStavki().get(selektovaniRed);
+        
+        String unos = JOptionPane.showInputDialog(this, "Unesite broj dana:");
+        if (unos == null) return;
+        int brojDana;
+        try {
+            brojDana = Integer.parseInt(unos);
+            if (brojDana <= 0) throw new Exception();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Unesite validan broj dana!");
+            return;
+        }
+        
+        double novi_iznos = selektovanaStavka.getIznosPoDanu() * brojDana;
+        
+        LocalDate datumUzimanja = LocalDate.now();
+        LocalDate datumVracanja = datumUzimanja.plusDays(brojDana);
+        
+        ukupnaCena -= selektovanaStavka.getIznos();
+        modelTabeleStavka.getListaStavki().get(selektovaniRed).setBrojDana(brojDana);
+        modelTabeleStavka.getListaStavki().get(selektovaniRed).setIznos(novi_iznos);
+        modelTabeleStavka.getListaStavki().get(selektovaniRed).setDatumVracanja(datumVracanja);
+        ukupnaCena += modelTabeleStavka.getListaStavki().get(selektovaniRed).getIznos();
+        
+        jTextFieldUkupnaCena.setText(ukupnaCena + "");
+        modelTabeleStavka.fireTableDataChanged();
+    }//GEN-LAST:event_jButtonIzmeniActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -359,8 +441,10 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDodajKnjigu;
+    private javax.swing.JButton jButtonIzmeni;
     private javax.swing.JButton jButtonKreirajIzn;
     private javax.swing.JButton jButtonObrisi;
+    private javax.swing.JButton jButtonPonistiFiltere;
     private javax.swing.JButton jButtonPretrazi;
     private javax.swing.JComboBox<Autor> jComboBoxAutor;
     private javax.swing.JComboBox<Zanr> jComboBoxZanr;

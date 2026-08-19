@@ -16,10 +16,11 @@ import java.util.List;
 public class Knjiga extends AbstractDomainObject{
     private int id;
     private String naziv;
-    private List<Autor> autori;
     private Zanr zanr;
     private double iznosPoDanu;
     private String valuta;
+    
+    private List<Autor> autori;
 
     public Knjiga() {
     }
@@ -32,6 +33,16 @@ public class Knjiga extends AbstractDomainObject{
         this.iznosPoDanu = iznosPoDanu;
         this.valuta = valuta;
     }
+
+    public Knjiga(int id, String naziv, Zanr zanr, double iznosPoDanu, String valuta) {
+        this.id = id;
+        this.naziv = naziv;
+        this.zanr = zanr;
+        this.iznosPoDanu = iznosPoDanu;
+        this.valuta = valuta;
+    }
+    
+    
 
     public int getId() {
         return id;
@@ -137,7 +148,7 @@ public class Knjiga extends AbstractDomainObject{
 
     @Override
     public String textJoin() {
-        return "JOIN knjiga_autor ka ON k.id = ka.id_knjiga JOIN autor a ON ka.id_autor = a.id";
+        return "JOIN knjiga_autor ka ON k.id_knjiga = ka.id_knjiga JOIN autor a ON ka.id_autor = a.id_autor";
     }
 
     @Override
@@ -149,8 +160,12 @@ public class Knjiga extends AbstractDomainObject{
         }
         
         if(autori != null && !autori.isEmpty()){
-            Autor autor = autori.get(0);
-            uslov += " AND a.id = " + autor.getId();
+            String skup_autora_id = "(";
+            for (Autor autor : autori) {
+                skup_autora_id += autor.getId() + ", ";
+            }
+            skup_autora_id = skup_autora_id.substring(0, skup_autora_id.length() - 2) + ")";
+            uslov += " AND ka.id_autor IN " + skup_autora_id;
         }
         
         if(zanr != null){
@@ -162,7 +177,20 @@ public class Knjiga extends AbstractDomainObject{
 
     @Override
     public ArrayList<AbstractDomainObject> getList(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<AbstractDomainObject> lista = new ArrayList<>();
+        
+        while(rs.next()){
+            int id = rs.getInt("id_knjiga");
+            String naziv = rs.getString("naziv");
+            String zanr = rs.getString("zanr");
+            double iznosPoDanu = rs.getDouble("iznos_po_danu");
+            String valuta = rs.getString("valuta");
+            
+            Knjiga k = new Knjiga(id, naziv, Zanr.valueOf(zanr), iznosPoDanu, valuta);
+            lista.add(k);
+        }
+        
+        return lista;
     }
 
     @Override
@@ -177,6 +205,6 @@ public class Knjiga extends AbstractDomainObject{
 
     @Override
     public String selectColumns() {
-        return "DISTINCT k.*";
+        return "DISTINCT k.id_knjiga, k.naziv, k.zanr, k.iznos_po_danu, k.valuta";
     }
 }

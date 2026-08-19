@@ -7,7 +7,6 @@ package modeliTabele;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import model.Citalac;
 import model.Knjiga;
 
 /**
@@ -17,7 +16,7 @@ import model.Knjiga;
 public class ModelTabeleKnjige extends AbstractTableModel {
 
     List<Knjiga> listaKnjiga = new ArrayList<>();
-    private final String[] kolone = {"Naziv", "Autor", "Zanr", "Iznos po danu", "Valuta"};
+    private final String[] kolone = {"Naziv", "Zanr", "Iznos po danu", "Valuta"};
 
     public ModelTabeleKnjige(List<Knjiga> listaKnjiga) {
         this.listaKnjiga = listaKnjiga;
@@ -43,12 +42,10 @@ public class ModelTabeleKnjige extends AbstractTableModel {
             case 0:
                 return knjiga.getNaziv();
             case 1:
-                return knjiga.getAutor();
-            case 2:
                 return knjiga.getZanr();
-            case 3:
+            case 2:
                 return knjiga.getIznosPoDanu();
-            case 4:
+            case 3:
                 return knjiga.getValuta();
             default:
                 return null;
@@ -61,12 +58,10 @@ public class ModelTabeleKnjige extends AbstractTableModel {
             case 0:
                 return "Naziv";
             case 1:
-                return "Autor";
-            case 2:
                 return "Zanr";
-            case 3:
+            case 2:
                 return "Iznos po danu";
-            case 4:
+            case 3:
                 return "Valuta";
             default:
                 return null;

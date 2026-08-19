@@ -13,12 +13,11 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import model.Citalac;
-import model.Kategorija;
 import model.KategorijaCitaoca;
 import form.mods.ModPretraziCitalac;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
+
 
 /**
  *
@@ -99,6 +98,7 @@ public class PretraziCitalac extends javax.swing.JFrame {
         jButtonKreirajIzn = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jButtonDetalji = new javax.swing.JButton();
+        jButtonPonistiFiltere = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -135,7 +135,7 @@ public class PretraziCitalac extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable);
 
-        jButtonKreirajIzn.setText("Kreiraj Iznajmljivanje");
+        jButtonKreirajIzn.setText("Kreiraj iznajmljivanje");
         jButtonKreirajIzn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonKreirajIznActionPerformed(evt);
@@ -151,14 +151,24 @@ public class PretraziCitalac extends javax.swing.JFrame {
             }
         });
 
+        jButtonPonistiFiltere.setText("Ponisti filtere");
+        jButtonPonistiFiltere.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPonistiFiltereActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonPretrazi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonPonistiFiltere, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonPretrazi))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -222,7 +232,9 @@ public class PretraziCitalac extends javax.swing.JFrame {
                             .addComponent(jComboBoxKategorija, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonPretrazi)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPretrazi)
+                    .addComponent(jButtonPonistiFiltere))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -320,6 +332,24 @@ public class PretraziCitalac extends javax.swing.JFrame {
         modelTabele.setLista(listaCitalaca);    
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 
+    private void jButtonPonistiFiltereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonistiFiltereActionPerformed
+        jTextFieldIme.setText("");
+        jTextFieldPrezime.setText("");
+        jTextFieldEmail.setText("");
+        jTextFieldTelefon.setText("");
+        jComboBoxKategorija.setSelectedItem(null);
+        
+        List<Citalac> listaSvihCitalaca = null;
+        try {
+            listaSvihCitalaca = Controller.getInstance().vratiSveCitaoce();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Ne moze se ucitati lista svih citalac", "Greska", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        modelTabele.setLista(listaSvihCitalaca);
+    }//GEN-LAST:event_jButtonPonistiFiltereActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -329,6 +359,7 @@ public class PretraziCitalac extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDetalji;
     private javax.swing.JButton jButtonKreirajIzn;
+    private javax.swing.JButton jButtonPonistiFiltere;
     private javax.swing.JButton jButtonPretrazi;
     private javax.swing.JComboBox<KategorijaCitaoca> jComboBoxKategorija;
     private javax.swing.JLabel jLabel1;

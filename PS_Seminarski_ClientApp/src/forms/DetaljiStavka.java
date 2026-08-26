@@ -4,10 +4,7 @@
  */
 package forms;
 
-import controller.Controller;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
 import model.Iznajmljivanje;
 import model.StavkaIznajmljivanja;
@@ -23,8 +20,8 @@ public class DetaljiStavka extends javax.swing.JDialog {
     /**
      * Creates new form DetaljiStavka
      */
-    public DetaljiStavka(java.awt.Frame parent, boolean modal, Iznajmljivanje iznajmljivanje, StavkaIznajmljivanja stavka) {
-        super(parent, modal);
+    public DetaljiStavka(java.awt.Window parent, boolean modal, Iznajmljivanje iznajmljivanje, StavkaIznajmljivanja stavka) {
+        super(parent, modal ? ModalityType.APPLICATION_MODAL : ModalityType.MODELESS);
         initComponents();
         this.iznajmljivanje = iznajmljivanje;
         this.stavka = stavka;

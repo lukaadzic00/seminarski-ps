@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author lukaa
  */
-public class PretraziCitalac extends javax.swing.JFrame {
+public class PretraziCitalac extends javax.swing.JDialog {
 
     private ModPretraziCitalac mod;
     private ModelTabeleCitalac modelTabele;
@@ -33,7 +33,8 @@ public class PretraziCitalac extends javax.swing.JFrame {
     /**
      * Creates new form KreirajCitaoca
      */
-    public PretraziCitalac(ModPretraziCitalac mod) {
+    public PretraziCitalac(java.awt.Frame parent, boolean modal, ModPretraziCitalac mod) {
+        super(parent, modal);
         this.mod = mod;
         setLocationRelativeTo(null);
         initComponents();
@@ -294,7 +295,7 @@ public class PretraziCitalac extends javax.swing.JFrame {
         ModelTabeleCitalac model = (ModelTabeleCitalac) jTable.getModel();
         selektovaniCitalac = model.getRow(selektovaniRed);
         
-        KreirajIznajmljivanje dialogKreirajIzn = new KreirajIznajmljivanje(selektovaniCitalac);
+        KreirajIznajmljivanje dialogKreirajIzn = new KreirajIznajmljivanje(this, true, selektovaniCitalac);
         dialogKreirajIzn.pack();
         dialogKreirajIzn.setLocationRelativeTo(null);
         dialogKreirajIzn.setVisible(true);

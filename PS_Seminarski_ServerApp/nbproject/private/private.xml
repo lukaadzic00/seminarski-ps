@@ -2,6 +2,30 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/SOPretraziIznajmljivanje.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/SOPromeniIznajmljivanje.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/SOPromeniCitaoca.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/AbstractSO.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/email/EmailTest.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestKreirajCitaocaBezBrojaTelefona.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestKreirajCitaocaBezEmaila.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestPromeniCitaocaNull.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/SOObrisiCitaoca.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestVratiListuSviBibliotekari.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestKreirajCitaocaNeispravanBrojTelefona.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestPromeniIznajmljivanjeBezCitaoca.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/threads/HandleClient.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/SOKreirajIznajmljivanje.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/email/EmailService.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestObrisiCitaocaNull.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestPretraziIznajmljivanjeNull.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestKreirajCitaocaBezPrezimena.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestPromeniIznajmljivanjeNull.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/controller/Controller.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestKreirajCitaocaBezImena.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/src/so/SOVratiListuSviBibliotekari.java</file>
+            <file>file:/C:/ProjektovanjeSoftvera/Seminarski/PS_Seminarski_ServerApp/test/tests/TestKreirajCitaocaNeispravanEmail.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -23,14 +23,15 @@ import modeliTabele.ModelTabeleIznajmljivanje;
  *
  * @author lukaa
  */
-public class PretraziIznajmljivanje extends javax.swing.JFrame {
+public class PretraziIznajmljivanje extends javax.swing.JDialog {
 
     private ModelTabeleIznajmljivanje modelTabele;
     private Iznajmljivanje filterIzn;
     /**
      * Creates new form KreirajCitaoca
      */
-    public PretraziIznajmljivanje() {
+    public PretraziIznajmljivanje(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         setLocationRelativeTo(null);
         initComponents();
         ucitajComboBoxCitaoci();
@@ -279,7 +280,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
         }
         
         Iznajmljivanje iznajmljivanje = modelTabele.getListaIznajmljivanja().get(selektovaniRed);
-        DetaljiIznajmljivanje formaDetaljiIzn = new DetaljiIznajmljivanje(iznajmljivanje);
+        DetaljiIznajmljivanje formaDetaljiIzn = new DetaljiIznajmljivanje(this, true, iznajmljivanje);
         
         formaDetaljiIzn.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -290,6 +291,7 @@ public class PretraziIznajmljivanje extends javax.swing.JFrame {
             }
         });
         
+        formaDetaljiIzn.setLocationRelativeTo(this);
         formaDetaljiIzn.setVisible(true);
     }//GEN-LAST:event_jButtonDetaljiActionPerformed
 

@@ -21,7 +21,7 @@ import modeliTabele.ModelTabeleStavkaIzn;
  *
  * @author lukaa
  */
-public class DetaljiIznajmljivanje extends javax.swing.JFrame {
+public class DetaljiIznajmljivanje extends javax.swing.JDialog {
 
     private ModelTabeleStavkaIzn modelTabele;
     private Iznajmljivanje iznajmljivanje;
@@ -30,7 +30,8 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
     /**
      * Creates new form DetaljiIznajmljivanje
      */
-    public DetaljiIznajmljivanje(Iznajmljivanje iznajmljivanje) {
+    public DetaljiIznajmljivanje(java.awt.Window parent, boolean modal, Iznajmljivanje iznajmljivanje) {
+        super(parent, modal ? ModalityType.APPLICATION_MODAL : ModalityType.MODELESS);
         initComponents();
         this.iznajmljivanje = iznajmljivanje;
         this.citalac = iznajmljivanje.getCitalac();
@@ -272,6 +273,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
         
         StavkaIznajmljivanja selektovanaStavka = modelTabele.getListaStavki().get(selektovaniRed);
         DetaljiStavka dialogDetaljiStavka = new DetaljiStavka(this, true, iznajmljivanje, selektovanaStavka);
+        dialogDetaljiStavka.setLocationRelativeTo(null);
         dialogDetaljiStavka.setVisible(true);
         
         modelTabele.setListaStavki(modelTabele.getListaStavki());
@@ -282,6 +284,7 @@ public class DetaljiIznajmljivanje extends javax.swing.JFrame {
 
     private void jButtonDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDodajActionPerformed
         DodajStavku formaDodajStavku = new DodajStavku(this, true, modelTabele);
+        formaDodajStavku.setLocationRelativeTo(this);
         formaDodajStavku.setVisible(true);
         
         iznajmljivanje.setListaStavki(modelTabele.getListaStavki());

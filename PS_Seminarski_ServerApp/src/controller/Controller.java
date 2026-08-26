@@ -5,13 +5,10 @@
 package controller;
 
 import server.ServerState;
-import communication.Receiver;
 import communication.Request;
 import communication.Response;
-import communication.Sender;
 import database.DatabaseBroker;
-import java.io.IOException;
-import java.net.Socket;
+import email.EmailService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +20,10 @@ import model.Autor;
 import model.Bibliotekar;
 import model.Citalac;
 import model.Iznajmljivanje;
-import model.Kategorija;
 import model.KategorijaCitaoca;
 import model.Knjiga;
 import model.RadnaSmena;
 import model.StavkaIznajmljivanja;
-import so.AbstractSO;
 import so.SOKreirajCitaoca;
 import so.SOKreirajIznajmljivanje;
 import so.SOLogin;
@@ -45,7 +40,7 @@ import so.SOVratiIznajmljivanje;
 import so.SOVratiListuSviAutori;
 import so.SOVratiListuSviBibliotekari;
 import so.SOVratiListuSviCitaoci;
-import threads.ServerThread;
+import threads.EmailThread;
 
 /**
  *
@@ -229,6 +224,8 @@ public class Controller {
             int id = kreirajIznajmljivanje.getId();
             
             if(id != -1){
+                EmailThread emailThread = new EmailThread(iznajmljivanje);
+                emailThread.start();
                 return new Response(id, "Iznajmljivanje je uspesno kreirano");
             } else {
                 return new Response(id, "Iznajmljivanje nije uspesno kreirano");

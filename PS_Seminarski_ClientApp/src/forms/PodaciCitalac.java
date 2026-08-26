@@ -25,8 +25,8 @@ public class PodaciCitalac extends javax.swing.JDialog {
     /**
      * Creates new form KreirajCitaoca
      */
-    public PodaciCitalac(java.awt.Frame parent, boolean modal, Citalac selektovaniCitalac) {
-        super(parent, modal);
+    public PodaciCitalac(java.awt.Window parent, boolean modal, Citalac selektovaniCitalac) {
+        super(parent, modal ? ModalityType.APPLICATION_MODAL : ModalityType.MODELESS);
         citalacZaIzmenu = selektovaniCitalac;
         if(selektovaniCitalac == null){
             mod = ModPodaciCitalac.KREIRAJ;

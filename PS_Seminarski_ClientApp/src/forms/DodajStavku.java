@@ -10,7 +10,6 @@ import controller.Controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -31,8 +30,8 @@ public class DodajStavku extends javax.swing.JDialog {
     /**
      * Creates new form FormaKreirajIznajmljivanje
      */
-    public DodajStavku(JFrame parent, boolean modal, ModelTabeleStavkaIzn modelTabelePostojeceStavke) {
-        super(parent, modal);
+    public DodajStavku(java.awt.Window parent, boolean modal, ModelTabeleStavkaIzn modelTabelePostojeceStavke) {
+        super(parent, modal ? ModalityType.APPLICATION_MODAL : ModalityType.MODELESS);
         initComponents();
         ucitajComboboxAutor();
         ucitajComboboxZanr();

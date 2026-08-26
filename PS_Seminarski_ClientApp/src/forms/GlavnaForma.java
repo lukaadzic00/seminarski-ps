@@ -143,7 +143,7 @@ public class GlavnaForma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemKreirajIznActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemKreirajIznActionPerformed
-        PretraziCitalac formaKreirajIzn = new PretraziCitalac(ModPretraziCitalac.IZNAJMLJIVANJE);
+        PretraziCitalac formaKreirajIzn = new PretraziCitalac(this, true, ModPretraziCitalac.IZNAJMLJIVANJE);
         formaKreirajIzn.pack();
         formaKreirajIzn.setLocationRelativeTo(null);
         formaKreirajIzn.setVisible(true);
@@ -157,14 +157,14 @@ public class GlavnaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemKreirajCitaocaActionPerformed
 
     private void jMenuItemPretraziCitaocaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPretraziCitaocaActionPerformed
-        PretraziCitalac formaPretraziCitaoca = new PretraziCitalac(ModPretraziCitalac.STANDARD);
+        PretraziCitalac formaPretraziCitaoca = new PretraziCitalac(this, true, ModPretraziCitalac.STANDARD);
         formaPretraziCitaoca.pack();
         formaPretraziCitaoca.setLocationRelativeTo(null);
         formaPretraziCitaoca.setVisible(true);
     }//GEN-LAST:event_jMenuItemPretraziCitaocaActionPerformed
 
     private void jMenuItemPretraziIznActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPretraziIznActionPerformed
-        PretraziIznajmljivanje formaPretraziIznajmljivanje = new PretraziIznajmljivanje();
+        PretraziIznajmljivanje formaPretraziIznajmljivanje = new PretraziIznajmljivanje(this, true);
         formaPretraziIznajmljivanje.pack();
         formaPretraziIznajmljivanje.setLocationRelativeTo(null);
         formaPretraziIznajmljivanje.setVisible(true);

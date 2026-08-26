@@ -34,7 +34,8 @@ public class KreirajIznajmljivanje extends javax.swing.JDialog {
     /**
      * Creates new form FormaKreirajIznajmljivanje
      */
-    public KreirajIznajmljivanje(Citalac selektovaniCitalac) {
+    public KreirajIznajmljivanje(java.awt.Window parent, boolean modal, Citalac selektovaniCitalac) {
+        super(parent, modal ? ModalityType.APPLICATION_MODAL : ModalityType.MODELESS);
         initComponents();
         ucitajComboboxAutori();
         ucitajComboboxZanrovi();
